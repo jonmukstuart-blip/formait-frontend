@@ -1,6 +1,6 @@
 import express from "express";
 import Message from "../models/Message.js";
-import { sendMail } from "../services/mailer.js";
+import { sendMail } from "../../services/mailer.js";
 
 const router = express.Router();
 
