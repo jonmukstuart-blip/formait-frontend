@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard | forma.IT GROUP</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body class="bg-[#0A0A0A] text-white flex min-h-screen">
+
+<!-- SIDEBAR -->
+<aside class="w-72 border-r border-zinc-900 p-6 hidden md:block">
+
+    <h1 class="text-xl font-black mb-10">
+        forma<span class="text-blue-500">.IT</span>
+    </h1>
+
+    <nav class="space-y-3 text-sm">
+
+        <a class="block p-3 rounded-lg bg-blue-500 text-black font-semibold">
+            Overview
+        </a>
+
+        <a class="block p-3 rounded-lg hover:bg-zinc-900">
+            Leads
+        </a>
+
+        <a class="block p-3 rounded-lg hover:bg-zinc-900">
+            Projects
+        </a>
+
+        <a class="block p-3 rounded-lg hover:bg-zinc-900">
+            Analytics
+        </a>
+
+        <a class="block p-3 rounded-lg hover:bg-zinc-900">
+            Settings
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+<main class="flex-1 p-6 lg:p-10">
+
+    <!-- TOP BAR -->
+    <div class="flex justify-between items-center mb-10">
+
+        <h2 class="text-3xl font-black">Dashboard Overview</h2>
+
+        <div class="text-sm text-zinc-400">
+            Admin Panel
+        </div>
+
+    </div>
+
+    <!-- STATS -->
+    <div class="grid md:grid-cols-3 gap-6 mb-10">
+
+        <div class="glow-card p-6">
+            <p class="text-zinc-500 text-sm">Total Leads</p>
+            <h3 class="text-3xl font-black mt-2">128</h3>
+        </div>
+
+        <div class="glow-card p-6">
+            <p class="text-zinc-500 text-sm">Active Projects</p>
+            <h3 class="text-3xl font-black mt-2">18</h3>
+        </div>
+
+        <div class="glow-card p-6">
+            <p class="text-zinc-500 text-sm">Conversion Rate</p>
+            <h3 class="text-3xl font-black mt-2">42%</h3>
+        </div>
+
+    </div>
+
+    <!-- CONTENT GRID -->
+    <div class="grid lg:grid-cols-3 gap-6">
+
+        <!-- LEADS TABLE -->
+        <div class="lg:col-span-2 glow-card p-6">
+
+            <h3 class="font-bold mb-6">Recent Leads</h3>
+
+            <table class="w-full text-sm">
+
+                <thead class="text-zinc-500">
+                    <tr>
+                        <th class="text-left pb-3">Name</th>
+                        <th class="text-left pb-3">Status</th>
+                        <th class="text-left pb-3">Value</th>
+                    </tr>
+                </thead>
+
+                <tbody class="space-y-2">
+
+                    <tr class="border-t border-zinc-900">
+                        <td class="py-3">Project Alpha</td>
+                        <td class="text-green-400">Qualified</td>
+                        <td>$12,000</td>
+                    </tr>
+
+                    <tr class="border-t border-zinc-900">
+                        <td class="py-3">Project Nova</td>
+                        <td class="text-blue-400">New</td>
+                        <td>$8,500</td>
+                    </tr>
+
+                    <tr class="border-t border-zinc-900">
+                        <td class="py-3">Project Vertex</td>
+                        <td class="text-yellow-400">Pending</td>
+                        <td>$15,000</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- ACTIVITY FEED -->
+        <div class="glow-card p-6">
+
+            <h3 class="font-bold mb-6">Activity</h3>
+
+            <div class="space-y-4 text-sm text-zinc-400">
+
+                <p>✓ New lead captured</p>
+                <p>✓ Proposal sent</p>
+                <p>✓ AI scoring updated</p>
+                <p>✓ CRM pipeline updated</p>
+                <p>✓ Client meeting scheduled</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

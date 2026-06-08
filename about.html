@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us | forma.IT GROUP</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="styles.css">
+    <style>
+       * {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #0A0A0A;
+    color: #FFFFFF;
+}
+
+/* MONO FONT */
+.mono {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* CARD HOVER (Services / Portfolio) */
+.card-hover {
+    transition: all .4s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-8px);
+    border-color: rgba(59,130,246,.7);
+}
+
+/* HERO / SECTION ANIMATION (keep only ONE system) */
+.fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp .9s ease forwards;
+}
+
+.delay-1 { animation-delay: .2s; }
+.delay-2 { animation-delay: .4s; }
+.delay-3 { animation-delay: .6s; }
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* PREMIUM BACKGROUND GLOW */
+.glow {
+    background: radial-gradient(
+        circle at top left,
+        rgba(59,130,246,.12),
+        transparent 40%
+    );
+}
+
+/* OPTIONAL: SCROLL REVEAL (keep if you're using JS scroll trigger) */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+    </style>
+</head>
+
+<body class="bg-[#0A0A0A] text-white overflow-x-hidden">
+   
+ <div id="page-loader" class="page-loader">
+    <div class="loader-ring"></div>
+</div>
+    <!-- Animated Background -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+
+        <div class="absolute w-[600px] h-[600px] bg-blue-500/20 blur-[140px] rounded-full animate-orb1"></div>
+
+        <div class="absolute w-[500px] h-[500px] bg-white/10 blur-[120px] rounded-full animate-orb2"></div>
+
+        <div class="absolute w-[700px] h-[700px] bg-blue-400/10 blur-[160px] rounded-full animate-orb3"></div>
+
+        <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+
+    </div>
+
+
+
+<!-- =========================
+NAVIGATION
+========================= -->
+
+<header class="fixed top-0 left-0 w-full z-50 border-b border-zinc-900 bg-[#0A0A0A]/90 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <div class="h-20 flex items-center justify-between">
+
+            <a href="index.html" class="text-xl font-black tracking-tight">
+                forma<span class="text-blue-500">.IT</span> GROUP
+            </a>
+
+            <nav class="hidden md:flex items-center gap-10 text-sm font-medium">
+
+                <a href="index.html" class="hover:text-blue-500 transition">
+                    Home
+                </a>
+
+                <a href="about.html" class="text-blue-500">
+                    About
+                </a>
+
+                <a href="services.html" class="hover:text-blue-500 transition">
+                    Services
+                </a>
+
+                <a href="portfolio.html" class="hover:text-blue-500 transition">
+                    Portfolio
+                </a>
+
+                <a href="contact.html" class="hover:text-blue-500 transition">
+                    Contact
+                </a>
+
+            </nav>
+
+            <a href="contact.html"
+                class="hidden md:flex items-center justify-center px-6 py-3 rounded-full bg-blue-500 font-semibold hover:scale-105 transition">
+                Get Started
+            </a>
+
+        </div>
+
+    </div>
+</header>
+
+<!-- =========================
+HERO
+========================= -->
+
+<section class="pt-44 pb-28 glow">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <p class="mono text-blue-500 mb-8 fade-up">
+            ABOUT US
+        </p>
+
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight max-w-5xl fade-up delay-1">
+            A premium
+            <span class="text-blue-500">
+                digital solutions
+            </span>
+            company.
+        </h1>
+
+        <p class="mt-10 text-zinc-400 text-lg md:text-xl leading-relaxed max-w-4xl fade-up delay-2">
+            forma.IT Group partners with ambitious teams to design and build
+            software that performs — from internal systems to global products.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- =========================
+POSITIONING SECTION
+========================= -->
+
+<section class="pb-24">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <div class="reveal border border-zinc-900 p-10 md:p-16 card-hover fade-up">
+
+            <div class="grid lg:grid-cols-12 gap-12">
+
+                <div class="lg:col-span-3">
+
+                    <p class="mono text-blue-500">
+                        POSITIONING
+                    </p>
+
+                </div>
+
+                <div class="lg:col-span-9">
+
+                    <h2 class="text-3xl md:text-5xl font-black leading-tight">
+                        We help organizations move faster through modern
+                        software, intelligent automation, exceptional digital
+                        experiences, and long-term technology partnerships.
+                    </h2>
+
+                    <p class="text-zinc-400 mt-8 text-lg leading-relaxed">
+                        Our work combines strategy, design, engineering, and
+                        operational thinking to create systems that remain
+                        valuable long after launch. Every engagement is built
+                        around measurable outcomes, scalability, and sustainable
+                        growth.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+MISSION & VISION
+========================= -->
+
+<section class="pb-28">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <div class="mb-14">
+
+            <p class="mono text-blue-500 mb-4">
+                STRATEGIC PILLARS
+            </p>
+
+            <h2 class="text-4xl md:text-6xl font-black">
+                Built on clarity, execution, and impact.
+            </h2>
+
+        </div>
+
+        <div class="grid gap-8">
+
+            <!-- MISSION -->
+
+            <div class="reveal border border-zinc-900 rounded-3xl p-10 md:p-14 card-hover">
+
+                <div class="grid lg:grid-cols-12 gap-8">
+
+                    <div class="lg:col-span-2">
+                        <span class="mono text-blue-500 text-lg">
+                            01
+                        </span>
+                    </div>
+
+                    <div class="lg:col-span-10">
+
+                        <h3 class="text-3xl md:text-4xl font-black mb-6">
+                            Our Mission
+                        </h3>
+
+                        <p class="text-zinc-400 text-lg leading-relaxed max-w-4xl">
+                            To design and develop powerful digital solutions
+                            that help businesses innovate, automate, and grow.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- VISION -->
+
+            <div class="reveal border border-zinc-900 rounded-3xl p-10 md:p-14 card-hover">
+
+                <div class="grid lg:grid-cols-12 gap-8">
+
+                    <div class="lg:col-span-2">
+                        <span class="mono text-blue-500 text-lg">
+                            02
+                        </span>
+                    </div>
+
+                    <div class="lg:col-span-10">
+
+                        <h3 class="text-3xl md:text-4xl font-black mb-6">
+                            Our Vision
+                        </h3>
+
+                        <p class="text-zinc-400 text-lg leading-relaxed max-w-4xl">
+                            To become a leading global technology company
+                            transforming businesses through digital systems.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+HOW WE WORK
+========================= -->
+
+<section class="pb-32 border-t border-zinc-900 pt-28">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <div class="mb-16">
+
+            <p class="mono text-blue-500 mb-4">
+                HOW WE WORK
+            </p>
+
+            <h2 class="text-4xl md:text-6xl font-black max-w-4xl">
+                Small enough to stay focused.
+                Experienced enough to deliver at scale.
+            </h2>
+
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+
+            <div class="reveal border border-zinc-900 p-10 card-hover">
+
+                <div class="mono text-blue-500 mb-6">
+                    01
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4">
+                    Strategy First
+                </h3>
+
+                <p class="text-zinc-400 leading-relaxed">
+                    Every project begins with understanding goals,
+                    bottlenecks, and opportunities before a single line
+                    of code is written.
+                </p>
+
+            </div>
+
+            <div class="reveal border border-zinc-900 p-10 card-hover">
+
+                <div class="mono text-blue-500 mb-6">
+                    02
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4">
+                    Build for Scale
+                </h3>
+
+                <p class="text-zinc-400 leading-relaxed">
+                    We architect systems for reliability, performance,
+                    security, and future growth from day one.
+                </p>
+
+            </div>
+
+            <div class="reveal border border-zinc-900 p-10 card-hover">
+
+                <div class="mono text-blue-500 mb-6">
+                    03
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4">
+                    Long-Term Partnership
+                </h3>
+
+                <p class="text-zinc-400 leading-relaxed">
+                    Launch is only the beginning. We support,
+                    optimize, and evolve products alongside our clients.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+CTA
+========================= -->
+
+<section class="pb-32">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <div class="reveal border border-zinc-900 p-12 md:p-20 text-center card-hover">
+
+            <p class="mono text-blue-500 mb-6">
+                START A CONVERSATION
+            </p>
+
+            <h2 class="text-4xl md:text-6xl font-black max-w-4xl mx-auto">
+                Ready to build software, platforms, and experiences
+                that create measurable business value?
+            </h2>
+
+            <a href="contact.html"
+                class="inline-flex mt-12 px-8 py-4 rounded-full bg-blue-500 font-semibold hover:scale-105 transition">
+                Get Started
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+FOOTER
+========================= -->
+
+<footer class="border-t border-zinc-900">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20">
+
+        <div class="grid md:grid-cols-3 gap-10">
+
+            <!-- COLUMN 1 -->
+
+            <div class="reveal border border-zinc-900 p-8">
+
+                <h3 class="text-2xl font-black">
+                    forma<span class="text-blue-500">.IT</span> GROUP
+                </h3>
+
+                <p class="mt-4 text-zinc-400 leading-relaxed">
+                    Software, web applications, and branding for modern,
+                    ambitious companies.
+                </p>
+
+            </div>
+
+            <!-- COLUMN 2 -->
+
+            <div class="reveal border border-zinc-900 p-8">
+
+                <h4 class="font-bold mb-6">
+                    Company
+                </h4>
+
+                <div class="space-y-4 text-zinc-400">
+
+                    <a href="about.html" class="block hover:text-white">
+                        About
+                    </a>
+
+                    <a href="services.html" class="block hover:text-white">
+                        Services
+                    </a>
+
+                    <a href="portfolio.html" class="block hover:text-white">
+                        Portfolio
+                    </a>
+
+                    <a href="contact.html" class="block hover:text-white">
+                        Contact
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- COLUMN 3 -->
+
+            <div class="reveal border border-zinc-900 p-8">
+
+                <h4 class="font-bold mb-6">
+                    Reach us
+                </h4>
+
+                <div class="space-y-4 text-zinc-400">
+
+                    <p>Call +256 763 875 861</p>
+
+                    <p>Call +256 786 932 194</p>
+
+                    <p>info@formait.com</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="border-t border-zinc-900 mt-12 pt-8 text-center text-zinc-500 text-sm">
+            © 2026 forma.IT Group. All rights reserved.
+        </div>
+
+    </div>
+
+</footer>
+
+<script>
+const canvas = document.createElement("canvas");
+document.body.appendChild(canvas);
+
+canvas.style.position = "fixed";
+canvas.style.top = "0";
+canvas.style.left = "0";
+canvas.style.width = "100%";
+canvas.style.height = "100%";
+canvas.style.zIndex = "-8";
+canvas.style.pointerEvents = "none";
+canvas.style.opacity = "0.4";
+
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resize);
+resize();
+
+for (let i = 0; i < 60; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    dx: (Math.random() - 0.5) * 0.3,
+    dy: (Math.random() - 0.5) * 0.3
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(59,130,246,0.8)";
+    ctx.fill();
+  });
+
+  // Draw connection lines
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(59,130,246,${0.15 * (1 - distance / 120)})`;
+        ctx.stroke();
+      }
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+<script>
+document.querySelectorAll("a").forEach(link => {
+
+    const isInternal =
+        link.hostname === window.location.hostname &&
+        !link.href.includes("#");
+
+    if (isInternal) {
+
+        link.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            document.body.classList.add("page-exit");
+
+            const href = this.href;
+
+            setTimeout(() => {
+                window.location.href = href;
+            }, 350);
+        });
+    }
+
+});
+</script>
+<script>
+const reveals = document.querySelectorAll('.reveal');
+
+function revealOnScroll() {
+  reveals.forEach(item => {
+    const windowHeight = window.innerHeight;
+    const top = item.getBoundingClientRect().top;
+
+    if (top < windowHeight - 100) {
+      item.classList.add('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', revealOnScroll);
+revealOnScroll();
+</script>
+
+<script src="src/main.js"></script>
+</body>
+</html>

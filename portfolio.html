@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Portfolio | forma.IT GROUP</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#0A0A0A;
+    color:#FFFFFF;
+}
+
+.mono{
+    font-family:'JetBrains Mono',monospace;
+}
+
+.glow{
+    background:
+    radial-gradient(circle at top left,
+    rgba(59,130,246,.12),
+    transparent 40%);
+}
+
+.fade-up{
+    opacity:0;
+    transform:translateY(40px);
+    animation:fadeUp .9s ease forwards;
+}
+
+.delay-1{
+    animation-delay:.2s;
+}
+
+.delay-2{
+    animation-delay:.4s;
+}
+
+@keyframes fadeUp{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.case-card{
+    transition:all .45s ease;
+}
+
+.case-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(59,130,246,.7);
+}
+
+.label{
+    color:#3B82F6;
+    font-size:.85rem;
+    letter-spacing:.1em;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+</style>
+
+</head>
+
+<body class="bg-[#0A0A0A] text-white overflow-x-hidden">
+     <div id="page-loader" class="page-loader">
+    <div class="loader-ring"></div>
+</div>
+
+     <!-- Animated Background -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+
+        <div class="absolute w-[600px] h-[600px] bg-blue-500/20 blur-[140px] rounded-full animate-orb1"></div>
+
+        <div class="absolute w-[500px] h-[500px] bg-white/10 blur-[120px] rounded-full animate-orb2"></div>
+
+        <div class="absolute w-[700px] h-[700px] bg-blue-400/10 blur-[160px] rounded-full animate-orb3"></div>
+
+        <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+
+    </div>
+
+<!-- ========================================= -->
+<!-- NAVIGATION -->
+<!-- ========================================= -->
+
+<header class="fixed top-0 left-0 w-full z-50 border-b border-zinc-900 bg-[#0A0A0A]/90 backdrop-blur-xl">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <div class="h-20 flex items-center justify-between">
+
+            <a href="index.html" class="text-xl font-black tracking-tight">
+                forma<span class="text-blue-500">.IT</span> GROUP
+            </a>
+
+            <nav class="hidden md:flex items-center gap-10 text-sm font-medium">
+
+                <a href="index.html" class="hover:text-blue-500 transition">
+                    Home
+                </a>
+
+                <a href="about.html" class="hover:text-blue-500 transition">
+                    About
+                </a>
+
+                <a href="services.html" class="hover:text-blue-500 transition">
+                    Services
+                </a>
+
+                <a href="portfolio.html" class="text-blue-500">
+                    Portfolio
+                </a>
+
+                <a href="contact.html" class="hover:text-blue-500 transition">
+                    Contact
+                </a>
+
+            </nav>
+
+            <a href="contact.html"
+               class="hidden md:flex items-center justify-center px-6 py-3 rounded-full bg-blue-500 font-semibold hover:scale-105 transition">
+                Get Started
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<!-- ========================================= -->
+<!-- HERO -->
+<!-- ========================================= -->
+
+<section class="pt-44 pb-24 glow">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <p class="mono text-blue-500 mb-8 fade-up">
+            PORTFOLIO
+        </p>
+
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight max-w-6xl fade-up delay-1">
+            Work we're
+            <span class="text-blue-500">
+                proud of.
+            </span>
+        </h1>
+
+        <p class="mt-10 text-zinc-400 text-lg md:text-xl leading-relaxed max-w-4xl fade-up delay-2">
+            A selection of projects shipped with partners across fintech,
+            health, logistics, and beyond.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ========================================= -->
+<!-- CASE STUDIES -->
+<!-- ========================================= -->
+
+<section class="pb-32">
+
+<div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+<div class="grid lg:grid-cols-2 gap-8">
+
+<!-- CASE 01 -->
+
+<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card">
+
+    <div class="mono text-blue-500 mb-6">
+        CASE 01 — FINTECH PLATFORM
+    </div>
+
+    <h2 class="text-3xl font-black mb-10">
+        Lumen Banking
+    </h2>
+
+    <div class="space-y-8">
+
+        <div>
+            <p class="label mono mb-2">PROBLEM</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Onboarding took 14 days and abandonment was 38%.
+            </p>
+        </div>
+
+        <div>
+            <p class="label mono mb-2">SOLUTION</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Rebuilt KYC and account opening on a streaming,
+                modular flow with real-time validation.
+            </p>
+        </div>
+
+        <div>
+            <p class="label mono mb-2">RESULT</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Onboarding cut to 8 minutes,
+                abandonment dropped to 6%.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CASE 02 -->
+
+<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card">
+
+    <div class="mono text-blue-500 mb-6">
+        CASE 02 — OPERATIONS SUITE
+    </div>
+
+    <h2 class="text-3xl font-black mb-10">
+        Atlas Logistics
+    </h2>
+
+    <div class="space-y-8">
+
+        <div>
+            <p class="label mono mb-2">PROBLEM</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Dispatchers worked across 4 disconnected tools
+                to route 1,200 daily shipments.
+            </p>
+        </div>
+
+        <div>
+            <p class="label mono mb-2">SOLUTION</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Unified ops console with real-time fleet tracking
+                and an in-house routing engine.
+            </p>
+        </div>
+
+        <div>
+            <p class="label mono mb-2">RESULT</p>
+            <p class="text-zinc-300 leading-relaxed">
+                27% reduction in fuel costs and
+                3x faster dispatch decisions.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CASE 03 -->
+
+<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card">
+
+    <div class="mono text-blue-500 mb-6">
+        CASE 03 — PATIENT PORTAL
+    </div>
+
+    <h2 class="text-3xl font-black mb-10">
+        Verdé Health
+    </h2>
+
+    <div class="space-y-8">
+
+        <div>
+            <p class="label mono mb-2">PROBLEM</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Phone-based scheduling created a 4-hour bottleneck
+                for clinic staff every morning.
+            </p>
+        </div>
+
+        <div>
+            <p class="label mono mb-2">SOLUTION</p>
+            <p class="text-zinc-300 leading-relaxed">
+                HIPAA-aligned patient portal with self-scheduling,
+                secure records, and reminders.
+            </p>
+        </div>
+
+        <div>
+            <p class="label mono mb-2">RESULT</p>
+            <p class="text-zinc-300 leading-relaxed">
+                62% of bookings shifted to self-serve,
+                freeing 30+ staff hours per week.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CASE 04 -->
+
+<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card">
+
+    <div class="mono text-blue-500 mb-6">
+        CASE 04 — BRAND & SITE
+    </div>
+
+    <h2 class="text-3xl font-black mb-10">
+        Northwind Studios
+    </h2>
+
+    <div class="space-y-8">
+
+        <div>
+            <p class="label mono mb-2">PROBLEM</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Outdated brand was hurting enterprise
+                pipeline conversion.
+            </p>
+        </div>
+
+        <div>
+            <p class="label mono mb-2">SOLUTION</p>
+            <p class="text-zinc-300 leading-relaxed">
+                End-to-end rebrand with new identity system,
+                motion language, and marketing site.
+            </p>
+        </div>
+
+        <div>
+            <p class="label mono mb-2">RESULT</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Inbound enterprise leads up 2.4x
+                in the first quarter post-launch.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CASE 05 -->
+
+<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card">
+
+    <div class="mono text-blue-500 mb-6">
+        CASE 05 — SAAS DASHBOARD
+    </div>
+
+    <h2 class="text-3xl font-black mb-10">
+        Pulse Analytics
+    </h2>
+
+    <div class="space-y-8">
+
+        <div>
+            <p class="label mono mb-2">PROBLEM</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Customers loved the data but couldn't
+                surface insights without engineering help.
+            </p>
+        </div>
+
+        <div>
+            <p class="label mono mb-2">SOLUTION</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Self-serve dashboard builder with shareable views
+                and embeddable widgets.
+            </p>
+        </div>
+
+        <div>
+            <p class="label mono mb-2">RESULT</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Support tickets down 41%;
+                expansion revenue up 18%.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CASE 06 -->
+
+<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card">
+
+    <div class="mono text-blue-500 mb-6">
+        CASE 06 — WEB & MOBILE APP
+    </div>
+
+    <h2 class="text-3xl font-black mb-10">
+        Orbit Education
+    </h2>
+
+    <div class="space-y-8">
+
+        <div>
+            <p class="label mono mb-2">PROBLEM</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Students dropped off between desktop coursework
+                and mobile study sessions.
+            </p>
+        </div>
+
+        <div>
+            <p class="label mono mb-2">SOLUTION</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Cross-platform app with synced progress,
+                offline mode, and adaptive paths.
+            </p>
+        </div>
+
+        <div>
+            <p class="label mono mb-2">RESULT</p>
+            <p class="text-zinc-300 leading-relaxed">
+                Daily active users grew 3.1x
+                in six months.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ========================================= -->
+<!-- CTA -->
+<!-- ========================================= -->
+
+<section class="pb-32 border-t border-zinc-900 pt-28">
+
+<div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+    <div class="reveal border border-zinc-900 rounded-3xl p-14 md:p-20 text-center case-card">
+
+        <p class="mono text-blue-500 mb-6">
+            START YOUR PROJECT
+        </p>
+
+        <h2 class="text-4xl md:text-6xl font-black max-w-4xl mx-auto">
+            Looking for results like these?
+            Let's build your next digital advantage.
+        </h2>
+
+        <a href="contact.html"
+           class="inline-flex mt-12 px-10 py-4 bg-blue-500 rounded-full font-semibold hover:scale-105 transition">
+            Get Started
+        </a>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- ========================================= -->
+<!-- FOOTER -->
+<!-- ========================================= -->
+
+<footer class="border-t border-zinc-900">
+
+<div class="max-w-7xl mx-auto px-6 lg:px-10 py-20">
+
+    <div class="grid md:grid-cols-3 gap-10">
+
+        <div class="reveal border border-zinc-900 p-8">
+
+            <h3 class="text-2xl font-black">
+                forma<span class="text-blue-500">.IT</span> GROUP
+            </h3>
+
+            <p class="mt-4 text-zinc-400 leading-relaxed">
+                Software, web applications, and branding
+                for modern, ambitious companies.
+            </p>
+
+        </div>
+
+        <div class="reveal border border-zinc-900 p-8">
+
+            <h4 class="font-bold mb-6">
+                Company
+            </h4>
+
+            <div class="space-y-4 text-zinc-400">
+
+                <a href="about.html" class="block hover:text-white">
+                    About
+                </a>
+
+                <a href="services.html" class="block hover:text-white">
+                    Services
+                </a>
+
+                <a href="portfolio.html" class="block hover:text-white">
+                    Portfolio
+                </a>
+
+                <a href="contact.html" class="block hover:text-white">
+                    Contact
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="reveal border border-zinc-900 p-8">
+
+            <h4 class="font-bold mb-6">
+                Reach us
+            </h4>
+
+            <div class="space-y-4 text-zinc-400">
+
+                <p>Call +256 763 875 861</p>
+
+                <p>Call +256 786 932 194</p>
+
+                <p>info@formait.com</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="border-t border-zinc-900 mt-12 pt-8 text-center text-zinc-500 text-sm">
+        © 2026 forma.IT Group. All rights reserved.
+    </div>
+
+</div>
+
+</footer>
+
+<script>
+const canvas = document.createElement("canvas");
+document.body.appendChild(canvas);
+
+canvas.style.position = "fixed";
+canvas.style.top = "0";
+canvas.style.left = "0";
+canvas.style.width = "100%";
+canvas.style.height = "100%";
+canvas.style.zIndex = "-8";
+canvas.style.pointerEvents = "none";
+canvas.style.opacity = "0.4";
+
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resize);
+resize();
+
+for (let i = 0; i < 60; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    dx: (Math.random() - 0.5) * 0.3,
+    dy: (Math.random() - 0.5) * 0.3
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(59,130,246,0.8)";
+    ctx.fill();
+  });
+
+  // Draw connection lines
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(59,130,246,${0.15 * (1 - distance / 120)})`;
+        ctx.stroke();
+      }
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+
+function revealOnScroll() {
+  reveals.forEach(item => {
+    const windowHeight = window.innerHeight;
+    const top = item.getBoundingClientRect().top;
+
+    if (top < windowHeight - 100) {
+      item.classList.add('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', revealOnScroll);
+revealOnScroll();
+</script>
+
+<script src="src/main.js"></script>
+</body>
+</html>

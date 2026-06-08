@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>forma.IT GROUP | Premium Digital Solutions</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="styles.css">
+
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0A0A0A;
+            color: #FFFFFF;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .glass {
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(20px);
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 1s ease forwards;
+        }
+
+        .fade-delay-1 {
+            animation-delay: .2s;
+        }
+
+        .fade-delay-2 {
+            animation-delay: .4s;
+        }
+
+        .fade-delay-3 {
+            animation-delay: .6s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-hover {
+            transition: all .4s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            border-color: rgba(59,130,246,.6);
+        }
+
+        .glow {
+            background:
+            radial-gradient(circle at top left,
+            rgba(59,130,246,.15),
+            transparent 40%);
+        }
+
+        .reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+    </style>
+</head>
+
+
+
+<body class="bg-[#0A0A0A] text-white overflow-x-hidden">
+
+     <!-- Animated Background -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+
+<div id="page-loader" class="page-loader">
+    <div class="loader-ring"></div>
+</div>
+        <div class="absolute w-[600px] h-[600px] bg-blue-500/20 blur-[140px] rounded-full animate-orb1"></div>
+
+        <div class="absolute w-[500px] h-[500px] bg-white/10 blur-[120px] rounded-full animate-orb2"></div>
+
+        <div class="absolute w-[700px] h-[700px] bg-blue-400/10 blur-[160px] rounded-full animate-orb3"></div>
+
+        <div class="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+
+    </div>
+
+<!-- ================= NAVIGATION ================= -->
+
+<header class="fixed top-0 left-0 w-full z-50 border-b border-zinc-900 bg-[#0A0A0A]/90 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+        <div class="h-20 flex items-center justify-between">
+
+            <a href="index.html"
+                class="text-xl font-black tracking-tight">
+                forma<span class="text-blue-500">.IT</span> GROUP
+            </a>
+
+            <nav class="hidden md:flex items-center gap-10 text-sm font-medium">
+                <a href="index.html" class="hover:text-blue-500 transition">Home</a>
+                <a href="about.html" class="hover:text-blue-500 transition">About</a>
+                <a href="services.html" class="hover:text-blue-500 transition">Services</a>
+                <a href="portfolio.html" class="hover:text-blue-500 transition">Portfolio</a>
+                <a href="contact.html" class="hover:text-blue-500 transition">Contact</a>
+            </nav>
+
+            <a href="contact.html"
+                class="hidden md:flex items-center justify-center px-6 py-3 rounded-full bg-blue-500 text-white font-semibold hover:scale-105 transition">
+                Get Started
+            </a>
+
+        </div>
+    </div>
+</header>
+
+<!-- ================= HERO ================= -->
+
+<section class="relative min-h-screen flex items-center glow">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 w-full">
+
+        <div class="max-w-5xl">
+
+            <!-- HERO TEXT -->
+            <p class="mono text-blue-500 mb-8 fade-up">
+                PREMIUM DIGITAL PARTNER
+            </p>
+
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight fade-up fade-delay-1">
+                Premium digital
+                <span class="text-blue-500">solutions,</span>
+                end-to-end partner.
+                Designed to last.
+            </h1>
+
+            <p class="text-zinc-400 text-lg md:text-xl max-w-3xl mt-10 leading-relaxed fade-up fade-delay-2">
+                We design, build and scale digital products,
+                software platforms, and brand experiences that help
+                ambitious companies grow with confidence.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 mt-12 fade-up fade-delay-3">
+                <a href="portfolio.html"
+                    class="px-8 py-4 rounded-full bg-blue-500 font-semibold hover:scale-105 transition">
+                    View Our Work
+                </a>
+
+                <a href="contact.html"
+                    class="px-8 py-4 rounded-full border border-zinc-800 hover:border-blue-500 transition">
+                    Book your free consultation
+                </a>
+            </div>
+
+            <!-- ✅ DASHBOARD MUST BE HERE -->
+           <div class="dashboard-glow mt-20 relative w-full fade-up fade-delay-3">
+
+                <div class="absolute inset-0 bg-blue-500/10 blur-3xl rounded-[40px]"></div>
+
+                <div class="dashboard-glow relative border border-white/10 bg-white/[0.03] backdrop-blur-xl rounded-[32px] p-6 lg:p-8">
+
+                    <!-- Top Metrics -->
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+
+                        <div class="border border-white/10 rounded-2xl p-5">
+                            <p class="text-zinc-500 text-sm">Projects Delivered</p>
+                            <h3 class="text-3xl font-black mt-2">18+</h3>
+                        </div>
+
+                        <div class="border border-white/10 rounded-2xl p-5">
+                            <p class="text-zinc-500 text-sm">Industries Served</p>
+                            <h3 class="text-3xl font-black mt-2">12+</h3>
+                        </div>
+
+                        <div class="border border-white/10 rounded-2xl p-5">
+                            <p class="text-zinc-500 text-sm">Client Satisfaction</p>
+                            <h3 class="text-3xl font-black mt-2">98%</h3>
+                        </div>
+
+                    </div>
+
+                    <!-- Chart -->
+                    <div class="border border-white/10 rounded-3xl p-6 mb-6 h-72 flex items-end gap-3">
+                        <div class="chart-bar h-[30%]"></div>
+                        <div class="chart-bar h-[50%]"></div>
+                        <div class="chart-bar h-[42%]"></div>
+                        <div class="chart-bar h-[75%]"></div>
+                        <div class="chart-bar h-[60%]"></div>
+                        <div class="chart-bar h-[95%]"></div>
+                        <div class="chart-bar h-[82%]"></div>
+                    </div>
+
+                    <!-- Bottom Grid -->
+                    <div class="grid md:grid-cols-2 gap-6">
+
+                       <div class="glow-card p-5">
+                            <h4 class="font-bold mb-4">Active Opportunities</h4>
+
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span>Project Alpha</span>
+                                    <span class="text-green-400">Qualified</span>
+                                </div>
+
+                                <div class="flex justify-between">
+                                    <span>Project Nova</span>
+                                    <span class="text-blue-400">New</span>
+                                </div>
+
+                                <div class="flex justify-between">
+                                    <span>Project Vertex</span>
+                                    <span class="text-yellow-400">Pending</span>
+                                </div>
+                            </div>
+                        </div>
+
+                      <div class="glow-card p-6">
+    <h4 class="font-bold mb-4">AI Assistant</h4>
+
+    <div id="ai-feed" class="space-y-3 text-zinc-400 text-sm">
+        <p class="ai-line">Initializing CRM engine...</p>
+    </div>
+</div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-32 border-t border-zinc-900">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <div class="mb-12">
+            <p class="mono text-blue-500 mb-4">CRM PIPELINE</p>
+            <h2 class="text-4xl md:text-6xl font-black">
+                Track deals in real time.
+            </h2>
+        </div>
+
+        <!-- PIPELINE -->
+        <div class="grid md:grid-cols-4 gap-6">
+
+            <!-- STAGE 1 -->
+            <div class="glow-card p-4">
+                <h3 class="font-bold mb-4">New Leads</h3>
+
+                <div class="kanban-column" data-stage="new">
+
+                    <div class="deal-card" draggable="true">
+                        Project Alpha
+                    </div>
+
+                    <div class="deal-card" draggable="true">
+                        Project Nova
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- STAGE 2 -->
+            <div class="glow-card p-4">
+                <h3 class="font-bold mb-4">Qualified</h3>
+                <div class="kanban-column" data-stage="qualified"></div>
+            </div>
+
+            <!-- STAGE 3 -->
+            <div class="glow-card p-4">
+                <h3 class="font-bold mb-4">Proposal</h3>
+                <div class="kanban-column" data-stage="proposal"></div>
+            </div>
+
+            <!-- STAGE 4 -->
+            <div class="glow-card p-4">
+                <h3 class="font-bold mb-4">Won</h3>
+                <div class="kanban-column" data-stage="won"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= STATS ================= -->
+
+<section class="py-20 border-y border-zinc-900">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <div class="grid md:grid-cols-4 gap-6">
+
+            <div class="reveal border border-zinc-900 p-8 card-hover">
+                <div class="mono text-blue-500 text-sm mb-3">
+                    01
+                </div>
+
+   <div class="text-4xl font-black">
+    <span class="counter" data-target="18">0</span>+
+</div>
+                <div class="text-zinc-400 mt-2">
+                    Projects delivered
+                </div>
+            </div>
+
+            <div class="reveal border border-zinc-900 p-8 card-hover">
+                <div class="mono text-blue-500 text-sm mb-3">
+                    02
+                </div>
+
+       <div class="text-4xl font-black">
+    <span class="counter" data-target="12">0</span>+
+</div>
+                <div class="text-zinc-400 mt-2">
+                    Industries served
+                </div>
+            </div>
+
+            <div class="reveal border border-zinc-900 p-8 card-hover">
+                <div class="mono text-blue-500 text-sm mb-3">
+                    03
+                </div>
+
+  <div class="text-4xl font-black">
+    <span class="counter" data-target="4">0</span> yrs
+</div>
+
+                <div class="text-zinc-400 mt-2">
+                    Years Average team experience
+                </div>
+            </div>
+
+            <div class="reveal border border-zinc-900 p-8 card-hover">
+                <div class="mono text-blue-500 text-sm mb-3">
+                    04
+                </div>
+
+                <div class="text-4xl font-black">
+                    24/7
+                </div>
+
+                <div class="text-zinc-400 mt-2">
+                    Long-term support
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FEATURED CASE STUDIES ================= -->
+
+<section class="py-32">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <div class="mb-20">
+
+            <p class="mono text-blue-500 mb-4">
+                FEATURED WORK
+            </p>
+
+            <h2 class="text-4xl md:text-6xl font-black max-w-3xl">
+                Selected projects delivering measurable business outcomes.
+            </h2>
+
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+
+            <!-- CARD -->
+
+            <div class="reveal border border-zinc-900 p-8 card-hover">
+
+                <div class="mono text-blue-500 mb-6">
+                    CASE 01
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4">
+                    Lumen Banking
+                </h3>
+
+                <p class="text-zinc-400 leading-relaxed">
+                    Reimagined digital onboarding experiences with
+                    streamlined KYC validation and modular account creation.
+                </p>
+
+            </div>
+
+            <!-- CARD -->
+
+            <div class="reveal border border-zinc-900 p-8 card-hover">
+
+                <div class="mono text-blue-500 mb-6">
+                    CASE 02
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4">
+                    Atlas Logistics
+                </h3>
+
+                <p class="text-zinc-400 leading-relaxed">
+                    Built a unified operations suite connecting routing,
+                    dispatching, fleet visibility, and reporting.
+                </p>
+
+            </div>
+
+            <!-- CARD -->
+
+            <div class="reveal border border-zinc-900 p-8 card-hover">
+
+                <div class="mono text-blue-500 mb-6">
+                    CASE 03
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4">
+                    Verdé Health
+                </h3>
+
+                <p class="text-zinc-400 leading-relaxed">
+                    Delivered a patient-first scheduling ecosystem with
+                    secure records, reminders, and self-service workflows.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="mt-16">
+            <a href="portfolio.html"
+                class="inline-flex items-center gap-3 text-blue-500 font-semibold hover:translate-x-2 transition">
+                Explore Full Portfolio →
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= CTA ================= -->
+
+<section class="py-32 border-t border-zinc-900">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <div class="reveal border border-zinc-900 p-10 md:p-20 text-center">
+
+            <p class="mono text-blue-500 mb-6">
+                READY TO BUILD?
+            </p>
+
+            <h2 class="text-4xl md:text-6xl font-black max-w-4xl mx-auto">
+                Partner with a team focused on long-term growth,
+                scalability, and exceptional digital execution.
+            </h2>
+
+            <a href="contact.html"
+                class="inline-flex mt-12 px-8 py-4 bg-blue-500 rounded-full font-semibold hover:scale-105 transition">
+                Get Started Today
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="border-t border-zinc-900">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20">
+
+        <div class="grid md:grid-cols-3 gap-10">
+
+            <!-- COL 1 -->
+
+            <div class="reveal border border-zinc-900 p-8">
+
+                <h3 class="text-2xl font-black">
+                    forma<span class="text-blue-500">.IT</span> GROUP
+                </h3>
+
+                <p class="text-zinc-400 mt-4 leading-relaxed">
+                    Software, web applications, and branding
+                    for modern, ambitious companies.
+                </p>
+
+            </div>
+
+            <!-- COL 2 -->
+
+            <div class="reveal border border-zinc-900 p-8">
+
+                <h4 class="font-bold mb-6">
+                    Company
+                </h4>
+
+                <div class="space-y-4 text-zinc-400">
+
+                    <a href="about.html" class="block hover:text-white">
+                        About
+                    </a>
+
+                    <a href="services.html" class="block hover:text-white">
+                        Services
+                    </a>
+
+                    <a href="portfolio.html" class="block hover:text-white">
+                        Portfolio
+                    </a>
+
+                    <a href="contact.html" class="block hover:text-white">
+                        Contact
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- COL 3 -->
+
+            <div class="reveal border border-zinc-900 p-8">
+
+                <h4 class="font-bold mb-6">
+                    Reach us
+                </h4>
+
+                <div class="space-y-4 text-zinc-400">
+
+                    <p>Call +256 763 875 861</p>
+
+                    <p>Call +256 786 932 194</p>
+
+                    <p>info@formait.com</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="border-t border-zinc-900 mt-12 pt-8 text-zinc-500 text-sm flex justify-center">
+            © 2026 forma.IT Group. All rights reserved.
+        </div>
+
+    </div>
+
+</footer>
+
+<script>
+const canvas = document.createElement("canvas");
+document.body.appendChild(canvas);
+
+canvas.style.position = "fixed";
+canvas.style.top = "0";
+canvas.style.left = "0";
+canvas.style.width = "100%";
+canvas.style.height = "100%";
+canvas.style.zIndex = "-8";
+canvas.style.pointerEvents = "none";
+canvas.style.opacity = "0.4";
+
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resize);
+resize();
+
+for (let i = 0; i < 60; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    dx: (Math.random() - 0.5) * 0.3,
+    dy: (Math.random() - 0.5) * 0.3
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(59,130,246,0.8)";
+    ctx.fill();
+  });
+
+  // Draw connection lines
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(59,130,246,${0.15 * (1 - distance / 120)})`;
+        ctx.stroke();
+      }
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+<script>
+const form = document.getElementById("contactForm");
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = form.querySelector("input[type='text']").value;
+    const email = form.querySelector("input[type='email']").value;
+    const message = form.querySelector("textarea").value;
+
+    try {
+        const res = await fetch("http://localhost:5000/api/contact", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, message })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            alert("Message sent successfully 🚀");
+            form.reset();
+        } else {
+            alert("Failed to send message");
+        }
+
+    } catch (error) {
+        alert("Server error");
+    }
+});
+</script>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+
+function revealOnScroll() {
+  reveals.forEach(item => {
+    const windowHeight = window.innerHeight;
+    const top = item.getBoundingClientRect().top;
+
+    if (top < windowHeight - 100) {
+      item.classList.add('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', revealOnScroll);
+revealOnScroll();
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const counters = document.querySelectorAll(".counter");
+
+    counters.forEach(counter => {
+
+        const target = parseInt(counter.dataset.target);
+        let count = 0;
+
+        const speed = target / 80;
+
+        function updateCounter() {
+
+            if (count < target) {
+
+                count += speed;
+
+                counter.textContent = Math.ceil(count);
+
+                requestAnimationFrame(updateCounter);
+
+            } else {
+
+              counter.textContent = target;
+
+            }
+
+        }
+
+        updateCounter();
+
+    });
+
+});
+</script>
+
+<script>
+document.querySelectorAll("a").forEach(link => {
+
+    const isInternal =
+        link.hostname === window.location.hostname &&
+        !link.href.includes("#");
+
+    if (isInternal) {
+
+        link.addEventListener("click", function(e) {
+            e.preventDefault();
+
+            document.body.classList.add("page-exit");
+
+            const href = this.href;
+
+            setTimeout(() => {
+                window.location.href = href;
+            }, 350);
+        });
+    }
+
+});
+</script>
+
+<script src="src/main.js"></script>
+</body>
+</html>
