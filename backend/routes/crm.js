@@ -1,10 +1,5 @@
 import express from "express";
-import {
-    createLead,
-    getLeads,
-    updateLead
-} from "../controllers/crmController.js";
-
+import { createLead, getLeads, updateLead } from "../controllers/crmController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();

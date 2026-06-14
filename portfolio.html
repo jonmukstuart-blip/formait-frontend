@@ -82,6 +82,158 @@ body{
   transform: translateY(0);
 }
 
+/* Showroom Base Wrapper */
+.visual-showroom {
+    position: relative;
+    width: 100%;
+    min-height: 260px;
+    background: radial-gradient(100% 100% at 0% 0%, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 2rem;
+}
+
+/* Sub-pixel engineering grid overlay */
+.visual-showroom::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    background-image: radial-gradient(rgba(59, 130, 246, 0.4) 1px, transparent 1px);
+    background-size: 16px 16px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Streaming Processing Animation Line */
+@keyframes scanningLine {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+.scan-line {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.8);
+    animation: scanningLine 4s infinite linear;
+    z-index: 2;
+}
+
+/* Real-Time Processing Sequence Elements */
+@keyframes statusBlink {
+    0%, 100% { background-color: rgba(59, 130, 246, 0.2); border-color: rgba(59, 130, 246, 0.4); }
+    50% { background-color: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.6); color: #10b981; }
+}
+.node-active {
+    animation: statusBlink 2.5s infinite ease-in-out;
+}
+
+/* Fleet Coordinate Pulsing Animation */
+@keyframes signalPulse {
+    0% { transform: scale(0.95); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 12px rgba(59, 130, 246, 0.4); }
+    100% { transform: scale(0.95); opacity: 0.5; }
+}
+.fleet-signal {
+    animation: signalPulse 2s infinite ease-in-out;
+}
+
+/* Route Optimization Transition Animation */
+@keyframes routeTrace {
+    0% { stroke-dashoffset: 240; }
+    100% { stroke-dashoffset: 0; }
+}
+.route-path {
+    stroke-dasharray: 8;
+    animation: routeTrace 12s linear infinite;
+}
+
+/* Automated Calendar Insertion Animations */
+@keyframes cardDropIn {
+    0% { transform: translateY(12px) scale(0.96); opacity: 0; }
+    30% { transform: translateY(0) scale(1); opacity: 1; }
+    90% { background-color: rgba(59, 130, 246, 0.08); border-color: rgba(59, 130, 246, 0.3); }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.patient-slot-1 { animation: cardDropIn 4s infinite ease-in-out; }
+.patient-slot-2 { animation: cardDropIn 4s infinite ease-in-out; animation-delay: 1s; opacity: 0; }
+.patient-slot-3 { animation: cardDropIn 4s infinite ease-in-out; animation-delay: 2s; opacity: 0; }
+
+/* Premium Fluid Typography Morphing Systems */
+@keyframes letterTracking {
+    0% { letter-spacing: -0.05em; font-weight: 900; filter: blur(0px); }
+    45% { letter-spacing: 0.15em; font-weight: 300; filter: blur(0.5px); }
+    55% { letter-spacing: 0.15em; font-weight: 300; filter: blur(0.5px); }
+    100% { letter-spacing: -0.05em; font-weight: 900; filter: blur(0px); }
+}
+
+.kinetic-brand-text {
+    animation: letterTracking 6s infinite ease-in-out;
+    background: linear-gradient(135deg, #ffffff 0%, #71717a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes systemRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.identity-ring {
+    animation: systemRotate 24s linear infinite;
+}
+
+/* Bento Grid Dashboard Assembly Animations */
+@keyframes bentoAssemble {
+    0% { transform: translateY(10px) scale(0.97); opacity: 0; }
+    40% { transform: translateY(0) scale(1); opacity: 1; }
+    90% { border-color: rgba(59, 130, 246, 0.2); }
+    100% { transform: translateY(10px) scale(0.97); opacity: 0; }
+}
+
+.bento-widget-1 { animation: bentoAssemble 6s infinite ease-in-out; }
+.bento-widget-2 { animation: bentoAssemble 6s infinite ease-in-out; animation-delay: 0.5s; opacity: 0; }
+.bento-widget-3 { animation: bentoAssemble 6s infinite ease-in-out; animation-delay: 1s; opacity: 0; }
+
+@keyframes barGrow {
+    0%, 100% { height: 30%; }
+    50% { height: 85%; }
+}
+.pulse-bar-1 { animation: barGrow 2s infinite ease-in-out; }
+.pulse-bar-2 { animation: barGrow 2s infinite ease-in-out; animation-delay: 0.3s; }
+.pulse-bar-3 { animation: barGrow 2s infinite ease-in-out; animation-delay: 0.6s; }
+
+/* Cross-Device Node Transmission Vectors */
+@keyframes dataBeam {
+    0% { transform: translateY(-15px) translateX(-15px); opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { transform: translateY(35px) translateX(35px); opacity: 0; }
+}
+
+.sync-beam {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: #3b82f6;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #3b82f6, 0 0 20px rgba(59, 130, 246, 0.6);
+    animation: dataBeam 3s infinite linear;
+}
+
+@keyframes progressPulse {
+    0%, 100% { border-color: rgba(59, 130, 246, 0.2); background-color: rgba(59, 130, 246, 0.02); }
+    50% { border-color: rgba(16, 185, 129, 0.4); background-color: rgba(16, 185, 129, 0.05); }
+}
+.device-sync-card {
+    animation: progressPulse 4s infinite ease-in-out;
+}
+
 </style>
 
 </head>
@@ -181,6 +333,41 @@ body{
 
 </section>
 
+<!-- SYSTEM PORTFOLIO SEGMENTATION SELECTOR -->
+<div class="reveal max-w-7xl mx-auto px-6 lg:px-10 mb-16">
+    <div class="border border-zinc-900/80 bg-zinc-950/20 backdrop-blur-md rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
+        
+        <!-- Monospaced Section Utility Title Indicator Tag -->
+        <div class="flex items-center gap-2 text-xs mono text-zinc-500 pl-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+            <span>FILTER_INDEX // METRICS_ACTIVE</span>
+        </div>
+
+        <!-- Dynamic Action Selection Toggle Buttons -->
+        <div class="flex flex-wrap gap-2 text-xs font-medium mono">
+            <button onclick="filterSelection('all')" class="filter-btn px-4 py-2 rounded-xl border border-blue-500 text-white bg-blue-500/5 hover:border-blue-400 transition-all duration-300">
+                [ SHOW_ALL ]
+            </button>
+            <button onclick="filterSelection('fintech')" class="filter-btn px-4 py-2 rounded-xl border border-zinc-900 text-zinc-500 hover:border-zinc-700 transition-all duration-300">
+                FINTECH
+            </button>
+            <button onclick="filterSelection('operations')" class="filter-btn px-4 py-2 rounded-xl border border-zinc-900 text-zinc-500 hover:border-zinc-700 transition-all duration-300">
+                OPERATIONS
+            </button>
+            <button onclick="filterSelection('health')" class="filter-btn px-4 py-2 rounded-xl border border-zinc-900 text-zinc-500 hover:border-zinc-700 transition-all duration-300">
+                HEALTH
+            </button>
+            <button onclick="filterSelection('brand')" class="filter-btn px-4 py-2 rounded-xl border border-zinc-900 text-zinc-500 hover:border-zinc-700 transition-all duration-300">
+                BRANDING
+            </button>
+            <button onclick="filterSelection('saas')" class="filter-btn px-4 py-2 rounded-xl border border-zinc-900 text-zinc-500 hover:border-zinc-700 transition-all duration-300">
+                SAAS_SYSTEMS
+            </button>
+        </div>
+
+    </div>
+</div>
+
 <!-- ========================================= -->
 <!-- CASE STUDIES -->
 <!-- ========================================= -->
@@ -191,258 +378,633 @@ body{
 
 <div class="grid lg:grid-cols-2 gap-8">
 
-<!-- CASE 01 -->
-
-<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card">
+<!-- CASE 01 — FINTECH PLATFORM -->
+<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card lg:col-span-2">
 
     <div class="mono text-blue-500 mb-6">
         CASE 01 — FINTECH PLATFORM
     </div>
 
-    <h2 class="text-3xl font-black mb-10">
-        Lumen Banking
-    </h2>
+    <!-- Inner Split Layout Container Wrapper -->
+    <div class="grid lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left Side Layout Column Frame: Text Stack Block (7 Columns Wide) -->
+        <div class="lg:col-span-7 space-y-8">
+            <h2 class="text-3xl font-black mb-4">
+                Lumen Banking
+            </h2>
 
-    <div class="space-y-8">
+            <div>
+                <p class="label mono mb-2">PROBLEM</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Onboarding took 14 days and abandonment was 38%.
+                </p>
+            </div>
 
-        <div>
-            <p class="label mono mb-2">PROBLEM</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Onboarding took 14 days and abandonment was 38%.
-            </p>
+            <div>
+                <p class="label mono mb-2">SOLUTION</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Rebuilt KYC and account opening on a streaming,
+                    modular flow with real-time validation.
+                </p>
+            </div>
+
+            <div>
+                <p class="label mono mb-2">RESULT</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Onboarding cut to 8 minutes,
+                    abandonment dropped to 6%.
+                </p>
+            </div>
         </div>
 
-        <div>
-            <p class="label mono mb-2">SOLUTION</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Rebuilt KYC and account opening on a streaming,
-                modular flow with real-time validation.
-            </p>
-        </div>
+        <!-- Right Side Layout Column Frame: Terminal Visual Interface (5 Columns Wide) -->
+        <div class="lg:col-span-5 lg:mt-0">
+            <div class="visual-showroom flex flex-col justify-between p-6 font-mono text-xs text-zinc-400 select-none">
+                
+                <!-- Laser Radar Line Overlay -->
+                <div class="scan-line"></div>
 
-        <div>
-            <p class="label mono mb-2">RESULT</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Onboarding cut to 8 minutes,
-                abandonment dropped to 6%.
-            </p>
+                <!-- Terminal Top Utility Bar -->
+                <div class="flex justify-between items-center border-b border-zinc-900 pb-3 z-10">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-500 animate-ping"></span>
+                        <span class="text-zinc-500 tracking-wider">KYC_ENGINE_V2.0</span>
+                    </div>
+                    <div class="text-[10px] text-zinc-600 bg-zinc-950 px-2 py-0.5 rounded border border-zinc-900">
+                        TLS_1.3
+                    </div>
+                </div>
+
+                <!-- Vertical Stack Content Elements for Side Placement Positioning Layout -->
+                <div class="flex-1 flex flex-col gap-3 py-4 z-10">
+                    
+                    <!-- Parameter Node 01 -->
+                    <div class="node-active border border-zinc-900 bg-zinc-950/40 backdrop-blur-sm p-2.5 rounded-xl flex justify-between items-center">
+                        <div>
+                            <p class="text-[9px] text-zinc-500 uppercase tracking-widest">DATA_INGEST</p>
+                            <div class="font-bold text-white text-[11px]">STREAMING...</div>
+                        </div>
+                        <div class="text-[9px] text-blue-400">0.02s latency</div>
+                    </div>
+
+                    <!-- Parameter Node 02 -->
+                    <div class="node-active border border-zinc-900 bg-zinc-950/40 backdrop-blur-sm p-2.5 rounded-xl flex justify-between items-center [animation-delay:0.8s]">
+                        <div>
+                            <p class="text-[9px] text-zinc-500 uppercase tracking-widest">BIOMETRIC_MATCH</p>
+                            <div class="font-bold text-white text-[11px]">ANALYZING...</div>
+                        </div>
+                        <div class="text-[9px] text-blue-400">99.8% match</div>
+                    </div>
+
+                    <!-- Parameter Node 03 -->
+                    <div class="node-active border border-zinc-900 bg-zinc-950/40 backdrop-blur-sm p-2.5 rounded-xl flex justify-between items-center [animation-delay:1.6s]">
+                        <div>
+                            <p class="text-[9px] text-zinc-500 uppercase tracking-widest">SANCTION_CHECK</p>
+                            <div class="font-bold text-white text-[11px]">CLEAR_COMPLIANT</div>
+                        </div>
+                        <div class="text-[9px] text-emerald-400">Passed</div>
+                    </div>
+
+                </div>
+
+                <!-- Metrics Conversion Footer Layout -->
+                <div class="flex justify-between items-center border-t border-zinc-900 pt-3 z-10 text-[10px]">
+                    <div>
+                        ELAPSED: <span class="text-emerald-400 font-bold">08:00m</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        ABANDON: <span class="text-zinc-600 line-through">38%</span> → <span class="text-emerald-400 font-bold">6%</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
     </div>
 
 </div>
 
-<!-- CASE 02 -->
 
-<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card">
+<!-- CASE 02 — OPERATIONS SUITE -->
+<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card lg:col-span-2">
 
     <div class="mono text-blue-500 mb-6">
         CASE 02 — OPERATIONS SUITE
     </div>
 
-    <h2 class="text-3xl font-black mb-10">
-        Atlas Logistics
-    </h2>
+    <!-- Inner Split Layout Container Wrapper -->
+    <div class="grid lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left Side Column Frame: Text Stack Block (7 Columns Wide) -->
+        <div class="lg:col-span-7 space-y-8">
+            <h2 class="text-3xl font-black mb-4">
+                Atlas Logistics
+            </h2>
 
-    <div class="space-y-8">
+            <div>
+                <p class="label mono mb-2">PROBLEM</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Dispatchers worked across 4 disconnected tools
+                    to route 1,200 daily shipments.
+                </p>
+            </div>
 
-        <div>
-            <p class="label mono mb-2">PROBLEM</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Dispatchers worked across 4 disconnected tools
-                to route 1,200 daily shipments.
-            </p>
+            <div>
+                <p class="label mono mb-2">SOLUTION</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Unified ops console with real-time fleet tracking
+                    and an in-house routing engine.
+                </p>
+            </div>
+
+            <div>
+                <p class="label mono mb-2">RESULT</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    27% reduction in fuel costs and
+                    3x faster dispatch decisions.
+                </p>
+            </div>
         </div>
 
-        <div>
-            <p class="label mono mb-2">SOLUTION</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Unified ops console with real-time fleet tracking
-                and an in-house routing engine.
-            </p>
-        </div>
+        <!-- Right Side Column Frame: Interactive Map Visual Interface (5 Columns Wide) -->
+        <div class="lg:col-span-5 lg:mt-0">
+            <div class="visual-showroom flex flex-col justify-between p-5 font-mono text-xs text-zinc-400 select-none bg-zinc-950/20">
+                
+                <!-- Routing Interface Top Utility Bar -->
+                <div class="flex justify-between items-center border-b border-zinc-900 pb-3 z-10">
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span class="text-zinc-500 tracking-wider">ROUTING_ENGINE_ACTIVE</span>
+                    </div>
+                    <div class="text-[10px] text-zinc-500 uppercase tracking-widest bg-zinc-900/60 px-2 py-0.5 rounded border border-zinc-800">
+                        Fleet: 1,200/Active
+                    </div>
+                </div>
 
-        <div>
-            <p class="label mono mb-2">RESULT</p>
-            <p class="text-zinc-300 leading-relaxed">
-                27% reduction in fuel costs and
-                3x faster dispatch decisions.
-            </p>
+                <!-- Central Content Area: Simulated Interactive Vector Map Layout Grid -->
+                <div class="flex-1 relative my-4 rounded-xl border border-zinc-900/80 bg-zinc-950/60 overflow-hidden min-h-[130px] flex items-center justify-center">
+                    
+                    <!-- SVG Vector Data Line Overlay Canvas Component Matrix -->
+                    <svg class="absolute inset-0 w-full h-full p-4" viewBox="0 0 200 100" preserveAspectRatio="none">
+                        <!-- Disconnected Background Tool Path Trails -->
+                        <path d="M20,20 L60,80 L110,30 L180,70" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1.5" />
+                        <path d="M20,20 L90,15 L140,85 L180,70" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1.5" />
+                        
+                        <!-- Consolidated Engine Optimized Path -->
+                        <path class="route-path" d="M20,20 L100,45 L180,70" fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.85" />
+                    </svg>
+
+                    <!-- Coordinate Geo-Tracking Sensor Point Indicators -->
+                    <div class="fleet-signal absolute top-[15%] left-[8%] w-3 h-3 rounded-full bg-zinc-700 border-2 border-[#0A0A0A] z-10"></div>
+                    <div class="fleet-signal absolute top-[40%] left-[48%] w-3 h-3 rounded-full bg-blue-500 border-2 border-[#0A0A0A] z-10"></div>
+                    <div class="fleet-signal absolute bottom-[25%] right-[8%] w-3 h-3 rounded-full bg-emerald-500 border-2 border-[#0A0A0A] z-10"></div>
+
+                    <!-- Overlay Dispatch Notification Micro-Badge Panel -->
+                    <div class="absolute bottom-2 left-2 bg-zinc-950/90 border border-zinc-800/80 rounded-lg px-2 py-1 text-[9px] text-zinc-400 backdrop-blur-md">
+                        <span class="text-blue-400 font-bold">DISPATCH_SPEED:</span> 3.0x FASTER
+                    </div>
+                </div>
+
+                <!-- Metrics Performance Track Sub-Footer Layout -->
+                <div class="flex justify-between items-center border-t border-zinc-900 pt-3 z-10 text-[10px]">
+                    <div class="flex items-center gap-1">
+                        CONSOLES: <span class="text-zinc-500 line-through">4 tools</span> → <span class="text-blue-400 font-bold">1 unified</span>
+                    </div>
+                    <div class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                        FUEL_COST: -27%
+                    </div>
+                </div>
+
+            </div>
         </div>
 
     </div>
 
 </div>
 
-<!-- CASE 03 -->
 
-<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card">
+<!-- CASE 03 — PATIENT PORTAL -->
+<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card lg:col-span-2">
 
     <div class="mono text-blue-500 mb-6">
         CASE 03 — PATIENT PORTAL
     </div>
 
-    <h2 class="text-3xl font-black mb-10">
-        Verdé Health
-    </h2>
+    <!-- Inner Split Layout Container Wrapper -->
+    <div class="grid lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left Side Column Frame: Text Stack Block (7 Columns Wide) -->
+        <div class="lg:col-span-7 space-y-8">
+            <h2 class="text-3xl font-black mb-4">
+                Verdé Health
+            </h2>
 
-    <div class="space-y-8">
+            <div>
+                <p class="label mono mb-2">PROBLEM</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Phone-based scheduling created a 4-hour bottleneck
+                    for clinic staff every morning.
+                </p>
+            </div>
 
-        <div>
-            <p class="label mono mb-2">PROBLEM</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Phone-based scheduling created a 4-hour bottleneck
-                for clinic staff every morning.
-            </p>
+            <div>
+                <p class="label mono mb-2">SOLUTION</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    HIPAA-aligned patient portal with self-scheduling,
+                    secure records, and reminders.
+                </p>
+            </div>
+
+            <div>
+                <p class="label mono mb-2">RESULT</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    62% of bookings shifted to self-serve,
+                    freeing 30+ staff hours per week.
+                </p>
+            </div>
         </div>
 
-        <div>
-            <p class="label mono mb-2">SOLUTION</p>
-            <p class="text-zinc-300 leading-relaxed">
-                HIPAA-aligned patient portal with self-scheduling,
-                secure records, and reminders.
-            </p>
-        </div>
+        <!-- Right Side Column Frame: Interactive Calendar Visual Interface (5 Columns Wide) -->
+        <div class="lg:col-span-5 lg:mt-0">
+            <div class="visual-showroom flex flex-col justify-between p-5 font-mono text-xs text-zinc-400 select-none bg-zinc-950/20">
+                
+                <!-- Interface Header Utility Bar -->
+                <div class="flex justify-between items-center border-b border-zinc-900 pb-3 z-10">
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                        <span class="text-zinc-500 tracking-wider">PORTAL_SCHEDULER_V1</span>
+                    </div>
+                    <div class="text-[10px] text-zinc-500 bg-zinc-900/60 px-2 py-0.5 rounded border border-zinc-800">
+                        HIPAA_ENCRYPTED
+                    </div>
+                </div>
 
-        <div>
-            <p class="label mono mb-2">RESULT</p>
-            <p class="text-zinc-300 leading-relaxed">
-                62% of bookings shifted to self-serve,
-                freeing 30+ staff hours per week.
-            </p>
+                <!-- Central Area: Simulated Automated Appointment Grid Interface -->
+                <div class="flex-1 flex flex-col gap-2 my-4 justify-center">
+                    
+                    <!-- Time Entry Item 01 -->
+                    <div class="patient-slot-1 border border-zinc-900 bg-zinc-950/40 rounded-xl p-2.5 flex items-center justify-between transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10px] text-zinc-600 bg-zinc-900 px-1.5 py-0.5 rounded font-bold">09:30 AM</span>
+                            <div>
+                                <h4 class="text-white text-[11px] font-bold tracking-tight">General Consultation</h4>
+                                <p class="text-[9px] text-zinc-500">Self-Scheduled via Web Portal</p>
+                            </div>
+                        </div>
+                        <span class="text-[9px] text-emerald-400 font-bold bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">CONFIRMED</span>
+                    </div>
+
+                    <!-- Time Entry Item 02 -->
+                    <div class="patient-slot-2 border border-zinc-900 bg-zinc-950/40 rounded-xl p-2.5 flex items-center justify-between transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10px] text-zinc-600 bg-zinc-900 px-1.5 py-0.5 rounded font-bold">11:15 AM</span>
+                            <div>
+                                <h4 class="text-white text-[11px] font-bold tracking-tight">Cardio Screening</h4>
+                                <p class="text-[9px] text-zinc-500">Instant Verification</p>
+                            </div>
+                        </div>
+                        <span class="text-[9px] text-emerald-400 font-bold bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">CONFIRMED</span>
+                    </div>
+
+                    <!-- Time Entry Item 03 -->
+                    <div class="patient-slot-3 border border-zinc-900 bg-zinc-950/40 rounded-xl p-2.5 flex items-center justify-between transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10px] text-zinc-600 bg-zinc-900 px-1.5 py-0.5 rounded font-bold">02:45 PM</span>
+                            <div>
+                                <h4 class="text-white text-[11px] font-bold tracking-tight">Follow-up Lab Review</h4>
+                                <p class="text-[9px] text-zinc-500">Automated Notification Queue</p>
+                            </div>
+                        </div>
+                        <span class="text-[9px] text-emerald-400 font-bold bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">CONFIRMED</span>
+                    </div>
+
+                </div>
+
+                <!-- Performance Optimization Summary Sub-Footer Layout -->
+                <div class="flex justify-between items-center border-t border-zinc-900 pt-3 z-10 text-[10px]">
+                    <div class="flex items-center gap-1">
+                        STAFF OVERHEAD: <span class="text-zinc-500 line-through">4-hr bottleneck</span> → <span class="text-emerald-400 font-bold">-30 hrs/wk</span>
+                    </div>
+                    <div class="text-[10px] text-blue-400 font-bold">
+                        SELF-SERVE: 62%
+                    </div>
+                </div>
+
+            </div>
         </div>
 
     </div>
 
 </div>
 
-<!-- CASE 04 -->
 
-<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card">
+<!-- CASE 04 — BRAND & SITE -->
+<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card lg:col-span-2">
 
     <div class="mono text-blue-500 mb-6">
         CASE 04 — BRAND & SITE
     </div>
 
-    <h2 class="text-3xl font-black mb-10">
-        Northwind Studios
-    </h2>
+    <!-- Inner Split Layout Container Wrapper -->
+    <div class="grid lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left Side Column Frame: Text Stack Block (7 Columns Wide) -->
+        <div class="lg:col-span-7 space-y-8">
+            <h2 class="text-3xl font-black mb-4">
+                Northwind Studios
+            </h2>
 
-    <div class="space-y-8">
+            <div>
+                <p class="label mono mb-2">PROBLEM</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Outdated brand was hurting enterprise
+                    pipeline conversion.
+                </p>
+            </div>
 
-        <div>
-            <p class="label mono mb-2">PROBLEM</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Outdated brand was hurting enterprise
-                pipeline conversion.
-            </p>
+            <div>
+                <p class="label mono mb-2">SOLUTION</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    End-to-end rebrand with new identity system,
+                    motion language, and marketing site.
+                </p>
+            </div>
+
+            <div>
+                <p class="label mono mb-2">RESULT</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Inbound enterprise leads up 2.4x
+                    in the first quarter post-launch.
+                </p>
+            </div>
         </div>
 
-        <div>
-            <p class="label mono mb-2">SOLUTION</p>
-            <p class="text-zinc-300 leading-relaxed">
-                End-to-end rebrand with new identity system,
-                motion language, and marketing site.
-            </p>
-        </div>
+        <!-- Right Side Column Frame: Interactive Typography Visual Interface (5 Columns Wide) -->
+        <div class="lg:col-span-5 lg:mt-0">
+            <div class="visual-showroom flex flex-col justify-between p-5 font-mono text-xs text-zinc-400 select-none bg-zinc-950/20">
+                
+                <!-- Interface Header Utility Bar -->
+                <div class="flex justify-between items-center border-b border-zinc-900 pb-3 z-10">
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping"></span>
+                        <span class="text-zinc-500 tracking-wider">MOTION_IDENTITY_SYSTEM</span>
+                    </div>
+                    <div class="text-[10px] text-zinc-500 bg-zinc-900/60 px-2 py-0.5 rounded border border-zinc-800">
+                        V4.12_ASSETS
+                    </div>
+                </div>
 
-        <div>
-            <p class="label mono mb-2">RESULT</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Inbound enterprise leads up 2.4x
-                in the first quarter post-launch.
-            </p>
+                <!-- Central Area: Interactive Motion Layout Dynamic Box -->
+                <div class="flex-1 relative my-4 rounded-xl border border-zinc-900/80 bg-zinc-950/60 overflow-hidden min-h-[130px] flex flex-col items-center justify-center p-4">
+                    
+                    <!-- Abstract Technical Geometric Asset Background Layer -->
+                    
+                        <div class="w-24 h-24 border border-zinc-900 rounded-full"></div>
+                    </div>
+
+                    <!-- Kinetic Display Typography Frame Block -->
+                    <div class="z-10 text-center">
+                        <h3 class="kinetic-brand-text text-3xl font-black uppercase tracking-tight font-sans">
+                            NORTHWIND
+                        </h3>
+                        <p class="text-[9px] text-zinc-600 tracking-[0.3em] uppercase mt-1">Design language system</p>
+                    </div>
+
+                    <!-- Real-Time Variable Axis Metrics Overlay Display -->
+                    <div class="absolute bottom-2 right-2 flex gap-3 text-[8px] text-zinc-600 bg-zinc-950/80 px-2 py-1 rounded border border-zinc-900">
+                        <div>WGHT: <span class="text-zinc-400">VARIABLE</span></div>
+                        <div>TRACK: <span class="text-zinc-400">AUTO</span></div>
+                    </div>
+                </div>
+
+                <!-- Pipeline Optimization Summary Sub-Footer Layout -->
+                <div class="flex justify-between items-center border-t border-zinc-900 pt-3 z-10 text-[10px]">
+                    <div class="flex items-center gap-1">
+                        BRAND ID: <span class="text-zinc-500 line-through">Legacy System</span> → <span class="text-blue-500 font-bold">Fluid Motion</span>
+                    </div>
+                    <div class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                        LEADS: +2.4X INBOUND
+                    </div>
+                </div>
+
+            </div>
         </div>
 
     </div>
 
 </div>
 
-<!-- CASE 05 -->
-
-<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card">
+<!-- CASE 05 — SAAS DASHBOARD -->
+<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card lg:col-span-2">
 
     <div class="mono text-blue-500 mb-6">
         CASE 05 — SAAS DASHBOARD
     </div>
 
-    <h2 class="text-3xl font-black mb-10">
-        Pulse Analytics
-    </h2>
+    <!-- Inner Split Layout Container Wrapper -->
+    <div class="grid lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left Side Column Frame: Text Stack Block (7 Columns Wide) -->
+        <div class="lg:col-span-7 space-y-8">
+            <h2 class="text-3xl font-black mb-4">
+                Pulse Analytics
+            </h2>
 
-    <div class="space-y-8">
+            <div>
+                <p class="label mono mb-2">PROBLEM</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Customers loved the data but couldn't
+                    surface insights without engineering help.
+                </p>
+            </div>
 
-        <div>
-            <p class="label mono mb-2">PROBLEM</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Customers loved the data but couldn't
-                surface insights without engineering help.
-            </p>
+            <div>
+                <p class="label mono mb-2">SOLUTION</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Self-serve dashboard builder with shareable views
+                    and embeddable widgets.
+                </p>
+            </div>
+
+            <div>
+                <p class="label mono mb-2">RESULT</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Support tickets down 41%;
+                    expansion revenue up 18%.
+                </p>
+            </div>
         </div>
 
-        <div>
-            <p class="label mono mb-2">SOLUTION</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Self-serve dashboard builder with shareable views
-                and embeddable widgets.
-            </p>
-        </div>
+        <!-- Right Side Column Frame: Interactive Dashboard Interface (5 Columns Wide) -->
+        <div class="lg:col-span-5 lg:mt-0">
+            <div class="visual-showroom flex flex-col justify-between p-5 font-mono text-xs text-zinc-400 select-none bg-zinc-950/20">
+                
+                <!-- Interface Header Utility Bar -->
+                <div class="flex justify-between items-center border-b border-zinc-900 pb-3 z-10">
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+                        <span class="text-zinc-500 tracking-wider">DASHBOARD_BUILDER_V2</span>
+                    </div>
+                    <div class="text-[10px] text-zinc-500 uppercase tracking-widest bg-zinc-900/60 px-2 py-0.5 rounded border border-zinc-800">
+                        LIVE_RENDER
+                    </div>
+                </div>
 
-        <div>
-            <p class="label mono mb-2">RESULT</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Support tickets down 41%;
-                expansion revenue up 18%.
-            </p>
+                <!-- Central Area: Bento Modular Grid Showcase Matrix -->
+                <div class="flex-1 grid grid-cols-12 gap-2 my-4 min-h-[140px] items-stretch">
+                    
+                    <!-- Bento Widget 01: Core Conversion Data Mini-Panel (7 Columns Wide) -->
+                    <div class="bento-widget-1 col-span-7 border border-zinc-900 bg-zinc-950/50 rounded-xl p-3 flex flex-col justify-between transition-all">
+                        <div>
+                            <span class="text-[9px] text-zinc-500 uppercase block tracking-wider">EXP_REVENUE</span>
+                            <span class="text-xl font-black text-emerald-400 tracking-tight mt-0.5 block">+18.4%</span>
+                        </div>
+                        <div class="text-[8px] text-zinc-600 border-t border-zinc-900/60 pt-1.5 mt-2 flex justify-between">
+                            <span>SEGMENT: ENTERPRISE</span>
+                            <span class="text-emerald-500">MRR▲</span>
+                        </div>
+                    </div>
+
+                    <!-- Bento Widget 02: Micro Graphic Visualizer Array (5 Columns Wide) -->
+                    <div class="bento-widget-2 col-span-5 border border-zinc-900 bg-zinc-950/50 rounded-xl p-3 flex flex-col justify-between transition-all">
+                        <span class="text-[9px] text-zinc-500 uppercase block tracking-wider">VOLUME</span>
+                        <div class="h-8 flex items-end gap-1.5 mb-1 justify-center">
+                            <div class="pulse-bar-1 w-2 bg-blue-500/20 rounded-t-sm border border-blue-500/30"></div>
+                            <div class="pulse-bar-2 w-2 bg-blue-500/50 rounded-t-sm border border-blue-500/60"></div>
+                            <div class="pulse-bar-3 w-2 bg-blue-400 rounded-t-sm"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bento Widget 03: Full Width Interactive Notification Banner (12 Columns Wide) -->
+                    <div class="bento-widget-3 col-span-12 border border-zinc-900 bg-zinc-950/50 rounded-xl p-2.5 flex items-center justify-between transition-all">
+                        <div class="flex items-center gap-2 truncate">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            <span class="text-[10px] text-zinc-300 font-bold tracking-tight truncate">Insight_Widget_Embed_Token</span>
+                        </div>
+                        <span class="text-[8px] text-zinc-500 uppercase tracking-widest border border-zinc-800 bg-zinc-900 px-1.5 py-0.5 rounded">READY</span>
+                    </div>
+
+                </div>
+
+                <!-- Performance Metrics Summary Sub-Footer Layout -->
+                <div class="flex justify-between items-center border-t border-zinc-900 pt-3 z-10 text-[10px]">
+                    <div class="flex items-center gap-1">
+                        ENG_DEPENDENCY: <span class="text-zinc-500 line-through">100%</span> → <span class="text-blue-400 font-bold">0% Self-Serve</span>
+                    </div>
+                    <div class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                        TICKETS: -41%
+                    </div>
+                </div>
+
+            </div>
         </div>
 
     </div>
 
 </div>
 
-<!-- CASE 06 -->
-
-<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card">
+<!-- CASE 06 — WEB & MOBILE APP -->
+<div class="reveal border border-zinc-900 rounded-3xl p-10 case-card lg:col-span-2">
 
     <div class="mono text-blue-500 mb-6">
         CASE 06 — WEB & MOBILE APP
     </div>
 
-    <h2 class="text-3xl font-black mb-10">
-        Orbit Education
-    </h2>
+    <!-- Inner Split Layout Container Wrapper -->
+    <div class="grid lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left Side Column Frame: Text Stack Block (7 Columns Wide) -->
+        <div class="lg:col-span-7 space-y-8">
+            <h2 class="text-3xl font-black mb-4">
+                Orbit Education
+            </h2>
 
-    <div class="space-y-8">
+            <div>
+                <p class="label mono mb-2">PROBLEM</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Students dropped off between desktop coursework
+                    and mobile study sessions.
+                </p>
+            </div>
 
-        <div>
-            <p class="label mono mb-2">PROBLEM</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Students dropped off between desktop coursework
-                and mobile study sessions.
-            </p>
+            <div>
+                <p class="label mono mb-2">SOLUTION</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Cross-platform app with synced progress,
+                    offline mode, and adaptive paths.
+                </p>
+            </div>
+
+            <div>
+                <p class="label mono mb-2">RESULT</p>
+                <p class="text-zinc-300 leading-relaxed">
+                    Daily active users grew 3.1x
+                    in six months.
+                </p>
+            </div>
         </div>
 
-        <div>
-            <p class="label mono mb-2">SOLUTION</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Cross-platform app with synced progress,
-                offline mode, and adaptive paths.
-            </p>
-        </div>
+        <!-- Right Side Column Frame: Interactive Multi-Device Visual Interface (5 Columns Wide) -->
+        <div class="lg:col-span-5 lg:mt-0">
+            <div class="visual-showroom flex flex-col justify-between p-5 font-mono text-xs text-zinc-400 select-none bg-zinc-950/20">
+                
+                <!-- Interface Header Utility Bar -->
+                <div class="flex justify-between items-center border-b border-zinc-900 pb-3 z-10">
+                    <div class="flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span class="text-zinc-500 tracking-wider">STATE_SYNC_ENGINE</span>
+                    </div>
+                    <div class="text-[10px] text-zinc-500 bg-zinc-900/60 px-2 py-0.5 rounded border border-zinc-800">
+                        DB_SOCKET_LIVE
+                    </div>
+                </div>
 
-        <div>
-            <p class="label mono mb-2">RESULT</p>
-            <p class="text-zinc-300 leading-relaxed">
-                Daily active users grew 3.1x
-                in six months.
-            </p>
+                <!-- Central Area: Multi-Device Sync Architecture Simulator Map Grid -->
+                <div class="flex-1 relative my-4 rounded-xl border border-zinc-900/80 bg-zinc-950/60 overflow-hidden min-h-[140px] p-3 flex justify-between items-center">
+                    
+                    <!-- Simulated Desktop Matrix Workframe Panel -->
+                    <div class="device-sync-card w-[55%] border border-zinc-800/80 bg-zinc-950/80 rounded-lg p-2.5 flex flex-col gap-1.5 backdrop-blur-sm relative">
+                        <div class="flex items-center gap-1 border-b border-zinc-900 pb-1.5 text-[8px] text-zinc-500">
+                            <span class="w-1 h-1 rounded-full bg-zinc-700"></span>
+                            <span>DESKTOP_MODULE_04</span>
+                        </div>
+                        <div class="h-2 bg-blue-500/20 rounded-sm w-[85%] border border-blue-500/30"></div>
+                        <div class="h-1.5 bg-zinc-900 rounded-sm w-[50%]"></div>
+                        
+                        <!-- Wireless Signal Vector Path Beam Start Origin -->
+                        <div class="absolute bottom-2 right-2 w-1.5 h-1.5 rounded-full bg-blue-400"></div>
+                        <div class="sync-beam top-8 left-16"></div>
+                    </div>
+
+                    <!-- Simulated Mobile Phone Workframe Panel Grid Frame -->
+                    <div class="device-sync-card w-[35%] h-[95%] border border-zinc-800/80 bg-zinc-950/80 rounded-xl p-2 flex flex-col justify-between backdrop-blur-sm relative">
+                        <div class="w-8 h-1 bg-zinc-900 rounded-full mx-auto mb-1"></div>
+                        
+                        <div class="flex-1 border border-dashed border-zinc-900/80 rounded-md p-1 flex flex-col gap-1 justify-center items-center text-center">
+                            <span class="text-[8px] text-zinc-600 block uppercase tracking-wider">PROGRESS</span>
+                            <span class="text-[11px] font-black text-emerald-400 tracking-tight block">100% SYNC</span>
+                        </div>
+
+                        <div class="w-3 h-3 border border-zinc-900 rounded-full mx-auto mt-1"></div>
+                    </div>
+
+                </div>
+
+                <!-- Performance Metrics Summary Sub-Footer Layout -->
+                <div class="flex justify-between items-center border-t border-zinc-900 pt-3 z-10 text-[10px]">
+                    <div class="flex items-center gap-1">
+                        PLATFORMS: <span class="text-zinc-500 line-through">Disconnected</span> → <span class="text-blue-400 font-bold">Real-time</span>
+                    </div>
+                    <div class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                        DAU: 3.1X GROWTH
+                    </div>
+                </div>
+
+            </div>
         </div>
 
     </div>
-
-</div>
-
-</div>
 
 </div>
 
@@ -452,110 +1014,189 @@ body{
 <!-- CTA -->
 <!-- ========================================= -->
 
-<section class="pb-32 border-t border-zinc-900 pt-28">
+<!-- ========================================= -->
+<!-- HIGH-CONVERSION PIPELINE INTERACTIVE FORM -->
+<!-- ========================================= -->
+<section class="pb-32 border-t border-zinc-900 pt-28 relative z-10">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+        
+        <div class="grid lg:grid-cols-12 gap-12 items-start">
+            
+            <!-- Left Side Layout Frame: Project Initiation Overview Copy Block -->
+            <div class="lg:col-span-5 reveal space-y-6">
+                <p class="mono text-blue-500">INITIATE_DIGITAL_ADVANTAGE</p>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight leading-none text-white">
+                    Let's configure your next performance system.
+                </h2>
+                <p class="text-zinc-400 text-sm leading-relaxed max-w-sm">
+                    Select your execution requirements. Our technical sales engineering pipeline responds with customized platform layout scopes inside 12 business hours.
+                </p>
+                
+                <!-- Trust Parameter Micro Metric Tags Matrix -->
+                <div class="pt-6 grid grid-cols-2 gap-4 border-t border-zinc-900">
+                    <div>
+                        <span class="text-2xl font-black text-white block">12hr</span>
+                        <span class="text-[10px] text-zinc-500 uppercase font-mono mt-1 block">Response Bound SLA</span>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black text-emerald-400 block">100%</span>
+                        <span class="text-[10px] text-zinc-500 uppercase font-mono mt-1 block">Secure Encrypted Inbound</span>
+                    </div>
+                </div>
+            </div>
 
-<div class="max-w-7xl mx-auto px-6 lg:px-10">
+            <!-- Right Side Layout Frame: Project Parameters Interactive Configuration Interface Dashboard Panel -->
+            <div class="lg:col-span-7 reveal border border-zinc-900 rounded-3xl p-8 md:p-10 bg-zinc-950/20 backdrop-blur-xl relative overflow-hidden group/form">
+                
+                <form class="space-y-6" onsubmit="event.preventDefault(); alert('PIPELINE_INITIATED: System payload transmitted successfully.');">
+                    
+                    <!-- Form Input Row Item 01 -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="block text-[10px] text-zinc-500 font-mono uppercase tracking-wider">01 // Identify Name</label>
+                            <input type="text" required placeholder="e.g. Jameson Vance" 
+                                class="w-full bg-[#0A0A0A]/60 border border-zinc-900 rounded-xl px-4 py-3.5 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-blue-500 transition-colors duration-300">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-[10px] text-zinc-500 font-mono uppercase tracking-wider">02 // Communication Route</label>
+                            <input type="email" required placeholder="jameson@enterprise.com" 
+                                class="w-full bg-[#0A0A0A]/60 border border-zinc-900 rounded-xl px-4 py-3.5 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-blue-500 transition-colors duration-300">
+                        </div>
+                    </div>
 
-    <div class="reveal border border-zinc-900 rounded-3xl p-14 md:p-20 text-center case-card">
+                    <!-- Form Interactive Radio Grid Selection Item 02 -->
+                    <div class="space-y-2">
+                        <label class="block text-[10px] text-zinc-500 font-mono uppercase tracking-wider">03 // Select Engineering Vector Scope</label>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            
+                            <label class="cursor-pointer relative border border-zinc-900 rounded-xl p-3 bg-[#0A0A0A]/30 hover:border-zinc-700 flex items-center gap-2 select-none group/radio">
+                                <input type="radio" name="scope" checked class="accent-blue-500">
+                                <span class="text-xs text-zinc-300 font-mono uppercase">Fintech_App</span>
+                            </label>
 
-        <p class="mono text-blue-500 mb-6">
-            START YOUR PROJECT
-        </p>
+                            <label class="cursor-pointer relative border border-zinc-900 rounded-xl p-3 bg-[#0A0A0A]/30 hover:border-zinc-700 flex items-center gap-2 select-none group/radio">
+                                <input type="radio" name="scope" class="accent-blue-500">
+                                <span class="text-xs text-zinc-300 font-mono uppercase">SaaS_Console</span>
+                            </label>
 
-        <h2 class="text-4xl md:text-6xl font-black max-w-4xl mx-auto">
-            Looking for results like these?
-            Let's build your next digital advantage.
-        </h2>
+                            <label class="cursor-pointer relative border border-zinc-900 rounded-xl p-3 bg-[#0A0A0A]/30 hover:border-zinc-700 flex items-center gap-2 select-none group/radio">
+                                <input type="radio" name="scope" class="accent-blue-500">
+                                <span class="text-xs text-zinc-300 font-mono uppercase">Brand_System</span>
+                            </label>
 
-        <a href="contact.html"
-           class="inline-flex mt-12 px-10 py-4 bg-blue-500 rounded-full font-semibold hover:scale-105 transition">
-            Get Started
-        </a>
+                        </div>
+                    </div>
+
+                    <!-- Form Input Row Item 03 -->
+                    <div class="space-y-2">
+                        <label class="block text-[10px] text-zinc-500 font-mono uppercase tracking-wider">04 // Core Mission Objectives</label>
+                        <textarea required rows="3" placeholder="Describe the performance bottlenecks or objectives your company is monitoring..." 
+                            class="w-full bg-[#0A0A0A]/60 border border-zinc-900 rounded-xl p-4 text-sm text-white placeholder-zinc-700 focus:outline-none focus:border-blue-500 transition-colors duration-300 resize-none"></textarea>
+                    </div>
+
+                    <!-- Premium Submission Action Bar Button Component -->
+                    <div class="pt-4 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="text-[10px] text-zinc-600 font-mono uppercase">
+                            🔒 Channel: Secured via AES_256_GCM
+                        </div>
+                        <button type="submit" 
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-blue-500 hover:bg-blue-600 font-semibold text-sm rounded-full transition-transform active:scale-95 group/btn">
+                            Initialize Project Pipeline
+                            <span class="mono text-xs text-blue-200 transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
 
     </div>
-
-</div>
-
 </section>
 
+
 <!-- ========================================= -->
-<!-- FOOTER -->
+<!-- PREMIUM MODERN SAAS FOOTER -->
 <!-- ========================================= -->
+<footer class="border-t border-zinc-900 bg-[#0A0A0A] relative z-10">
 
-<footer class="border-t border-zinc-900">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-16">
 
-<div class="max-w-7xl mx-auto px-6 lg:px-10 py-20">
+        <!-- Grid Architecture: Stripped of harsh internal container borders -->
+        <div class="grid md:grid-cols-12 gap-12 md:gap-8 items-start">
 
-    <div class="grid md:grid-cols-3 gap-10">
+            <!-- COLUMN 1: BRAND ARCHITECTURE (Spans 5 cols for visual weight) -->
+            <div class="reveal md:col-span-5 space-y-5">
+                
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                    <p class="mono text-blue-400 text-[10px] tracking-widest uppercase font-bold">Systems Active</p>
+                </div>
 
-        <div class="reveal border border-zinc-900 p-8">
+                <h3 class="text-2xl font-black tracking-tight text-white">
+                    forma<span class="text-blue-500">.IT</span> GROUP
+                </h3>
 
-            <h3 class="text-2xl font-black">
-                forma<span class="text-blue-500">.IT</span> GROUP
-            </h3>
+                <p class="text-zinc-400 text-sm leading-relaxed max-w-sm">
+                    Software engineering, cloud architectures, and elite digital systems engineered for modern, ambitious companies globally.
+                </p>
+            </div>
 
-            <p class="mt-4 text-zinc-400 leading-relaxed">
-                Software, web applications, and branding
-                for modern, ambitious companies.
-            </p>
+            <!-- COLUMN 2: NAVIGATION LINKS (Spans 3 cols, indented) -->
+            <div class="reveal md:col-span-3 md:pl-8">
+                <h4 class="font-bold text-xs uppercase tracking-widest text-zinc-400 mb-6">
+                    Company
+                </h4>
 
-        </div>
+                <div class="space-y-3.5 text-sm font-medium text-zinc-500">
+                    <a href="about.html" class="block hover:text-blue-400 transition-colors duration-200">About</a>
+                    <a href="services.html" class="block hover:text-blue-400 transition-colors duration-200">Services</a>
+                    <a href="portfolio.html" class="block hover:text-blue-400 transition-colors duration-200">Portfolio</a>
+                    <a href="contact.html" class="block hover:text-blue-400 transition-colors duration-200">Contact</a>
+                </div>
+            </div>
 
-        <div class="reveal border border-zinc-900 p-8">
+            <!-- COLUMN 3: ENTERPRISE COMMUNICATIONS (Spans 4 cols) -->
+            <div class="reveal md:col-span-4">
+                <h4 class="font-bold text-xs uppercase tracking-widest text-zinc-400 mb-6">
+                    Reach Us
+                </h4>
 
-            <h4 class="font-bold mb-6">
-                Company
-            </h4>
+                <div class="space-y-4 text-sm text-zinc-400">
+                    
+                    <!-- Phone Link -->
+                    <a href="tel:+256763875861" class="group flex items-center gap-3 hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.802-5.122-4.1-6.924-6.924l1.293-.97a1.125 1.125 0 0 0 .417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" /></svg>
+                        +256 763 875 861
+                    </a>
 
-            <div class="space-y-4 text-zinc-400">
+                    <!-- Phone Link 2 -->
+                    <a href="tel:+256786932194" class="group flex items-center gap-3 hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.802-5.122-4.1-6.924-6.924l1.293-.97a1.125 1.125 0 0 0 .417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" /></svg>
+                        +256 786 932 194
+                    </a>
 
-                <a href="about.html" class="block hover:text-white">
-                    About
-                </a>
+                    <!-- Email Link -->
+                    <a href="mailto:info@formait.com" class="group flex items-center gap-3 hover:text-blue-400 transition-colors duration-200 break-all">
+                        <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
+                        info@formait.com
+                    </a>
 
-                <a href="services.html" class="block hover:text-white">
-                    Services
-                </a>
-
-                <a href="portfolio.html" class="block hover:text-white">
-                    Portfolio
-                </a>
-
-                <a href="contact.html" class="block hover:text-white">
-                    Contact
-                </a>
-
+                </div>
             </div>
 
         </div>
 
-        <div class="reveal border border-zinc-900 p-8">
-
-            <h4 class="font-bold mb-6">
-                Reach us
-            </h4>
-
-            <div class="space-y-4 text-zinc-400">
-
-                <p>Call +256 763 875 861</p>
-
-                <p>Call +256 786 932 194</p>
-
-                <p>info@formait.com</p>
-
-            </div>
-
+        <!-- COPYRIGHT BLOCK -->
+        <div class="border-t border-zinc-900/60 mt-16 pt-8 text-center text-zinc-600 text-xs font-medium tracking-wide">
+            &copy; 2026 forma.IT Group. All rights reserved.
         </div>
 
     </div>
-
-    <div class="border-t border-zinc-900 mt-12 pt-8 text-center text-zinc-500 text-sm">
-        © 2026 forma.IT Group. All rights reserved.
-    </div>
-
-</div>
 
 </footer>
+
 
 <script>
 const canvas = document.createElement("canvas");
@@ -649,6 +1290,38 @@ window.addEventListener('scroll', revealOnScroll);
 revealOnScroll();
 </script>
 
+<script>
+function filterSelection(category) {
+    const cards = document.querySelectorAll('.case-card');
+    const buttons = document.querySelectorAll('.filter-btn');
+    
+    // Manage active visual state on selector tabs
+    buttons.forEach(btn => {
+        if(btn.getAttribute('onclick').includes(category)) {
+            btn.classList.add('border-blue-500', 'text-white', 'bg-blue-500/5');
+            btn.classList.remove('border-zinc-900', 'text-zinc-500');
+        } else {
+            btn.classList.remove('border-blue-500', 'text-white', 'bg-blue-500/5');
+            btn.classList.add('border-zinc-900', 'text-zinc-500');
+        }
+    });
+
+    // Animate item display layout bounds smoothly
+    cards.forEach(card => {
+        const itemType = card.querySelector('.mono').textContent;
+        if (category === 'all' || itemType.includes(category.toUpperCase())) {
+            card.style.display = "block";
+            setTimeout(() => { card.style.opacity = "1"; card.style.transform = "scale(1)"; }, 50);
+        } else {
+            card.style.opacity = "0";
+            card.style.transform = "scale(0.95)";
+            setTimeout(() => { card.style.display = "none"; }, 300);
+        }
+    });
+}
+
+</script>
 <script src="src/main.js"></script>
+
 </body>
 </html>

@@ -1,149 +1,1803 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin Dashboard | forma.IT GROUP</title>
+<title>forma.IT Admin Dashboard</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="styles.css">
+
+<style>
+    /* Premium High-Fidelity Glow Animations & Hover Cards */
+    .glow-card {
+        background: rgba(15, 15, 15, 0.4);
+        backdrop-filter: blur(12px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+    }
+    
+    .glow-card:hover {
+        border-color: rgba(59, 130, 246, 0.2) !important;
+        background: rgba(15, 15, 15, 0.8);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.03), 0 1px 1px rgba(59, 130, 246, 0.1) inset;
+    }
+
+    /* Custom Scrollbar Optimization for 18-Item Sidebar Drawer Area */
+    .custom-sidebar-scroll::-webkit-scrollbar {
+        width: 3px;
+    }
+    .custom-sidebar-scroll::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-sidebar-scroll::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 10px;
+    }
+    .custom-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+        background: #3f3f46;
+    }
+
+    /* Custom Scrollbar for AI Engine Message Window View */
+    .ai-chat-scroller::-webkit-scrollbar {
+        width: 4px;
+    }
+    .ai-chat-scroller::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .ai-chat-scroller::-webkit-scrollbar-thumb {
+        background: #1f1f23;
+        border-radius: 4px;
+    }
+</style>
+
 
 </head>
 
-<body class="bg-[#0A0A0A] text-white flex min-h-screen">
+<body class="bg-[#080808] text-white flex min-h-screen">
 
-<!-- SIDEBAR -->
-<aside class="w-72 border-r border-zinc-900 p-6 hidden md:block">
+<!-- ==========================================
+SIDEBAR (Scrollable & Responsive Blueprint Master)
+=========================================== -->
+<aside id="sidebarMenu" class="w-72 bg-[#0f0f0f] border-r border-zinc-800 p-6 flex flex-col h-screen sticky top-0">
 
-    <h1 class="text-xl font-black mb-10">
+    <!-- Brand Header -->
+    <h1 class="text-2xl font-black mb-8 px-2 tracking-tight flex-shrink-0">
         forma<span class="text-blue-500">.IT</span>
+        <span class="text-[10px] uppercase font-semibold text-zinc-500 tracking-widest block mt-0.5">Group Admin</span>
     </h1>
 
-    <nav class="space-y-3 text-sm">
+    <!-- 18-Item Sidebar Navigation Scroll Area -->
+    <nav class="space-y-1.5 flex-1 overflow-y-auto pr-1 custom-sidebar-scroll">
+        
+        <!-- 1. Dashboard (Active State) -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-3 rounded-xl bg-blue-500 text-black font-bold text-xs transition uppercase tracking-wider">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z"/></svg>
+            <span>Dashboard</span>
+        </button>
 
-        <a class="block p-3 rounded-lg bg-blue-500 text-black font-semibold">
-            Overview
-        </a>
+        <!-- 2. CRM & Leads -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <span>CRM & Leads</span>
+        </button>
 
-        <a class="block p-3 rounded-lg hover:bg-zinc-900">
-            Leads
-        </a>
+        <!-- 3. Email Center -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l8-4.666a2 2 0 012.22 0l8 4.666A2 2 0 0121 10.07V19a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10l9 6 9-6"/></svg>
+            <span>Email Center</span>
+        </button>
 
-        <a class="block p-3 rounded-lg hover:bg-zinc-900">
-            Projects
-        </a>
+        <!-- 4. Website Content -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <span>Website Content</span>
+        </button>
 
-        <a class="block p-3 rounded-lg hover:bg-zinc-900">
-            Analytics
-        </a>
+        <!-- 5. Services -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <span>Services</span>
+        </button>
 
-        <a class="block p-3 rounded-lg hover:bg-zinc-900">
-            Settings
-        </a>
+        <!-- 6. Portfolio -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span>Portfolio</span>
+        </button>
+
+        <!-- 7. Blog & Articles -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 01-2-2h14a2 2 0 012 2v12a2 2 0 01-2 2z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11h4m-4 4h4m-6-8h6"/></svg>
+            <span>Blog</span>
+        </button>
+
+        <!-- 8. SEO Center -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
+            <span>SEO Center</span>
+        </button>
+
+        <!-- 9. Marketing Hub -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+            <span>Marketing Hub</span>
+        </button>
+
+        <!-- 10. Analytics -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2zm0 0h5a2 2 0 002-2v-3a2 2 0 00-2-2h-5m5 13a2 2 0 002-2V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v14a2 2 0 002 2h2z"/></svg>
+            <span>Analytics</span>
+        </button>
+
+        <!-- 11. Support Center -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            <span>Support Center</span>
+        </button>
+
+        <!-- 12. Media Library -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+            <span>Media Library</span>
+        </button>
+
+        <!-- 13. Users & Roles -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+            <span>Users & Roles</span>
+        </button>
+
+        <!-- 14. Integrations -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
+            <span>Integrations</span>
+        </button>
+
+        <!-- 15. Security -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+        <!-- 15. Security Center -->
+<!-- 15. Security Center -->
+<button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+    <span>Security Center</span>
+</button>
+
+        <!-- 16. Company Settings -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span>Company Settings</span>
+        </button>
+
+        <!-- 17. AI Assistant -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <span>AI Assistant</span>
+        </button>
+
+        <!-- 18. Activity Logs -->
+        <button class="w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Activity Logs</span>
+        </button>
 
     </nav>
 
+    <!-- Footer Actions Section -->
+    <div class="pt-4 mt-4 border-t border-zinc-900 flex-shrink-0">
+        <button id="logoutBtn" class="w-full p-3 rounded-xl bg-red-950/30 text-red-400 border border-red-900/30 hover:bg-red-600 hover:text-white transition font-bold text-xs uppercase tracking-wider">
+            Logout
+        </button>
+    </div>
+
 </aside>
 
-<!-- MAIN -->
-<main class="flex-1 p-6 lg:p-10">
+<style>
+    .custom-sidebar-scroll::-webkit-scrollbar { width: 3px; }
+    .custom-sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
+    .custom-sidebar-scroll::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+</style>
 
-    <!-- TOP BAR -->
-    <div class="flex justify-between items-center mb-10">
+<!-- ===========================
+MAIN
+=========================== -->
 
-        <h2 class="text-3xl font-black">Dashboard Overview</h2>
+<main class="flex-1 p-8">
 
-        <div class="text-sm text-zinc-400">
-            Admin Panel
+    <!-- TOP -->
+
+    <div class="flex flex-col lg:flex-row justify-between gap-6 mb-10">
+
+        <div>
+
+            <h1 class="text-4xl font-black">
+                Dashboard
+            </h1>
+
+            <p class="text-zinc-400 mt-2">
+                Welcome back.
+            </p>
+
         </div>
+
+        <input
+
+            id="searchLead"
+
+            class="bg-zinc-900 rounded-xl px-5 py-3 lg:w-80 outline-none border border-zinc-800"
+
+            placeholder="Search leads..."
+
+        >
 
     </div>
+            <!-- ==========================================
+            TAB DISPATCH INTERFACE PANEL SWITCHER
+            =========================================== -->
+            
+            <!-- VIEW BLOCK 1: MASTER DASHBOARD PANELS (Active View State) -->
+            <div id="view_dashboard" class="tab-panel-target space-y-10">
+                <!-- ======================
+                STATS DECK (6 Blueprint Masters)
+                ======================= -->
+                <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-5">
+                    <!-- 1. Visitors -->
+                    <div class="glow-card p-5 rounded-2xl border border-zinc-900 bg-[#0f0f0f]/50">
+                        <div class="flex items-center justify-between text-zinc-500"><p class="text-xs font-bold uppercase tracking-wider">Visitors</p><svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div>
+                        <h2 id="totalVisitors" class="text-3xl font-black mt-3 tracking-tight">0</h2>
+                    </div>
+                    <!-- 2. Leads -->
+                    <div class="glow-card p-5 rounded-2xl border border-zinc-900 bg-[#0f0f0f]/50">
+                        <div class="flex items-center justify-between text-zinc-500"><p class="text-xs font-bold uppercase tracking-wider">Leads</p><svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg></div>
+                        <h2 id="totalLeads" class="text-3xl font-black mt-3 tracking-tight">0</h2>
+                    </div>
+                    <!-- 3. Emails -->
+                    <div class="glow-card p-5 rounded-2xl border border-zinc-900 bg-[#0f0f0f]/50">
+                        <div class="flex items-center justify-between text-zinc-500"><p class="text-xs font-bold uppercase tracking-wider">Emails</p><svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+                        <h2 id="totalEmails" class="text-3xl font-black mt-3 tracking-tight">0</h2>
+                    </div>
+                    <!-- 4. Support Tickets -->
+                    <div class="glow-card p-5 rounded-2xl border border-zinc-900 bg-[#0f0f0f]/50">
+                        <div class="flex items-center justify-between text-zinc-500"><p class="text-xs font-bold uppercase tracking-wider">Tickets</p><svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
+                        <h2 id="activeTickets" class="text-3xl font-black mt-3 tracking-tight">0</h2>
+                    </div>
+                    <!-- 5. Revenue -->
+                    <div class="glow-card p-5 rounded-2xl border border-zinc-900 bg-[#0f0f0f]/50">
+                        <div class="flex items-center justify-between text-zinc-500"><p class="text-xs font-bold uppercase tracking-wider">Revenue</p><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+                        <h2 id="totalRevenue" class="text-3xl font-black mt-3 tracking-tight">$0</h2>
+                    </div>
+                    <!-- 6. Conversion -->
+                    <div class="glow-card p-5 rounded-2xl border border-zinc-900 bg-[#0f0f0f]/50">
+                        <div class="flex items-center justify-between text-zinc-500"><p class="text-xs font-bold uppercase tracking-wider">Conversion</p><svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2zm0 0h5a2 2 0 002-2v-3a2 2 0 00-2-2h-5m5 13a2 2 0 002-2V5a2 2 0 00-2-2h-2a2 2 0 00-2 2v14a2 2 0 002 2h2z"/></svg></div>
+                        <h2 id="conversionRate" class="text-3xl font-black mt-3 tracking-tight">0%</h2>
+                    </div>
+                </div>
 
-    <!-- STATS -->
-    <div class="grid md:grid-cols-3 gap-6 mb-10">
-
-        <div class="glow-card p-6">
-            <p class="text-zinc-500 text-sm">Total Leads</p>
-            <h3 class="text-3xl font-black mt-2">128</h3>
-        </div>
-
-        <div class="glow-card p-6">
-            <p class="text-zinc-500 text-sm">Active Projects</p>
-            <h3 class="text-3xl font-black mt-2">18</h3>
-        </div>
-
-        <div class="glow-card p-6">
-            <p class="text-zinc-500 text-sm">Conversion Rate</p>
-            <h3 class="text-3xl font-black mt-2">42%</h3>
-        </div>
-
-    </div>
-
-    <!-- CONTENT GRID -->
-    <div class="grid lg:grid-cols-3 gap-6">
-
-        <!-- LEADS TABLE -->
-        <div class="lg:col-span-2 glow-card p-6">
-
-            <h3 class="font-bold mb-6">Recent Leads</h3>
-
-            <table class="w-full text-sm">
-
-                <thead class="text-zinc-500">
-                    <tr>
-                        <th class="text-left pb-3">Name</th>
-                        <th class="text-left pb-3">Status</th>
-                        <th class="text-left pb-3">Value</th>
-                    </tr>
-                </thead>
-
-                <tbody class="space-y-2">
-
-                    <tr class="border-t border-zinc-900">
-                        <td class="py-3">Project Alpha</td>
-                        <td class="text-green-400">Qualified</td>
-                        <td>$12,000</td>
-                    </tr>
-
-                    <tr class="border-t border-zinc-900">
-                        <td class="py-3">Project Nova</td>
-                        <td class="text-blue-400">New</td>
-                        <td>$8,500</td>
-                    </tr>
-
-                    <tr class="border-t border-zinc-900">
-                        <td class="py-3">Project Vertex</td>
-                        <td class="text-yellow-400">Pending</td>
-                        <td>$15,000</td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-        <!-- ACTIVITY FEED -->
-        <div class="glow-card p-6">
-
-            <h3 class="font-bold mb-6">Activity</h3>
-
-            <div class="space-y-4 text-sm text-zinc-400">
-
-                <p>✓ New lead captured</p>
-                <p>✓ Proposal sent</p>
-                <p>✓ AI scoring updated</p>
-                <p>✓ CRM pipeline updated</p>
-                <p>✓ Client meeting scheduled</p>
-
+                <!-- ======================
+                CONTENT HUBS & OPERATIONS
+                ======================= -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- TABLE SECTION -->
+                    <div class="lg:col-span-2 glow-card rounded-3xl p-6 sm:p-8 bg-[#0f0f0f]/30 border border-zinc-900">
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h2 class="text-2xl font-bold tracking-tight">Recent Leads</h2>
+                                <p class="text-zinc-500 text-xs mt-1">Real-time pipeline assignments & statuses</p>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full min-w-[500px]">
+                                <thead>
+                                    <tr class="text-zinc-500 text-left text-xs uppercase tracking-wider border-b border-zinc-900">
+                                        <th class="pb-4 font-bold">Lead Details</th>
+                                        <th class="pb-4 font-bold">Pipeline Stage</th>
+                                        <th class="pb-4 font-bold text-right">Value Mapping</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="leadsTable" class="divide-y divide-zinc-900/40"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- ACTIVITY SECTION -->
+                    <div class="glow-card rounded-3xl p-6 sm:p-8 bg-[#0f0f0f]/30 border border-zinc-900">
+                        <div>
+                            <h2 class="text-2xl font-bold tracking-tight">Global Activity</h2>
+                            <p class="text-zinc-500 text-xs mb-6">Live operations feed across all components</p>
+                        </div>
+                        <div id="activityFeed" class="space-y-6 text-zinc-400 relative before:absolute before:inset-y-1 before:left-3.5 before:w-px before:bg-zinc-800"></div>
+                    </div>
+                </div>
             </div>
 
+                       <!-- VIEW BLOCK 2: SYSTEM GENERIC SUB-MODULE VIEW CONTAINER (With Blueprint Form Target Engine) -->
+            <div id="view_submodule" class="tab-panel-target hidden bg-[#0f0f0f]/30 border border-zinc-900 rounded-3xl p-6 sm:p-8">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-900 pb-6 mb-8">
+                    <div>
+                        <h2 id="submoduleTitle" class="text-3xl font-black tracking-tight text-white">Module Layer</h2>
+                        <p id="submoduleDesc" class="text-zinc-500 text-sm mt-1.5">Platform component settings and data architecture overview.</p>
+                    </div>
+                    <div>
+                        <span class="inline-block px-3 py-1.5 text-xs font-mono font-bold tracking-wider text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded-lg uppercase">
+                            System Engine Active
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- DYNAMIC CONTENT TARGET HOOK (The JavaScript Form Injector uses this element) -->
+                <div id="submoduleFormContainer" class="space-y-8">
+                    <!-- Form input elements or lists are dynamically injected here -->
+                </div>
+            </div>
+
+       <!-- ======================
+    AI UTILITY ASSISTANT PANEL
+    ======================= -->
+    <div class="mt-8 glow-card bg-[#0f0f0f]/30 border border-zinc-900 rounded-3xl p-6 sm:p-8">
+        
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            
+            <div class="flex items-center gap-3">
+                <span class="flex items-center justify-center w-8 h-8 rounded-xl bg-blue-500 text-black text-sm font-bold shadow-md">
+                    AI
+                </span>
+                <div>
+                    <h2 class="text-2xl font-bold tracking-tight">Forma.IT Cognitive Engine</h2>
+                    <p class="text-zinc-500 text-xs mt-0.5">Automated blog content drafting, SEO generation, summaries, and email template updates</p>
+                </div>
+            </div>
+
+            <!-- Blueprint Feature Mode Badges -->
+            <div class="flex flex-wrap gap-2">
+                <span class="text-[10px] uppercase font-bold tracking-wider bg-zinc-900 text-zinc-400 px-2.5 py-1.5 rounded-lg border border-zinc-800">SEO Optimizer</span>
+                <span class="text-[10px] uppercase font-bold tracking-wider bg-zinc-900 text-zinc-400 px-2.5 py-1.5 rounded-lg border border-zinc-800">Blog Drafter</span>
+                <span class="text-[10px] uppercase font-bold tracking-wider bg-zinc-900 text-zinc-400 px-2.5 py-1.5 rounded-lg border border-zinc-800">Email Engine</span>
+            </div>
+
+        </div>
+
+        <!-- Chat Stream Window View -->
+        <div class="bg-[#080808]/80 border border-zinc-900/60 rounded-2xl p-5 h-64 overflow-y-auto mb-5 ai-chat-scroller space-y-4">
+            <div class="flex items-start gap-3 max-w-[85%]">
+                <div class="w-6 h-6 rounded-full bg-blue-500 text-black text-[10px] font-black flex items-center justify-center flex-shrink-0">AI</div>
+                <div class="bg-zinc-900/80 border border-zinc-800/40 rounded-2xl rounded-tl-none px-4 py-3 text-sm text-zinc-300 leading-relaxed">
+                    Welcome to the Forma.IT Group Master Workspace. Prompt me here to draft blog articles, generate meta tags, summarize tickets, or write client email replies.
+                </div>
+            </div>
+        </div>
+
+        <!-- Input deck wrapper -->
+        <div class="chat-input-wrapper flex flex-col sm:flex-row gap-3">
+            <input type="text" class="flex-1 bg-[#080808] border border-zinc-800/80 rounded-xl px-5 py-3.5 outline-none text-white focus:border-blue-500 transition placeholder-zinc-600 text-sm" placeholder="Ask AI to write a blog post, build meta tags, or draft template replies...">
+            <button class="chat-send-btn bg-blue-500 hover:bg-blue-600 px-6 py-3.5 rounded-xl text-black font-black text-xs uppercase tracking-wider transition shadow-lg shadow-blue-500/10">
+                Execute
+            </button>
         </div>
 
     </div>
 
 </main>
 
+<!-- GSAP -->
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<script src="main.js"></script>
+<script>
+
+// ========================================================
+// 1. SECURE AUTHENTICATION CHECK GATE
+// ========================================================
+const token = localStorage.getItem("token");
+if (!token) {
+    window.location.href = "login.html";
+}
+
+// ========================================================
+// 2. BACKEND DATABASE SYNCHRONISATION PIPELINE
+// ========================================================
+async function loadDashboard() {
+    try {
+        // Enforce clean variable extraction right before network connection initialization
+        const currentActiveToken = localStorage.getItem("token");
+        console.log("[FRONTEND LOG] Fetching with local token signature:", currentActiveToken);
+
+        const response = await fetch("http://localhost:5000/api/leads", {
+            headers: {
+                "Authorization": `Bearer ${currentActiveToken}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to pass token validation rules");
+        }
+
+        const leads = await response.json();
+        renderDashboard(leads);
+
+        if (leads && leads.length > 0) {
+            document.getElementById("totalLeads").innerText = leads.length;
+            const qualifiedCount = leads.filter(l => (l.status || "").toLowerCase() === "qualified").length;
+            const conversion = Math.round((qualifiedCount / leads.length) * 100);
+            document.getElementById("conversionRate").innerText = `${conversion}%`;
+        }
+    } 
+    catch (err) {
+        console.warn("API Server unreachable. Starting secure sandbox fallback simulator mode.", err);
+        // Simulator metrics logic block...
+        document.getElementById("totalVisitors").innerText = "14,839";
+        document.getElementById("totalLeads").innerText = "142";
+        document.getElementById("totalEmails").innerText = "89";
+        document.getElementById("activeTickets").innerText = "7";
+        document.getElementById("totalRevenue").innerText = "$24,500";
+        document.getElementById("conversionRate").innerText = "24%";
+
+        renderDashboard([
+            { name: "Acme Corp Core System Migration", email: "info@acme.com", status: "Qualified", source: "Website" },
+            { name: "Global Logistics Cloud Deployment", email: "ops@logistics.com", status: "New", source: "Referral" }
+        ]);
+    }
+}
+
+
+// ========================================================
+// 3. RECENT LEADS PIPELINE COMPILER (DOM BUILDER)
+// ========================================================
+function renderDashboard(leads) {
+    const table = document.getElementById("leadsTable");
+    if (!table) return;
+    
+    table.innerHTML = "";
+
+    if (!leads || leads.length === 0) {
+        table.innerHTML = `<tr><td colspan="3" class="py-8 text-center text-zinc-600 text-sm">No active database records found in current session.</td></tr>`;
+        return;
+    }
+
+    leads.forEach(lead => {
+        const row = document.createElement("tr");
+        row.className = "hover:bg-zinc-900/30 transition duration-150 group border-b border-zinc-900/40";
+        
+        let statusStyle = "bg-zinc-900 text-zinc-400 border border-zinc-800";
+        const currentStatus = (lead.status || "New").toLowerCase();
+
+        if (currentStatus === "qualified" || currentStatus === "resolved") {
+            statusStyle = "bg-purple-500/10 text-purple-400 border border-purple-500/20";
+        } else if (currentStatus === "new" || currentStatus === "active") {
+            statusStyle = "bg-blue-500/10 text-blue-400 border border-blue-500/20";
+        } else if (currentStatus === "contacted" || currentStatus === "pending") {
+            statusStyle = "bg-amber-500/10 text-amber-400 border border-amber-500/20";
+        }
+
+        row.innerHTML = `
+            <td class="py-4 pr-4">
+                <div class="font-semibold text-zinc-200 group-hover:text-white transition-colors text-sm">
+                    ${lead.name || "Unnamed Operational Entry"}
+                </div>
+                <div class="text-xs text-zinc-500 mt-1 font-medium tracking-tight">
+                    ${lead.email || "-"}
+                </div>
+            </td>
+            <td class="py-4">
+                <span class="inline-block px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider rounded-lg ${statusStyle}">
+                    ${lead.status || "New"}
+                </span>
+            </td>
+            <td class="py-4 text-right text-xs font-semibold text-zinc-400 group-hover:text-white transition-colors">
+                ${lead.source || "Website"}
+            </td>
+        `;
+        table.appendChild(row);
+    });
+}
+
+// Master Dashboard UI Routing Object Mapping
+const blueprintRoutes = {
+    "dashboard": { title: "Master Operations", desc: "Forma.IT Group Engine Live Enterprise System Data" },
+    "crm & leads": { title: "CRM & Leads Management", desc: "Lead pipeline optimization, tracking states, follow-ups, and user assignments." },
+    "email center": { title: "Email Messaging Hub", desc: "Centralized inbox, newsletter templates, automated follow-ups, and auto-replies." },
+    "website content": { title: "Website Content Manager", desc: "In-line component updates for Home, About, Services, Portfolio, Team, and Careers." },
+    "services": { title: "Services Management Portfolio", desc: "Configure service layers, client contract matrices, pricing columns, and structural packages." },
+    "portfolio": { title: "Portfolio Works Showcase", desc: "Curate project case-studies, media image galleries, customer testimonials, and taxonomy definitions." },
+    "blog": { title: "Blog & Editorial Center", desc: "Publish platform posts, configure SEO scheduling meta tags, clean tags, and cross-channel streams." },
+    "seo center": { title: "Search Engine Optimization (SEO)", desc: "Manage operational meta tags, edit sitemaps, customize robots.txt files, and track real-time Search Console scores." },
+    "marketing hub": { title: "Marketing Automation Console", desc: "Launch ad campaigns, check dynamic subscribers lists, optimize landing pages, and schedule social posts." },
+    "analytics": { title: "Enterprise Analytics Metrics", desc: "Deep analytical performance breakdown across visitor country demographics, device allocations, and conversion trails." },
+    "support center": { title: "Technical Support Desk", desc: "Ticketing pipelines routing workflows, integrated live-chats, service level agreements, and client records lookup." },
+    "media library": { title: "Media Assets Vault", desc: "Consolidated media file management hosting graphic images, product streaming video clips, cloud links, and document attachments." },
+    "users & roles": { title: "Access Control & Identity", desc: "Granular permission layers routing access bounds for Super Admins, Editors, Support Agents, and Marketing Operators." },
+    "integrations": { title: "Connected Enterprise Modules", desc: "External API channel connectors linking real-time triggers across Gmail, Outlook, WhatsApp Business, and social matrices." },
+    "security center": { title: "Security Operations & Logs", desc: "System activity logs tracking, 2FA validation configurations, secure database backups, and network IP boundary lockdowns." },
+    "company settings": { title: "Company Profile Configurations", desc: "Primary brand variables editing portal adjusting active logos, core SMTP routing pipelines, target domains, and legal compliance pages." },
+    "ai assistant": { title: "Forma.IT Artificial Intelligence Desk", desc: "Automated content generation tools writing drafts, distilling data insights, and optimizing copy metrics." },
+    "activity logs": { title: "Global Audit Tracking Stream", desc: "Immutable structural log recording timeline tracks tracking every operational step made across dashboard channels." }
+};
+
+/// ========================================================
+// 1. GLOBAL BLUEPRINT DESIGN SCHEMAS STORAGE
+// ========================================================
+const moduleFormSchemas = {
+    "email center": `
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="md:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Active Email Inbox Stream</label>
+                <div class="divide-y divide-zinc-900 border border-zinc-900 rounded-2xl bg-[#080808]/50 overflow-hidden">
+                    <div class="p-4 flex justify-between items-center bg-zinc-900/20 hover:bg-zinc-900/40 transition">
+                        <div class="space-y-1">
+                            <p class="text-sm font-bold text-zinc-200">Support Request: Domain Mapping</p>
+                            <p class="text-xs text-zinc-500">From: operations@client.com • 12 mins ago</p>
+                        </div>
+                        <span class="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider bg-blue-500/10 text-blue-400 rounded-md">New</span>
+                    </div>
+                    <div class="p-4 flex justify-between items-center hover:bg-zinc-900/40 transition">
+                        <div class="space-y-1">
+                            <p class="text-sm font-bold text-zinc-400">Newsletter Template Approved</p>
+                            <p class="text-xs text-zinc-600">From: marketing@forma.it • 2 hours ago</p>
+                        </div>
+                        <span class="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider bg-zinc-900 text-zinc-500 rounded-md">Read</span>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Configure Quick Auto-Reply</label>
+                <div class="space-y-3 bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5">
+                    <input type="text" class="w-full bg-[#080808] border border-zinc-800 rounded-xl px-4 py-3 text-sm outline-none text-white focus:border-blue-500 transition" placeholder="Template Trigger Tag...">
+                    <textarea class="w-full h-24 bg-[#080808] border border-zinc-800 rounded-xl p-4 text-sm outline-none text-white focus:border-blue-500 transition resize-none" placeholder="Write default email reply draft copy..."></textarea>
+                    <button class="w-full py-3 bg-blue-500 text-black font-black text-xs uppercase tracking-wider rounded-xl hover:bg-blue-600 transition">Save Template</button>
+                </div>
+            </div>
+        </div>
+    `,
+    "website content": `
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Hero Section Content Configuration</label>
+                <div class="space-y-4 bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5">
+                    <div><span class="text-xs text-zinc-400 block mb-2 font-medium">Platform Title Accent Text</span><input type="text" class="w-full bg-[#080808] border border-zinc-800 rounded-xl px-4 py-3 text-sm outline-none text-white" value="forma.IT Group"></div>
+                    <div><span class="text-xs text-zinc-400 block mb-2 font-medium">Subheading Slogan</span><input type="text" class="w-full bg-[#080808] border border-zinc-800 rounded-xl px-4 py-3 text-sm outline-none text-white" value="Next-Gen Architecture Infrastructure Core"></div>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Structural Workspace Status</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="p-4 rounded-xl bg-zinc-900/30 border border-zinc-900 text-center"><p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">Home Component</p><p class="text-sm font-black text-emerald-400 mt-1">Live</p></div>
+                    <div class="p-4 rounded-xl bg-zinc-900/30 border border-zinc-900 text-center"><p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">Portfolio Page</p><p class="text-sm font-black text-emerald-400 mt-1">Live</p></div>
+                    <div class="p-4 rounded-xl bg-zinc-900/30 border border-zinc-900 text-center"><p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">Careers Track</p><p class="text-sm font-black text-amber-400 mt-1">Drafting</p></div>
+                    <div class="p-4 rounded-xl bg-zinc-900/30 border border-zinc-900 text-center"><p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">FAQs Matrix</p><p class="text-sm font-black text-emerald-400 mt-1">Live</p></div>
+                </div>
+                <button class="w-full py-4 bg-zinc-900 border border-zinc-800 text-white font-black text-xs uppercase tracking-wider rounded-xl hover:bg-zinc-800 transition">Publish Live Target Deployment</button>
+            </div>
+        </div>
+    `,
+    "seo center": `
+        <div class="space-y-6">
+            <div class="grid md:grid-cols-4 gap-4">
+                <div class="p-5 rounded-2xl bg-[#080808]/50 border border-zinc-900"><p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">SEO Global Score</p><p class="text-3xl font-black text-emerald-400 mt-2">94/100</p></div>
+                <div class="p-5 rounded-2xl bg-[#080808]/50 border border-zinc-900"><p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">Indexed Nodes</p><p class="text-3xl font-black text-white mt-2">412</p></div>
+                <div class="p-5 rounded-2xl bg-[#080808]/50 border border-zinc-900"><p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">Crawl Health Rate</p><p class="text-3xl font-black text-blue-400 mt-2">100%</p></div>
+                <div class="p-5 rounded-2xl bg-[#080808]/50 border border-zinc-900"><p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">Search Console</p><p class="text-3xl font-black text-emerald-400 mt-2">Healthy</p></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="md:col-span-2 space-y-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-zinc-500 block">Edit robots.txt Configuration File</span>
+                    <textarea class="w-full h-32 bg-[#080808] border border-zinc-800 rounded-xl p-4 text-xs font-mono text-zinc-400 outline-none focus:border-blue-500 transition resize-none">User-agent: *\nDisallow: /admin/\nDisallow: /api/\nSitemap: https://forma.it</textarea>
+                </div>
+                <div class="space-y-3 flex flex-col justify-end">
+                    <button class="w-full py-3.5 bg-blue-500 text-black font-black text-xs uppercase tracking-wider rounded-xl hover:bg-blue-600 transition">Update robots.txt</button>
+                    <button class="w-full py-3.5 bg-zinc-900 border border-zinc-800 text-zinc-400 font-black text-xs uppercase tracking-wider rounded-xl hover:bg-zinc-800 transition">Re-generate sitemap.xml</button>
+                </div>
+            </div>
+        </div>
+    `,
+    "portfolio": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Active Production Project Register</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-5 border border-zinc-900 bg-[#080808]/50 rounded-2xl space-y-4 hover:border-zinc-800 transition duration-150">
+                        <div class="flex justify-between items-start">
+                            <div class="space-y-1">
+                                <h3 class="text-sm font-bold text-zinc-200">Enterprise Digital Portal</h3>
+                                <p class="text-xs text-zinc-500">Client: Global Logistics S.A.</p>
+                            </div>
+                            <span class="px-2 py-0.5 text-[9px] font-black tracking-widest uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">Published</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-[10px] text-zinc-400 font-semibold">
+                            <span class="bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-md">React Core</span>
+                            <span class="bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-md">Tailwind UI</span>
+                        </div>
+                    </div>
+                    <div class="p-5 border border-zinc-900 bg-[#080808]/50 rounded-2xl space-y-4 hover:border-zinc-800 transition duration-150">
+                        <div class="flex justify-between items-start">
+                            <div class="space-y-1">
+                                <h3 class="text-sm font-bold text-zinc-300">Crypto Liquidity Interface</h3>
+                                <p class="text-xs text-zinc-500">Client: Nexus Ventures</p>
+                            </div>
+                            <span class="px-2 py-0.5 text-[9px] font-black tracking-widest uppercase bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded">In Review</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-[10px] text-zinc-400 font-semibold">
+                            <span class="bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-md">Node.js</span>
+                            <span class="bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-md">GraphQL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Vault Upload Deck</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                    <div class="border border-dashed border-zinc-800 rounded-xl p-6 text-center hover:bg-zinc-950/40 transition cursor-pointer">
+                        <svg class="w-6 h-6 mx-auto text-zinc-600 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                        <p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">Upload New Showcase Asset</p>
+                    </div>
+                    <button class="w-full py-3.5 bg-blue-500 text-black font-black text-xs uppercase tracking-wider rounded-xl hover:bg-blue-600 transition">Compile Testimonial Matrices</button>
+                </div>
+            </div>
+        </div>
+    `,
+    "analytics": `
+        <div class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-5 rounded-2xl bg-[#080808]/50 border border-zinc-900"><p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">Avg Session Duration</p><p class="text-2xl font-black text-white mt-2">2m 44s</p></div>
+                <div class="p-5 rounded-2xl bg-[#080808]/50 border border-zinc-900"><p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">Bounce Rate</p><p class="text-2xl font-black text-zinc-400 mt-2">38.2%</p></div>
+                <div class="p-5 rounded-2xl bg-[#080808]/50 border border-zinc-900"><p class="text-xs text-zinc-500 font-bold uppercase tracking-wider">Pages Per Session</p><p class="text-2xl font-black text-blue-400 mt-2">4.12</p></div>
+            </div>
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                <div class="xl:col-span-2 space-y-3">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Top Audience Country Demographics</label>
+                    <div class="border border-zinc-900 bg-[#080808]/50 rounded-2xl p-5 overflow-hidden">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="text-zinc-500 uppercase font-bold border-b border-zinc-900/60"><th class="pb-3">Country</th><th class="pb-3 text-right">Sessions</th><th class="pb-3 text-right">Conversion Rate</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-900/40 font-medium">
+                                <tr class="text-zinc-300"><td class="py-3">United States</td><td class="text-right text-zinc-400">5,432</td><td class="text-right text-emerald-400 font-bold">4.2%</td></tr>
+                                <tr class="text-zinc-300"><td class="py-3">United Kingdom</td><td class="text-right text-zinc-400">2,811</td><td class="text-right text-emerald-400 font-bold">3.8%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Device Shares Allocation</label>
+                    <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold"><span class="text-zinc-400">Desktop / Laptop</span><span class="text-zinc-300">62%</span></div>
+                            <div class="w-full bg-zinc-900 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width: 62%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `,
+    "support center": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Active Incident Tickets Queue</label>
+                <div class="divide-y divide-zinc-900/60 border border-zinc-900 bg-[#080808]/50 rounded-2xl overflow-hidden">
+                    <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-zinc-900/30 transition duration-150">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-sm font-bold text-zinc-200">#TK-1084: OAuth 2.0 Auth Callback Failure</span>
+                                <span class="px-2 py-0.5 text-[9px] font-black tracking-widest uppercase bg-red-500/10 text-red-400 border border-red-500/20 rounded">Critical</span>
+                            </div>
+                            <p class="text-xs text-zinc-500 font-medium">Customer: Zenith Digital Group LLC • Assigned: Support Tier-2</p>
+                        </div>
+                        <span class="self-start sm:self-center px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 rounded-lg border border-amber-500/20">Pending</span>
+                    </div>
+                    <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-zinc-900/30 transition duration-150">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-sm font-bold text-zinc-300">#TK-1083: WhatsApp API Webhook Delay</span>
+                                <span class="px-2 py-0.5 text-[9px] font-black tracking-widest uppercase bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded">High</span>
+                            </div>
+                            <p class="text-xs text-zinc-500 font-medium">Customer: Alpha Core Logistics • Assigned: Engineering Dev</p>
+                        </div>
+                        <span class="self-start sm:self-center px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-blue-500/10 text-blue-400 rounded-lg border border-blue-500/20">Active</span>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Internal Ticket Diagnostics</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900"><span class="text-zinc-500">Unassigned Backlog</span><span class="font-mono font-bold text-zinc-300">3 Tickets</span></div>
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900"><span class="text-zinc-500">Avg First-Response Time</span><span class="font-mono font-bold text-emerald-400">4.2 Mins</span></div>
+                    <button class="w-full py-3 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 text-xs font-bold uppercase tracking-wider rounded-xl transition">Open Support Desk Panel</button>
+                </div>
+            </div>
+        </div>
+    `,
+        "marketing hub": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Left Side: Live Campaigns Monitor Grid -->
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Active Marketing Campaigns</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <!-- Campaign Item 1 -->
+                    <div class="p-5 border border-zinc-900 bg-[#080808]/50 rounded-2xl space-y-4 hover:border-zinc-800 transition duration-150">
+                        <div class="flex justify-between items-start">
+                            <div class="space-y-1">
+                                <h3 class="text-sm font-bold text-zinc-200">Q2 Enterprise Growth Ad</h3>
+                                <p class="text-xs text-zinc-500">Channel: Google Ads PPC</p>
+                            </div>
+                            <span class="px-2 py-0.5 text-[9px] font-black tracking-widest uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">Running</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs font-semibold text-zinc-400">
+                            <div><p class="text-[10px] uppercase text-zinc-600 font-bold">Impressions</p><p class="text-sm font-mono font-bold text-zinc-300">42.8k</p></div>
+                            <div><p class="text-[10px] uppercase text-zinc-600 font-bold">CTR Rate</p><p class="text-sm font-mono font-bold text-blue-400">3.4%</p></div>
+                        </div>
+                    </div>
+
+                    <!-- Campaign Item 2 -->
+                    <div class="p-5 border border-zinc-900 bg-[#080808]/50 rounded-2xl space-y-4 hover:border-zinc-800 transition duration-150">
+                        <div class="flex justify-between items-start">
+                            <div class="space-y-1">
+                                <h3 class="text-sm font-bold text-zinc-300">Tech Newsletter Blast</h3>
+                                <p class="text-xs text-zinc-500">Channel: Internal Email Hub</p>
+                            </div>
+                            <span class="px-2 py-0.5 text-[9px] font-black tracking-widest uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded">Scheduled</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-xs font-semibold text-zinc-400">
+                            <div><p class="text-[10px] uppercase text-zinc-600 font-bold">Audience</p><p class="text-sm font-mono font-bold text-zinc-300">12.4k users</p></div>
+                            <div><p class="text-[10px] uppercase text-zinc-600 font-bold">Target Date</p><p class="text-sm font-mono font-bold text-purple-400">June 18</p></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: Subscriber Funnel Operations -->
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Funnel Snapshots</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Total Active Subscribers</span>
+                        <span class="font-mono font-bold text-zinc-300">4,812</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Live Landing Pages</span>
+                        <span class="font-mono font-bold text-blue-400">4 Active</span>
+                    </div>
+                    
+                    <button class="w-full py-3 bg-blue-500 hover:bg-blue-600 text-black text-xs font-bold uppercase tracking-wider rounded-xl transition shadow-lg shadow-blue-500/10">
+                        Create New Campaign Track
+                    </button>
+                </div>
+            </div>
+        </div>
+    `,
+    "media library": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Left Side: Interactive File Storage Explorer Grid Matrix -->
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Cloud Storage Repository Items</label>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    
+                    <!-- File Block 1: Image Asset Component -->
+                    <div class="p-4 border border-zinc-900 bg-[#080808]/60 rounded-2xl space-y-3 hover:border-zinc-800 transition group cursor-pointer">
+                        <div class="aspect-video bg-zinc-900/60 rounded-xl flex items-center justify-center border border-zinc-900/80 relative overflow-hidden">
+                            <span class="text-zinc-600 text-xs font-mono group-hover:text-blue-500 transition font-bold uppercase tracking-widest">IMG-Vault</span>
+                        </div>
+                        <div class="space-y-0.5">
+                            <p class="text-xs font-bold text-zinc-300 truncate">hero-background.png</p>
+                            <p class="text-[10px] text-zinc-500 font-medium">PNG Image • 4.2 MB</p>
+                        </div>
+                    </div>
+
+                    <!-- File Block 2: PDF Document Component -->
+                    <div class="p-4 border border-zinc-900 bg-[#080808]/60 rounded-2xl space-y-3 hover:border-zinc-800 transition group cursor-pointer">
+                        <div class="aspect-video bg-zinc-900/60 rounded-xl flex items-center justify-center border border-zinc-900/80">
+                            <span class="text-zinc-600 text-xs font-mono group-hover:text-red-500 transition font-bold uppercase tracking-widest">PDF-Doc</span>
+                        </div>
+                        <div class="space-y-0.5">
+                            <p class="text-xs font-bold text-zinc-300 truncate">client-contract-v4.pdf</p>
+                            <p class="text-[10px] text-zinc-500 font-medium">PDF Document • 1.8 MB</p>
+                        </div>
+                    </div>
+
+                    <!-- File Block 3: Video Streaming Component -->
+                    <div class="p-4 border border-zinc-900 bg-[#080808]/60 rounded-2xl space-y-3 hover:border-zinc-800 transition group cursor-pointer">
+                        <div class="aspect-video bg-zinc-900/60 rounded-xl flex items-center justify-center border border-zinc-900/80">
+                            <span class="text-zinc-600 text-xs font-mono group-hover:text-purple-500 transition font-bold uppercase tracking-widest">MP4-Clip</span>
+                        </div>
+                        <div class="space-y-0.5">
+                            <p class="text-xs font-bold text-zinc-300 truncate">service-promo.mp4</p>
+                            <p class="text-[10px] text-zinc-500 font-medium">MP4 Video • 18.4 MB</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: Cloud Integrations & Storage Space Analytics Metrics -->
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Storage Optimization Hub</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-5">
+                    
+                    <!-- Space Usage Stat -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs font-bold"><span class="text-zinc-500 uppercase tracking-wider">Cloud Storage Used</span><span class="text-zinc-300 font-mono">24.5 GB / 100 GB</span></div>
+                        <div class="w-full bg-zinc-900 border border-zinc-900/40 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width: 24.5%"></div></div>
+                    </div>
+
+                    <!-- Connected Cloud Platform Indicators -->
+                    <div class="space-y-2 pt-3 border-t border-zinc-900 flex justify-between items-center text-xs font-semibold">
+                        <span class="text-zinc-500">AWS S3 Infrastructure Link</span>
+                        <span class="px-2 py-0.5 text-[9px] tracking-widest uppercase font-black bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">Online</span>
+                    </div>
+
+                    <button class="w-full py-3.5 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 text-xs font-bold uppercase tracking-wider rounded-xl transition">
+                        Sync CDN File Assets
+                    </button>
+                </div>
+            </div>
+        </div>
+    `,
+    "company settings": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Left Side: Core SMTP & Domain Configuration Forms -->
+            <div class="xl:col-span-2 space-y-6">
+                <!-- Segment A: Network & Domain Settings -->
+                <div class="p-6 border border-zinc-900 bg-[#080808]/50 rounded-2xl space-y-4">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400">Enterprise Domain Setup</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <span class="text-[11px] text-zinc-500 block mb-2 font-bold uppercase tracking-wide">Target Production Domain</span>
+                            <input type="text" class="w-full bg-[#080808] border border-zinc-800 rounded-xl px-4 py-3 text-sm outline-none text-white focus:border-blue-500 transition font-mono" value="https://forma.it">
+                        </div>
+                        <div>
+                            <span class="text-[11px] text-zinc-500 block mb-2 font-bold uppercase tracking-wide">System Admin Email Link</span>
+                            <input type="email" class="w-full bg-[#080808] border border-zinc-800 rounded-xl px-4 py-3 text-sm outline-none text-white focus:border-blue-500 transition" value="admin@forma.it">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Segment B: Secure SMTP Mailer Config -->
+                <div class="p-6 border border-zinc-900 bg-[#080808]/50 rounded-2xl space-y-4">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400">SMTP Transactional Email Gateway</label>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="md:col-span-2">
+                            <span class="text-[11px] text-zinc-500 block mb-2 font-bold uppercase tracking-wide">SMTP Outbound Server Host</span>
+                            <input type="text" class="w-full bg-[#080808] border border-zinc-800 rounded-xl px-4 py-3 text-sm outline-none text-white focus:border-blue-500 transition font-mono" value="smtp.mailgun.org">
+                        </div>
+                        <div>
+                            <span class="text-[11px] text-zinc-500 block mb-2 font-bold uppercase tracking-wide">Secure Server Port</span>
+                            <input type="text" class="w-full bg-[#080808] border border-zinc-800 rounded-xl px-4 py-3 text-sm outline-none text-white focus:border-blue-500 transition font-mono" value="587">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Logo Branding & Legal Controls Deck -->
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Brand Identity Assets</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-5">
+                    
+                    <!-- Interactive Logo Preview Block -->
+                    <div class="space-y-2">
+                        <span class="text-[11px] text-zinc-500 block font-bold uppercase tracking-wide">Platform Logo Branding</span>
+                        <div class="border border-zinc-900 bg-[#080808] rounded-xl p-4 flex items-center justify-between">
+                            <span class="text-lg font-black tracking-tight text-white">forma<span class="text-blue-500">.IT</span></span>
+                            <button class="px-3 py-1.5 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-lg text-[10px] font-bold uppercase tracking-wider text-zinc-400 transition">Replace Asset</button>
+                        </div>
+                    </div>
+
+                    <!-- Legal Compliance Checklist Indicator -->
+                    <div class="pt-4 border-t border-zinc-900 space-y-2">
+                        <span class="text-[11px] text-zinc-500 block font-bold uppercase tracking-wide">Compliance Mapping Pages</span>
+                        <div class="flex justify-between items-center text-xs font-semibold">
+                            <span class="text-zinc-400">Privacy Policy Matrix</span>
+                            <span class="px-2 py-0.5 text-[9px] font-black uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">Configured</span>
+                        </div>
+                    </div>
+
+                    <button class="w-full mt-2 py-3.5 bg-blue-500 hover:bg-blue-600 text-black text-xs font-black uppercase tracking-wider rounded-xl transition shadow-lg shadow-blue-500/10">
+                        Save System Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    `,
+    "users & roles": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Left Side: Active Platform User Registry Grid -->
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Authorized Platform Operators</label>
+                <div class="divide-y divide-zinc-900 border border-zinc-900 bg-[#080808]/50 rounded-2xl overflow-hidden">
+                    
+                    <!-- User Account Entry 1 -->
+                    <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-zinc-900/30 transition duration-150">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-sm font-bold text-zinc-200">Alex Mercer</span>
+                                <span class="px-2 py-0.5 text-[9px] font-black tracking-widest uppercase bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded">Super Admin</span>
+                            </div>
+                            <p class="text-xs text-zinc-500 font-medium">Email: m.alex@forma.it • Active Session: Secure Dev Network</p>
+                        </div>
+                        <span class="self-start sm:self-center px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 rounded-lg border border-emerald-500/20">Active</span>
+                    </div>
+
+                    <!-- User Account Entry 2 -->
+                    <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-zinc-900/30 transition duration-150">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-sm font-bold text-zinc-300">Sarah Jenkins</span>
+                                <span class="px-2 py-0.5 text-[9px] font-black tracking-widest uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded">Marketing</span>
+                            </div>
+                            <p class="text-xs text-zinc-500 font-medium">Email: s.jenkins@forma.it • Active Session: Remote Core</p>
+                        </div>
+                        <span class="self-start sm:self-center px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 rounded-lg border border-emerald-500/20">Active</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: Security Provisioning Controls Deck -->
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Identity Provisioning</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Total Registered Seats</span>
+                        <span class="font-mono font-bold text-zinc-300">5 Operators</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Pending Invitations</span>
+                        <span class="font-mono font-bold text-amber-400">1 Seat</span>
+                    </div>
+                    
+                    <button class="w-full py-3.5 bg-blue-500 hover:bg-blue-600 text-black text-xs font-bold uppercase tracking-wider rounded-xl transition shadow-lg shadow-blue-500/10">
+                        Provision New Seat Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    `,
+    "integrations": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Left Side: Active External API Gateway Channels -->
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Connected System Integrations</label>
+                <div class="divide-y divide-zinc-900 border border-zinc-900 bg-[#080808]/50 rounded-2xl overflow-hidden">
+                    
+                    <!-- Integration Row 1: Google Suite -->
+                    <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-zinc-900/20 transition duration-150">
+                        <div class="space-y-1">
+                            <h3 class="text-sm font-bold text-zinc-200">Gmail & Analytics Enterprise Pipeline</h3>
+                            <p class="text-xs text-zinc-500 font-medium">Scope: Lead capture inbox reading, campaign tracking matrices sync</p>
+                        </div>
+                        <span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-lg">Connected</span>
+                    </div>
+
+                    <!-- Integration Row 2: WhatsApp CRM API -->
+                    <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-zinc-900/20 transition duration-150">
+                        <div class="space-y-1">
+                            <h3 class="text-sm font-bold text-zinc-300">WhatsApp Business CRM Webhook</h3>
+                            <p class="text-xs text-zinc-500 font-medium">Scope: Real-time notification automated alert template delivery</p>
+                        </div>
+                        <span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-lg">Connected</span>
+                    </div>
+
+                    <!-- Integration Row 3: Outlook Mail Sync -->
+                    <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-zinc-900/20 transition duration-150">
+                        <div class="space-y-1">
+                            <h3 class="text-sm font-bold text-zinc-400">Microsoft Outlook Workspace Sync</h3>
+                            <p class="text-xs text-zinc-600 font-medium">Scope: Offline backup data delivery and system logging</p>
+                        </div>
+                        <span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-zinc-950 text-zinc-500 border border-zinc-900 rounded-lg">Offline</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: Connected Sync Analytics Operations -->
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">API Access Key Deck</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Total API Webhooks Running</span>
+                        <span class="font-mono font-bold text-zinc-300">12 Routes</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">System Sync Error Rate</span>
+                        <span class="font-mono font-bold text-emerald-400">0.00%</span>
+                    </div>
+                    
+                    <button class="w-full py-3.5 bg-blue-500 hover:bg-blue-600 text-black text-xs font-bold uppercase tracking-wider rounded-xl transition shadow-lg shadow-blue-500/10">
+                        Authenticate New API Route
+                    </button>
+                </div>
+            </div>
+        </div>
+    `,
+    "activity logs": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Left Side: Chronological Platform Audit Stream -->
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Global System Event Registry</label>
+                <div class="p-6 border border-zinc-900 bg-[#080808]/50 rounded-2xl space-y-6 relative before:absolute before:inset-y-8 before:left-9 before:w-px before:bg-zinc-800">
+                    
+                    <!-- Timeline Log Node 1 -->
+                    <div class="relative pl-10 group">
+                        <span class="absolute left-1 top-1.5 w-3 h-3 rounded-full bg-blue-500 border-4 border-[#080808] ring-1 ring-blue-500/50 group-hover:scale-125 transition"></span>
+                        <div class="space-y-1 font-mono text-xs">
+                            <div class="flex items-center gap-3">
+                                <p class="text-zinc-200 font-bold">[CRM] Lead data compilation sync successfully finalized</p>
+                                <span class="text-[10px] text-zinc-600">00:43 UTC</span>
+                            </div>
+                            <p class="text-zinc-500 text-[11px]">System dynamically recalculated total values and conversion metrics across 142 pipeline slots.</p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Log Node 2 -->
+                    <div class="relative pl-10 group">
+                        <span class="absolute left-1 top-1.5 w-3 h-3 rounded-full bg-purple-500 border-4 border-[#080808] ring-1 ring-purple-500/50 group-hover:scale-125 transition"></span>
+                        <div class="space-y-1 font-mono text-xs">
+                            <div class="flex items-center gap-3">
+                                <p class="text-zinc-300 font-bold">[AUTH] Secondary verification token provisioned for user seat</p>
+                                <span class="text-[10px] text-zinc-600">00:12 UTC</span>
+                            </div>
+                            <p class="text-zinc-500 text-[11px]">Account ID: s.jenkins@forma.it updated credentials profiles under Remote Core network node access.</p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Log Node 3 -->
+                    <div class="relative pl-10 group">
+                        <span class="absolute left-1 top-1.5 w-3 h-3 rounded-full bg-red-500 border-4 border-[#080808] ring-1 ring-red-500/50 group-hover:scale-125 transition"></span>
+                        <div class="space-y-1 font-mono text-xs">
+                            <div class="flex items-center gap-3">
+                                <p class="text-red-400 font-bold">[SEC] Dynamic firewall block triggered on boundary gateway</p>
+                                <span class="text-[10px] text-zinc-600">Yesterday</span>
+                            </div>
+                            <p class="text-zinc-600 text-[11px]">Malicious package signature sequence matched from external IP: 198.51.100.42. Boundary dropped route flags.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: Audit Export Filters -->
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Audit Desk Operations</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Total Monitored Events</span>
+                        <span class="font-mono font-bold text-zinc-300">1,428 Logs</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Security Clearance Level</span>
+                        <span class="font-mono font-bold text-blue-400">Level-3 Read/Write</span>
+                    </div>
+                    
+                    <button class="w-full py-3 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 text-xs font-bold uppercase tracking-wider rounded-xl transition">
+                        Export Immutable Audit CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+    `,
+    "services": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Left Side: Active Services Tiers Registry -->
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Configured Service Offerings</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <!-- Service Card 1 -->
+                    <div class="p-5 border border-zinc-900 bg-[#080808]/50 rounded-2xl space-y-4 hover:border-zinc-800 transition duration-150">
+                        <div class="flex justify-between items-start">
+                            <div class="space-y-1">
+                                <h3 class="text-sm font-bold text-zinc-200">Cloud Core Infrastructure</h3>
+                                <p class="text-xs text-zinc-500">Tier: Enterprise Managed</p>
+                            </div>
+                            <span class="px-2 py-0.5 text-[9px] font-black tracking-widest uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">Featured</span>
+                        </div>
+                        <div class="flex justify-between items-baseline font-sans">
+                            <span class="text-xs text-zinc-500 font-medium">Monthly Contract</span>
+                            <span class="text-2xl font-black text-white">$4,500<span class="text-xs font-medium text-zinc-600">/mo</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Service Card 2 -->
+                    <div class="p-5 border border-zinc-900 bg-[#080808]/50 rounded-2xl space-y-4 hover:border-zinc-800 transition duration-150">
+                        <div class="flex justify-between items-start">
+                            <div class="space-y-1">
+                                <h3 class="text-sm font-bold text-zinc-300">Custom Dev API Sandbox</h3>
+                                <p class="text-xs text-zinc-500">Tier: Pro Integrations</p>
+                            </div>
+                            <span class="px-2 py-0.5 text-[9px] font-black tracking-widest uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded">Active</span>
+                        </div>
+                        <div class="flex justify-between items-baseline font-sans">
+                            <span class="text-xs text-zinc-500 font-medium">Monthly Contract</span>
+                            <span class="text-2xl font-black text-white">$2,200<span class="text-xs font-medium text-zinc-600">/mo</span></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: Pricing Strategy & Deployment Deck -->
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Service Matrices</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Total Active Service Tiers</span>
+                        <span class="font-mono font-bold text-zinc-300">6 Tiers</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Global Pricing Matrix</span>
+                        <span class="font-mono font-bold text-emerald-400">USD Stable</span>
+                    </div>
+                    
+                    <button class="w-full py-3.5 bg-blue-500 hover:bg-blue-600 text-black text-xs font-bold uppercase tracking-wider rounded-xl transition shadow-lg shadow-blue-500/10">
+                        Configure New Service Tier
+                    </button>
+                </div>
+            </div>
+        </div>
+    `,
+    "blog": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Left Side: Editorial Articles Post Register -->
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Editorial Content Registry</label>
+                <div class="divide-y divide-zinc-900 border border-zinc-900 bg-[#080808]/50 rounded-2xl overflow-hidden">
+                    
+                    <!-- Blog Post Entry 1 -->
+                    <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-zinc-900/20 transition duration-150">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2.5">
+                                <h3 class="text-sm font-bold text-zinc-200">Scaling Architecture with Next-Gen CRM Tools</h3>
+                                <span class="px-2 py-0.5 text-[9px] font-black tracking-widest uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">Published</span>
+                            </div>
+                            <p class="text-xs text-zinc-500 font-medium">Category: Enterprise Tech • Tags: CRM, Scalability • SEO Score: 94%</p>
+                        </div>
+                        <span class="text-[11px] font-mono text-zinc-500 font-semibold self-start sm:self-center">June 12, 2026</span>
+                    </div>
+
+                    <!-- Blog Post Entry 2 -->
+                    <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-zinc-900/20 transition duration-150">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2.5">
+                                <h3 class="text-sm font-bold text-zinc-300">Optimizing Outbound SMTP Gateways Safely</h3>
+                                <span class="px-2 py-0.5 text-[9px] font-black tracking-widest uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded">Scheduled</span>
+                            </div>
+                            <p class="text-xs text-zinc-500 font-medium">Category: Core Infrastructure • Tags: Email, SMTP • SEO Score: 88%</p>
+                        </div>
+                        <span class="text-[11px] font-mono text-blue-400 font-bold self-start sm:self-center">June 18, 2026</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: Editorial Actions and Metadata Engine -->
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Publisher Controls</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Total Live Articles</span>
+                        <span class="font-mono font-bold text-zinc-300">24 Posts</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Categories Monitored</span>
+                        <span class="font-mono font-bold text-zinc-300">5 Themes</span>
+                    </div>
+                    
+                    <button class="w-full py-3.5 bg-blue-500 hover:bg-blue-600 text-black text-xs font-bold uppercase tracking-wider rounded-xl transition shadow-lg shadow-blue-500/10">
+                        Draft New Article
+                    </button>
+                </div>
+            </div>
+        </div>
+    `,
+    "ai assistant": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Left Side: AI Cognitive Track & Generation Logs -->
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Automated Automation Track Logs</label>
+                <div class="divide-y divide-zinc-900 border border-zinc-900 bg-[#080808]/50 rounded-2xl overflow-hidden font-mono text-xs">
+                    
+                    <!-- AI Log row 1 -->
+                    <div class="p-4 flex justify-between items-center bg-zinc-900/10 hover:bg-zinc-900/30 transition">
+                        <div class="space-y-1">
+                            <p class="text-zinc-200 font-bold">[GENERATION] Editorial Blog Draft finalized</p>
+                            <p class="text-zinc-500 text-[11px]">Tokens: 1,420 • Subject: Next-Gen CRM Scaling Systems • 12m ago</p>
+                        </div>
+                        <span class="px-2 py-0.5 text-[10px] font-black uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">Success</span>
+                    </div>
+
+                    <!-- AI Log row 2 -->
+                    <div class="p-4 flex justify-between items-center hover:bg-zinc-900/30 transition">
+                        <div class="space-y-1">
+                            <p class="text-zinc-300">[SEO] Auto-injected Meta Title & Descriptions</p>
+                            <p class="text-zinc-600 text-[11px]">Target: services-portfolio.html Schema Optimization Track • 1h ago</p>
+                        </div>
+                        <span class="px-2 py-0.5 text-[10px] font-black uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded">Injected</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: Model Stats & Prompt Weights Deck -->
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Model Optimization Parameters</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Cognitive Prompt Queue</span>
+                        <span class="font-mono font-bold text-zinc-300">0 Pending Tasks</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Avg Content Response Time</span>
+                        <span class="font-mono font-bold text-emerald-400">1.8 Seconds</span>
+                    </div>
+                    
+                    <button class="w-full py-3.5 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-400 text-xs font-bold uppercase tracking-wider rounded-xl transition">
+                        Purge Automation Context Cache
+                    </button>
+                </div>
+            </div>
+        </div>
+    `,
+    "crm & leads": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Left Side: Comprehensive Leads Pipeline Register -->
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Active Deals & Pipelines</label>
+                <div class="divide-y divide-zinc-900 border border-zinc-900 bg-[#080808]/50 rounded-2xl overflow-hidden">
+                    
+                    <!-- Lead 1 -->
+                    <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-zinc-900/20 transition duration-150">
+                        <div class="space-y-1">
+                            <h3 class="text-sm font-bold text-zinc-200">Quantum Labs Cloud Migration</h3>
+                            <p class="text-xs text-zinc-500 font-medium">Assigned: Alex Mercer • Next Follow-Up: Today (June 14)</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-lg">Qualified</span>
+                            <span class="text-sm font-mono font-bold text-zinc-300">$8,900</span>
+                        </div>
+                    </div>
+
+                    <!-- Lead 2 -->
+                    <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-zinc-900/20 transition duration-150">
+                        <div class="space-y-1">
+                            <h3 class="text-sm font-bold text-zinc-300">Zenith Global Portal Redesign</h3>
+                            <p class="text-xs text-zinc-500 font-medium">Assigned: Sarah Jenkins • Next Follow-Up: June 16</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-lg">Contacted</span>
+                            <span class="text-sm font-mono font-bold text-zinc-300">$1,200</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: Pipeline Health Metrics Deck -->
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Pipeline Analytics</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Total Deals in Pipeline</span>
+                        <span class="font-mono font-bold text-zinc-300">$45,600 Vol</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Pending Actions</span>
+                        <span class="font-mono font-bold text-amber-400">2 Follow-Ups</span>
+                    </div>
+                    
+                    <button class="w-full py-3.5 bg-blue-500 hover:bg-blue-600 text-black text-xs font-bold uppercase tracking-wider rounded-xl transition shadow-lg shadow-blue-500/10">
+                        Add New Deal Entry
+                    </button>
+                </div>
+            </div>
+        </div>
+    `,
+    "website content": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Left Side: In-Line Component Editor Matrix -->
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Live Component Blocks Registry</label>
+                <div class="space-y-4">
+                    
+                    <!-- Component Block A: Home Hero Segment -->
+                    <div class="p-5 border border-zinc-900 bg-[#080808]/50 rounded-2xl space-y-4">
+                        <div class="flex justify-between items-center pb-2 border-b border-zinc-900/60">
+                            <h3 class="text-sm font-bold text-zinc-200">Home Page - Hero Screen Configuration</h3>
+                            <span class="px-2 py-0.5 text-[9px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">Live</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <span class="text-[10px] text-zinc-500 block mb-2 font-bold uppercase tracking-wide">Headline Title Focus</span>
+                                <input type="text" class="w-full bg-[#080808] border border-zinc-800 rounded-xl px-4 py-2.5 text-xs outline-none text-white focus:border-blue-500 transition" value="forma.IT Group">
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-zinc-500 block mb-2 font-bold uppercase tracking-wide">Hero Slogan copy</span>
+                                <input type="text" class="w-full bg-[#080808] border border-zinc-800 rounded-xl px-4 py-2.5 text-xs outline-none text-white focus:border-blue-500 transition" value="Next-Gen Architecture Infrastructure Core">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Component Block B: Secondary Sections Status Tracking -->
+                    <div class="p-5 border border-zinc-900 bg-[#080808]/50 rounded-2xl space-y-3">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-zinc-400">Secondary Landing Nodes Status</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <div class="p-3 rounded-xl bg-zinc-900/30 border border-zinc-900 flex justify-between items-center text-xs"><span class="text-zinc-400 font-medium">About Segment</span><span class="text-emerald-400 font-bold font-mono">Live</span></div>
+                            <div class="p-3 rounded-xl bg-zinc-900/30 border border-zinc-900 flex justify-between items-center text-xs"><span class="text-zinc-400 font-medium">Services Layout</span><span class="text-emerald-400 font-bold font-mono">Live</span></div>
+                            <div class="p-3 rounded-xl bg-zinc-900/30 border border-zinc-900 flex justify-between items-center text-xs"><span class="text-zinc-400 font-medium">Team Roster</span><span class="text-emerald-400 font-bold font-mono">Live</span></div>
+                            <div class="p-3 rounded-xl bg-zinc-900/30 border border-zinc-900 flex justify-between items-center text-xs"><span class="text-zinc-400 font-medium">Careers Board</span><span class="text-amber-400 font-bold font-mono">Draft</span></div>
+                            <div class="p-3 rounded-xl bg-zinc-900/30 border border-zinc-900 flex justify-between items-center text-xs"><span class="text-zinc-400 font-medium">FAQs Matrix</span><span class="text-emerald-400 font-bold font-mono">Live</span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Column: System Content Deployment Core -->
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Content Operations</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Last Content Update</span>
+                        <span class="font-mono text-zinc-400">2 Hours Ago</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pb-3 border-b border-zinc-900">
+                        <span class="text-zinc-500">Modified Component Nodes</span>
+                        <span class="font-mono text-blue-400">1 Pending Page</span>
+                    </div>
+                    
+                    <button class="w-full py-3.5 bg-blue-500 hover:bg-blue-600 text-black text-xs font-black uppercase tracking-wider rounded-xl transition shadow-lg shadow-blue-500/10">
+                        Publish Content Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    `,
+
+        "crm & leads": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <!-- Left Grid: Live Leads Pipeline Register -->
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Active Deals & Pipelines</label>
+                <div class="divide-y divide-zinc-900 border border-zinc-900 bg-[#080808]/50 rounded-2xl overflow-hidden">
+                    <div class="p-5 flex justify-between items-center bg-zinc-900/10">
+                        <div class="space-y-1">
+                            <h3 class="text-sm font-bold text-zinc-200">John Doe</h3>
+                            <p class="text-xs text-zinc-500 font-medium">john@example.com</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="px-2.5 py-1 text-[10px] font-bold uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg">New</span>
+                            <span class="text-xs font-mono font-bold text-zinc-400">website</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Create New Lead Entry Card -->
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Pipeline Management</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-4">
+                    <h3 class="text-sm font-bold text-zinc-300 border-b border-zinc-900 pb-2">Add New Pipeline Record</h3>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <span class="text-[10px] text-zinc-500 block mb-1 font-bold uppercase">Lead Name</span>
+                            <input id="newLeadName" type="text" class="w-full bg-[#080808] border border-zinc-800 rounded-xl px-3 py-2 text-xs outline-none text-white focus:border-blue-500 transition" placeholder="e.g. Jane Smith">
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-zinc-500 block mb-1 font-bold uppercase">Email Address</span>
+                            <input id="newLeadEmail" type="email" class="w-full bg-[#080808] border border-zinc-800 rounded-xl px-3 py-2 text-xs outline-none text-white focus:border-blue-500 transition" placeholder="jane@example.com">
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-zinc-500 block mb-1 font-bold uppercase">Pipeline Status</span>
+                            <select id="newLeadStatus" class="w-full bg-[#080808] border border-zinc-800 rounded-xl px-3 py-2 text-xs outline-none text-zinc-400 focus:border-blue-500 transition">
+                                <option value="new">New</option>
+                                <option value="contacted">Contacted</option>
+                                <option value="qualified">Qualified</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button id="submitNewLeadBtn" onclick="submitNewLead()" class="w-full py-3 bg-blue-500 hover:bg-blue-600 text-black text-xs font-bold uppercase tracking-wider rounded-xl transition shadow-lg shadow-blue-500/10">
+                        Commit Record to Server
+                    </button>
+                </div>
+            </div>
+        </div>
+    `,
+
+    "security center": `
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <div class="xl:col-span-2 space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Live System Operations Audit Trail</label>
+                <div class="divide-y divide-zinc-900/80 border border-zinc-900 bg-[#080808]/50 rounded-2xl overflow-hidden font-mono text-xs">
+                    <div class="p-4 flex justify-between items-center bg-red-950/10 hover:bg-zinc-900/40 transition">
+                        <div class="space-y-1">
+                            <p class="text-zinc-200 font-bold">[WARN] Failed SSH authentication attempt detected</p>
+                            <p class="text-zinc-500 text-[11px]">IP Address: 198.51.100.42 • Location: Unknown • 4m ago</p>
+                        </div>
+                        <span class="px-2 py-0.5 text-[10px] font-black uppercase bg-red-500/10 text-red-400 border border-red-500/20 rounded">Blocked</span>
+                    </div>
+                    <div class="p-4 flex justify-between items-center hover:bg-zinc-900/40 transition">
+                        <div class="space-y-1">
+                            <p class="text-zinc-300">[INFO] Database backup replication complete</p>
+                            <p class="text-zinc-600 text-[11px]">Target: AWS S3 Vault Core US-East • 45m ago</p>
+                        </div>
+                        <span class="px-2 py-0.5 text-[10px] font-black uppercase bg-zinc-900 text-zinc-500 border border-zinc-800 rounded">Verified</span>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-zinc-500">Security Policy Controls</label>
+                <div class="bg-[#080808]/40 border border-zinc-900 rounded-2xl p-5 space-y-5">
+                    <div class="flex justify-between items-center">
+                        <div class="space-y-0.5">
+                            <p class="text-xs font-bold text-zinc-300">Enforce Global 2FA</p>
+                            <p class="text-[10px] text-zinc-500">Require token validation on sign-in</p>
+                        </div>
+                        <span class="px-2 py-1 text-[10px] font-mono font-bold bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-md">Enabled</span>
+                    </div>
+                    <button class="w-full mt-2 py-3 bg-red-950/40 hover:bg-red-900/30 text-red-400 border border-red-900/30 text-xs font-bold uppercase tracking-wider rounded-xl transition">Force Global Session Reset</button>
+                </div>
+            </div>
+      
+          </div>
+          
+          `
+
+};
+
+// ========================================================
+// 2. MAIN CORE LAYOUT TAB ROUTER SWITCH ENGINE
+// ========================================================
+function initializeTabRouter() {
+    const navButtons = document.querySelectorAll("#sidebarMenu nav button");
+    const dashboardView = document.getElementById("view_dashboard");
+    const submoduleView = document.getElementById("view_submodule");
+    const formContainer = document.getElementById("submoduleFormContainer");
+    const topTitle = document.querySelector("main h1");
+    const topDesc = document.querySelector("main p");
+
+    if (!navButtons.length) return;
+
+    navButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            let targetKey = button.getAttribute("data-target");
+            if (!targetKey) {
+                const spanElement = button.querySelector("span");
+                targetKey = spanElement ? spanElement.innerText.toLowerCase().trim() : "";
+            } else {
+                targetKey = targetKey.toLowerCase().trim();
+            }
+
+            if (targetKey) targetKey = targetKey.toLowerCase().trim();
+
+            if (targetKey === "security" || targetKey.includes("security")) {
+                targetKey = "security center";
+            }
+
+            if (!blueprintRoutes[targetKey] && targetKey !== "dashboard") return;
+
+            navButtons.forEach(btn => {
+                btn.className = "w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition";
+            });
+            button.className = "w-full flex items-center gap-3 text-left px-4 py-3 rounded-xl bg-blue-500 text-black font-bold text-xs transition uppercase tracking-wider shadow-lg shadow-blue-500/10";
+
+            if (targetKey === "dashboard") {
+                if (submoduleView) submoduleView.classList.add("hidden");
+                if (dashboardView) dashboardView.classList.remove("hidden");
+                if (topTitle) topTitle.innerText = blueprintRoutes["dashboard"].title;
+                if (topDesc) topDesc.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span> ${blueprintRoutes["dashboard"].desc}`;
+            } 
+            else {
+                if (dashboardView) dashboardView.classList.add("hidden");
+                if (submoduleView) submoduleView.classList.remove("hidden");
+
+                const elementTitle = document.getElementById("submoduleTitle");
+                const elementDesc = document.getElementById("submoduleDesc");
+                
+                if (elementTitle) elementTitle.innerText = blueprintRoutes[targetKey].title;
+                if (elementDesc) elementDesc.innerText = blueprintRoutes[targetKey].desc;
+                
+                if (topTitle) topTitle.innerText = blueprintRoutes[targetKey].title;
+                if (topDesc) topDesc.innerHTML = `<span class="inline-block w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span> Platform Operational Core Workspace`;
+
+                if (formContainer) {
+                    if (moduleFormSchemas && moduleFormSchemas[targetKey]) {
+                        formContainer.innerHTML = moduleFormSchemas[targetKey];
+                    } else {
+                        formContainer.innerHTML = `
+                            <div class="border border-zinc-900 bg-[#080808]/40 rounded-2xl p-10 text-center text-zinc-500">  
+                                <p class="text-sm font-medium tracking-tight">Functional database view layout mapped to blueprint for: <span class="text-zinc-300 font-bold">${targetKey.toUpperCase()}</span>.</p>  
+                            </div>
+                        `;
+                    }
+                }
+            }
+        });
+    });
+}
+
+// ========================================================
+// 3. LIVE SEARCH FILTER ENGINE
+// ========================================================
+function initializeSearchEngine() {
+    const searchInput = document.getElementById("searchLead");
+    if (!searchInput) return;
+
+    searchInput.addEventListener("input", () => {
+        const queryText = searchInput.value.toLowerCase().trim();
+        const tableBody = document.getElementById("leadsTable");
+        if (!tableBody) return;
+        
+        const rows = tableBody.querySelectorAll("tr");
+        rows.forEach(row => {
+            const textContainer = row.querySelector("td:first-child");
+            if (!textContainer) return;
+
+            const rowContent = textContainer.innerText.toLowerCase();
+            row.style.display = rowContent.includes(queryText) ? "" : "none";
+        });
+    });
+}
+
+// ========================================================
+// 4. DATABASE SYNC ENGINE (POINTER TO YOUR MONGODB API)
+// ========================================================
+async function loadLeads() {
+    try {
+        const response = await fetch("http://localhost:5000/api/leads", {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to load leads collection");
+        }
+
+        const leads = await response.json();
+        renderLeads(leads);
+
+    } catch (error) {
+        console.error("Database sync failed, streaming local fallback dataset: ", error);
+        // Clean up fallback mapping to prevent layout breakage if server is booting
+        renderLeads([
+            { name: "Acme Corp Core Migration", email: "info@acme.com", status: "Qualified", source: "Website" },
+            { name: "Global Logistics Deployment", email: "ops@logistics.com", status: "New", source: "Referral" }
+        ]);
+    }
+}
+
+function renderLeads(leads) {
+    const table = document.getElementById("leadsTable");
+    if (!table) return;
+
+    table.innerHTML = "";
+
+    if (!leads || leads.length === 0) {
+        table.innerHTML = `<tr><td colspan="3" class="py-8 text-center text-zinc-600 text-sm">No live database records found in current session portfolio.</td></tr>`;
+        return;
+    }
+
+    leads.forEach(lead => {
+        const row = document.createElement("tr");
+        row.className = "hover:bg-zinc-900/30 transition duration-150 group border-b border-zinc-900/40";
+        
+        // Setup direct conditional status colors matching your live database variables
+        let statusStyle = "bg-zinc-900 text-zinc-400 border border-zinc-800";
+        const currentStatus = (lead.status || "new").toLowerCase();
+
+        if (currentStatus === "qualified" || currentStatus === "resolved") {
+            statusStyle = "bg-purple-500/10 text-purple-400 border border-purple-500/20";
+        } else if (currentStatus === "new" || currentStatus === "active") {
+            statusStyle = "bg-blue-500/10 text-blue-400 border border-blue-500/20";
+        } else if (currentStatus === "contacted" || currentStatus === "pending") {
+            statusStyle = "bg-amber-500/10 text-amber-400 border border-amber-500/20";
+        }
+
+        row.innerHTML = `
+            <td class="py-4 pr-4">
+                <div class="font-bold text-white group-hover:text-blue-400 transition-colors text-sm">
+                    ${lead.name || "Unnamed Operational Entry"}
+                </div>
+                <div class="text-xs text-zinc-500 mt-1 font-medium tracking-tight">
+                    ${lead.email || "-"}
+                </div>
+            </td>
+            <td class="py-4">
+                <span class="inline-block px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider rounded-lg ${statusStyle}">
+                    ${lead.status || "new"}
+                </span>
+            </td>
+            <td class="py-4 text-right text-xs font-semibold text-zinc-400 group-hover:text-zinc-200 transition-colors">
+                ${lead.source || "Website"}
+            </td>
+        `;
+        table.appendChild(row);
+    });
+}
+
+// ========================================================
+// 5. SECURE INTERACTIVE SESSION TERMINATOR
+// ========================================================
+function initializeLogoutEngine() {
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (!logoutBtn) return;
+
+    logoutBtn.addEventListener("click", () => {
+        localStorage.removeItem("token");
+        logoutBtn.innerText = "Terminating Session...";
+        logoutBtn.className = "w-full p-3 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-600 font-bold text-xs uppercase tracking-widest cursor-not-allowed text-center transition animate-pulse";
+        
+        setTimeout(() => {
+            window.location.href = "login.html"; 
+        }, 900);
+    });
+}
+
+// ========================================================
+// AI COGNITIVE UTILITY ASSISTANT ENGINE
+// ========================================================
+function initializeAICognitiveEngine() {
+    // Selects the input field at the bottom right of your main layout dashboard shell
+    const chatInput = document.querySelector("input[placeholder*='Ask'], input[placeholder*='AI'], #view_dashboard input[type='text']:last-of-type");
+    
+    // Selects the chat log scroll wrapper element
+    const chatContainer = document.querySelector(".ai-chat-scroller, .custom-sidebar-scroll.space-y-4");
+
+    // Dynamic fallback matching parameters if specific structural containers sit nested
+    const targetInput = chatInput || document.querySelector("main input[type='text']");
+    const targetContainer = chatContainer || document.getElementById("activityFeed")?.parentElement;
+
+    if (!targetInput || !targetContainer) {
+        console.warn("[AI ENGINE] Critical text entry nodes not discovered inside dashboard layout containers.");
+        return;
+    }
+
+    // Attach real-time event listener to capture keyboard execution prompts
+    targetInput.addEventListener("keydown", async (e) => {
+        if (e.key !== "Enter") return;
+
+        const promptText = targetInput.value.trim();
+        if (!promptText) return;
+
+        // 1. Create and append the User message speech bubble node
+        const userNode = document.createElement("div");
+        userNode.className = "flex items-start gap-3 justify-end mt-4";
+        userNode.innerHTML = `
+            <div class="bg-blue-500/10 border border-blue-500/20 rounded-2xl rounded-tr-none px-4 py-2.5 text-xs text-blue-300 max-w-[80%] leading-relaxed">
+                ${promptText}
+            </div>
+        `;
+        targetContainer.appendChild(userNode);
+        targetInput.value = ""; // Clear active input area immediately
+        targetContainer.scrollTop = targetContainer.scrollHeight; // Fast auto-scroll down
+
+        // 2. Create and append the AI artificial intelligence thought placeholder row
+        const botNode = document.createElement("div");
+        botNode.className = "flex items-start gap-3 mt-4";
+        botNode.innerHTML = `
+            <div class="w-5 h-5 rounded-full bg-blue-500 text-black font-black flex items-center justify-center text-[9px] flex-shrink-0">AI</div>
+            <div id="aiCognitiveThinking" class="bg-zinc-900 border border-zinc-800 rounded-2xl rounded-tl-none px-4 py-2.5 text-xs text-zinc-500 italic leading-relaxed">
+                Evaluating system database context variables...
+            </div>
+        `;
+        targetContainer.appendChild(botNode);
+        targetContainer.scrollTop = targetContainer.scrollHeight;
+
+        // 3. Simulated network computation reply dispatch delay loop
+        setTimeout(() => {
+            const replyBox = document.getElementById("aiCognitiveThinking");
+            if (!replyBox) return;
+
+            let replyHtml = "Request processed successfully. Operational parameters logged inside active system workspace memory layer.";
+            const cleanPrompt = promptText.toLowerCase();
+
+            // Simple route classifier parsing keywords to provide custom contextual data summaries
+            if (cleanPrompt.includes("lead") || cleanPrompt.includes("crm") || cleanPrompt.includes("john")) {
+                replyHtml = "<strong>[CRM Core Engine]</strong> Scanned live MongoDB database clusters. Active pipelines reflect <strong>1 Live Lead Record</strong> matching name 'John Doe' status: 'new'.";
+            } else if (cleanPrompt.includes("seo") || cleanPrompt.includes("score") || cleanPrompt.includes("rank")) {
+                replyHtml = "<strong>[SEO Automation Console]</strong> Global web crawlers crawl rate verified. System configuration scores run at <strong>94/100</strong> health indicators parameters.";
+            } else if (cleanPrompt.includes("clear") || cleanPrompt.includes("clean")) {
+                replyHtml = "<strong>[Sanitization Active]</strong> Assistant dialog tracking state history successfully purged from active display stream view.";
+                targetContainer.innerHTML = ""; // Instantly flushes old log panels
+                return;
+            }
+
+            // Remove the unique indicator to finalize styling and mount text variables
+            replyBox.removeAttribute("id");
+            replyBox.className = "bg-zinc-900 border border-zinc-800 rounded-2xl rounded-tl-none px-4 py-2.5 text-xs text-zinc-300 leading-relaxed";
+            replyBox.innerHTML = replyHtml;
+            targetContainer.scrollTop = targetContainer.scrollHeight;
+        }, 1100);
+    });
+}
+
+// ========================================================
+// 6. SINGLE UNIFIED LIFECYCLE INITIALIZER GATEWAY
+// ========================================================
+// Single Unified Application Startup Gateway Lifecycle Route Tracker
+window.addEventListener("DOMContentLoaded", () => {
+    if (typeof initializeTabRouter === "function") {
+        initializeTabRouter();
+    }
+    if (typeof initializeSearchEngine === "function") {
+        initializeSearchEngine();
+    }
+    if (typeof initializeLogoutEngine === "function") {
+        initializeLogoutEngine();
+    }
+    
+    // FIRE THE NEW CHAT INITIATOR TASK RIGHT HERE
+    initializeAICognitiveEngine();
+    
+    // Keep your live port 5000 MongoDB data loader run tracker active
+    loadDashboard();
+});
+
+
+async function submitNewLead() {
+    const nameInput = document.getElementById("newLeadName");
+    const emailInput = document.getElementById("newLeadEmail");
+    const statusInput = document.getElementById("newLeadStatus");
+    const submitBtn = document.getElementById("submitNewLeadBtn");
+
+    if (!nameInput || !emailInput || !statusInput) return;
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const status = statusInput.value;
+
+    if (!name || !email) {
+        alert("Please specify valid name and email credentials.");
+        return;
+    }
+
+    try {
+        if (submitBtn) {
+            submitBtn.innerText = "Writing to MongoDB...";
+            submitBtn.disabled = true;
+        }
+
+        const secureActiveToken = localStorage.getItem("token");
+
+        // Fires POST request straight to your live Express route
+        const response = await fetch("http://localhost:5000/api/leads", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${secureActiveToken}`
+            },
+            body: JSON.stringify({ name, email, status, source: "Dashboard" })
+        });
+
+        if (response.ok) {
+            // Clear inputs instantly on database success
+            nameInput.value = "";
+            emailInput.value = "";
+            
+            // Re-query the backend system arrays to populate the home table row metrics instantly
+            await loadDashboard();
+            alert("Lead successfully created in database repository!");
+        } else {
+            const errData = await response.json();
+            alert("Database write rejected: " + (errData.error || "Check formatting"));
+        }
+    } catch (err) {
+        console.error("Pipeline post error:", err);
+        alert("Unable to communicate with backend server portal.");
+    } finally {
+        if (submitBtn) {
+            submitBtn.innerText = "Commit Record to Server";
+            submitBtn.disabled = false;
+        }
+    }
+}
+
+
+    </script>
 </body>
 </html>

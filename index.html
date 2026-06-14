@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
      <link rel="stylesheet" href="styles.css">
+<button onclick="logout()" class="text-sm text-red-400">
+  Logout
+</button>
 
     <style>
         * {
@@ -272,9 +275,14 @@
 
                 <div class="kanban-column" data-stage="new">
 
-                    <div class="deal-card" draggable="true">
-                        Project Alpha
-                    </div>
+                   <div class="deal-card hot">
+  <div class="deal-title">Project Alpha</div>
+  <div class="deal-value">UGX 12,000,000</div>
+  <div class="deal-meta">
+    <span>John Doe</span>
+    <span>2h ago</span>
+  </div>
+</div>
 
                     <div class="deal-card" draggable="true">
                         Project Nova
@@ -495,84 +503,85 @@
 
 <!-- ================= FOOTER ================= -->
 
-<footer class="border-t border-zinc-900">
+<!-- ========================================= -->
+<!-- PREMIUM MODERN SAAS FOOTER -->
+<!-- ========================================= -->
+<footer class="border-t border-zinc-900 bg-[#0A0A0A] relative z-10">
 
-    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-16">
 
-        <div class="grid md:grid-cols-3 gap-10">
+        <!-- Grid Architecture: Stripped of harsh internal container borders -->
+        <div class="grid md:grid-cols-12 gap-12 md:gap-8 items-start">
 
-            <!-- COL 1 -->
+            <!-- COLUMN 1: BRAND ARCHITECTURE (Spans 5 cols for visual weight) -->
+            <div class="reveal md:col-span-5 space-y-5">
+                
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                    <p class="mono text-blue-400 text-[10px] tracking-widest uppercase font-bold">Systems Active</p>
+                </div>
 
-            <div class="reveal border border-zinc-900 p-8">
-
-                <h3 class="text-2xl font-black">
+                <h3 class="text-2xl font-black tracking-tight text-white">
                     forma<span class="text-blue-500">.IT</span> GROUP
                 </h3>
 
-                <p class="text-zinc-400 mt-4 leading-relaxed">
-                    Software, web applications, and branding
-                    for modern, ambitious companies.
+                <p class="text-zinc-400 text-sm leading-relaxed max-w-sm">
+                    Software engineering, cloud architectures, and elite digital systems engineered for modern, ambitious companies globally.
                 </p>
-
             </div>
 
-            <!-- COL 2 -->
-
-            <div class="reveal border border-zinc-900 p-8">
-
-                <h4 class="font-bold mb-6">
+            <!-- COLUMN 2: NAVIGATION LINKS (Spans 3 cols, indented) -->
+            <div class="reveal md:col-span-3 md:pl-8">
+                <h4 class="font-bold text-xs uppercase tracking-widest text-zinc-400 mb-6">
                     Company
                 </h4>
 
-                <div class="space-y-4 text-zinc-400">
-
-                    <a href="about.html" class="block hover:text-white">
-                        About
-                    </a>
-
-                    <a href="services.html" class="block hover:text-white">
-                        Services
-                    </a>
-
-                    <a href="portfolio.html" class="block hover:text-white">
-                        Portfolio
-                    </a>
-
-                    <a href="contact.html" class="block hover:text-white">
-                        Contact
-                    </a>
-
+                <div class="space-y-3.5 text-sm font-medium text-zinc-500">
+                    <a href="about.html" class="block hover:text-blue-400 transition-colors duration-200">About</a>
+                    <a href="services.html" class="block hover:text-blue-400 transition-colors duration-200">Services</a>
+                    <a href="portfolio.html" class="block hover:text-blue-400 transition-colors duration-200">Portfolio</a>
+                    <a href="contact.html" class="block hover:text-blue-400 transition-colors duration-200">Contact</a>
                 </div>
-
             </div>
 
-            <!-- COL 3 -->
-
-            <div class="reveal border border-zinc-900 p-8">
-
-                <h4 class="font-bold mb-6">
-                    Reach us
+            <!-- COLUMN 3: ENTERPRISE COMMUNICATIONS (Spans 4 cols) -->
+            <div class="reveal md:col-span-4">
+                <h4 class="font-bold text-xs uppercase tracking-widest text-zinc-400 mb-6">
+                    Reach Us
                 </h4>
 
-                <div class="space-y-4 text-zinc-400">
+                <div class="space-y-4 text-sm text-zinc-400">
+                    
+                    <!-- Phone Link -->
+                    <a href="tel:+256763875861" class="group flex items-center gap-3 hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.802-5.122-4.1-6.924-6.924l1.293-.97a1.125 1.125 0 0 0 .417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" /></svg>
+                        +256 763 875 861
+                    </a>
 
-                    <p>Call +256 763 875 861</p>
+                    <!-- Phone Link 2 -->
+                    <a href="tel:+256786932194" class="group flex items-center gap-3 hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.802-5.122-4.1-6.924-6.924l1.293-.97a1.125 1.125 0 0 0 .417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" /></svg>
+                        +256 786 932 194
+                    </a>
 
-                    <p>Call +256 786 932 194</p>
-
-                    <p>info@formait.com</p>
+                    <!-- Email Link -->
+                    <a href="mailto:info@formait.com" class="group flex items-center gap-3 hover:text-blue-400 transition-colors duration-200 break-all">
+                        <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
+                        info@formait.com
+                    </a>
 
                 </div>
-
             </div>
 
         </div>
 
-        <div class="border-t border-zinc-900 mt-12 pt-8 text-zinc-500 text-sm flex justify-center">
-            © 2026 forma.IT Group. All rights reserved.
+        <!-- COPYRIGHT BLOCK (With Hidden Portal Trigger Node) -->
+        <div class="border-t border-zinc-900/60 mt-16 pt-8 text-center text-zinc-600 text-xs font-medium tracking-wide">
+            &copy; 2026 forma<span id="adminTrigger" class="text-zinc-600 cursor-default select-none">.</span>IT Group. All rights reserved.
         </div>
 
     </div>
+
 
 </footer>
 
@@ -765,5 +774,38 @@ document.querySelectorAll("a").forEach(link => {
 </script>
 
 <script src="src/main.js"></script>
+
+<!-- Administrative Portal Direct Access Route Switcher -->
+<script>
+    function initializePortalAccessGateway() {
+        const adminTrigger = document.getElementById("adminTrigger");
+
+        if (!adminTrigger) return;
+
+        // Route gate interaction counter loop
+        let clickRegistryTracker = 0;
+
+        adminTrigger.addEventListener("click", () => {
+            clickRegistryTracker++;
+            
+            // Requires 3 swift clicks on the secret dot accent to fire routing to keep it hidden
+            if (clickRegistryTracker >= 3) {
+                console.log("[SYSTEM] Administrator verification shortcut approved. Accessing Gateway.");
+                window.location.href = "login.html";
+            }
+
+            // Flushes validation counters if clicks sit idle for over 2 seconds
+            setTimeout(() => {
+                clickRegistryTracker = 0;
+            }, 2000);
+        });
+    }
+
+    // Bind event hooks instantly inside page assets lifecycle load tracking array
+    window.addEventListener("DOMContentLoaded", () => {
+        initializePortalAccessGateway();
+    });
+</script>
+
 </body>
 </html>

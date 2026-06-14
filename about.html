@@ -6,6 +6,8 @@
     <title>About Us | forma.IT GROUP</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -328,65 +330,280 @@ HOW WE WORK
 
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8">
+        <div class="workflow-stack">
 
-            <div class="reveal border border-zinc-900 p-10 card-hover">
+    Strategy Row
 
-                <div class="mono text-blue-500 mb-6">
-                    01
+    Build Row
+
+    Partnership Row
+
+</div>
+
+<div class="strategy-row">
+
+    <!-- LEFT CARD -->
+
+    <div class="reveal border border-zinc-900 p-10 card-hover">
+
+        <div class="mono text-blue-500 mb-6">
+            01
+        </div>
+
+        <h3 class="text-2xl font-bold mb-4">
+            Strategy First
+        </h3>
+
+        <p class="text-zinc-400 leading-relaxed">
+            Every project begins with understanding goals,
+            bottlenecks, and opportunities before a single
+            line of code is written.
+        </p>
+
+    </div>
+
+    <!-- RIGHT PHONE -->
+
+    <div class="strategy-phone">
+
+        <div class="phone-top"></div>
+
+        <div class="strategy-app">
+
+            <span class="app-badge">
+                forma.IT
+            </span>
+
+            <h3>
+                Strategy Workspace
+            </h3>
+
+            <p>
+                Discovery & Planning
+            </p>
+
+            <div class="checklist">
+
+                <div class="task complete">
+                    <span>✓</span>
+                    Business Goals
                 </div>
 
-                <h3 class="text-2xl font-bold mb-4">
-                    Strategy First
-                </h3>
+                <div class="task complete">
+                    <span>✓</span>
+                    Workflow Audit
+                </div>
 
-                <p class="text-zinc-400 leading-relaxed">
-                    Every project begins with understanding goals,
-                    bottlenecks, and opportunities before a single line
-                    of code is written.
-                </p>
+                <div class="task complete">
+                    <span>✓</span>
+                    Customer Journey
+                </div>
+
+                <div class="task complete">
+                    <span>✓</span>
+                    Growth Opportunities
+                </div>
+
+                  <div class="progress-card">
+
+                <div class="progress-top">
+
+                    <span>Project Progress</span>
+
+                    <strong>85%</strong>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div class="progress-fill"></div>
+
+                </div>
 
             </div>
 
-            <div class="reveal border border-zinc-900 p-10 card-hover">
+            <button class="continue-btn">
+                Continue →
+            </button>
 
-                <div class="mono text-blue-500 mb-6">
-                    02
-                </div>
-
-                <h3 class="text-2xl font-bold mb-4">
-                    Build for Scale
-                </h3>
-
-                <p class="text-zinc-400 leading-relaxed">
-                    We architect systems for reliability, performance,
-                    security, and future growth from day one.
-                </p>
-
-            </div>
-
-            <div class="reveal border border-zinc-900 p-10 card-hover">
-
-                <div class="mono text-blue-500 mb-6">
-                    03
-                </div>
-
-                <h3 class="text-2xl font-bold mb-4">
-                    Long-Term Partnership
-                </h3>
-
-                <p class="text-zinc-400 leading-relaxed">
-                    Launch is only the beginning. We support,
-                    optimize, and evolve products alongside our clients.
-                </p>
-
+        </div>
             </div>
 
         </div>
 
     </div>
 
-</section>
+</div>
+
+          <div class="build-row">
+
+    <!-- LEFT CARD -->
+
+    <div class="reveal border border-zinc-900 p-10 card-hover">
+
+        <div class="mono text-blue-500 mb-6">
+            02
+        </div>
+
+        <h3 class="text-2xl font-bold mb-4">
+            Build for Scale
+        </h3>
+
+        <p class="text-zinc-400 leading-relaxed">
+            We architect systems for reliability, performance,
+            security, and future growth from day one.
+        </p>
+
+    </div>
+
+    <!-- RIGHT DESKTOP -->
+
+    <div class="desktop-frame" id="desktopMockup">
+
+        <div class="desktop-bar">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </div>
+
+        <div class="desktop-body">
+
+            <!-- SIDEBAR -->
+
+            <div class="desktop-sidebar">
+
+                <div>Dashboard</div>
+                <div>CRM</div>
+                <div>Analytics</div>
+                <div>AI Assistant</div>
+
+            </div>
+
+            <!-- MAIN -->
+
+            <div class="desktop-main">
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <small>Revenue</small>
+                        <strong>UGX 82M</strong>
+                    </div>
+
+                    <div class="stat-card">
+                        <small>Leads</small>
+                        <strong>145</strong>
+                    </div>
+
+                    <div class="stat-card">
+                        <small>Conversion</small>
+                        <strong>68%</strong>
+                    </div>
+
+                </div>
+
+                <div class="mini-pipeline">
+
+                    <div class="pipeline-col">
+
+                        <h5>Hot</h5>
+
+                        <div class="mini-lead"></div>
+                        <div class="mini-lead"></div>
+
+                    </div>
+
+                    <div class="pipeline-col">
+
+                        <h5>Warm</h5>
+
+                        <div class="mini-lead"></div>
+
+                    </div>
+
+                    <div class="pipeline-col">
+
+                        <h5>Cold</h5>
+
+                        <div class="mini-lead"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="insight-box">
+
+                    🤖 AI Insight:
+                    Two leads show high conversion probability.
+
+                </div>
+
+            </div>
+            
+
+        </div>
+
+    </div>
+
+</div>
+
+          <div class="partnership-row">
+
+    <!-- LEFT CARD -->
+
+    <div class="reveal border border-zinc-900 p-10 card-hover">
+
+        <div class="mono text-blue-500 mb-6">
+            03
+        </div>
+
+        <h3 class="text-2xl font-bold mb-4">
+            Long-Term Partnership
+        </h3>
+
+        <p class="text-zinc-400 leading-relaxed">
+            Launch is only the beginning. We support,
+            optimize, and evolve products alongside
+            our clients.
+        </p>
+
+    </div>
+
+    <!-- RIGHT PHONE -->
+
+    <div class="ai-phone">
+    <div class="ai-app">
+        
+        <!-- Status Header -->
+        <div class="ai-status">
+            <span class="online-dot"></span>
+            AI Assistant
+        </div>
+
+        <!-- Scrollable Chat History Container -->
+        <div class="ai-chat-scroller">
+            <div class="chat-message ai-msg">Hello! How can I help you today?</div>
+            <div class="chat-message user-msg">I need help adjusting my dashboard layout.</div>
+            
+            <!-- Support Card inside the scroll area -->
+            <div class="support-card">
+                Active Users
+                <strong>1,482</strong>
+            </div>
+        </div>
+
+               <!-- NEW: Input Bar Elements (CRITICAL: Safely Closed and Structured) -->
+        <div class="chat-input-wrapper">
+            <input type="text" placeholder="Ask assistant...">
+            <button class="chat-send-btn">➔</button>
+        </div>
+
+    </div>
+</div>
+
+</div>
 
 <!-- =========================
 CTA
@@ -418,85 +635,86 @@ CTA
 
 </section>
 
+
 <!-- =========================
 FOOTER
 ========================= -->
 
-<footer class="border-t border-zinc-900">
+<!-- ========================================= -->
+<!-- PREMIUM MODERN SAAS FOOTER -->
+<!-- ========================================= -->
+<footer class="border-t border-zinc-900 bg-[#0A0A0A] relative z-10">
 
-    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-16">
 
-        <div class="grid md:grid-cols-3 gap-10">
+        <!-- Grid Architecture: Stripped of harsh internal container borders -->
+        <div class="grid md:grid-cols-12 gap-12 md:gap-8 items-start">
 
-            <!-- COLUMN 1 -->
+            <!-- COLUMN 1: BRAND ARCHITECTURE (Spans 5 cols for visual weight) -->
+            <div class="reveal md:col-span-5 space-y-5">
+                
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                    <p class="mono text-blue-400 text-[10px] tracking-widest uppercase font-bold">Systems Active</p>
+                </div>
 
-            <div class="reveal border border-zinc-900 p-8">
-
-                <h3 class="text-2xl font-black">
+                <h3 class="text-2xl font-black tracking-tight text-white">
                     forma<span class="text-blue-500">.IT</span> GROUP
                 </h3>
 
-                <p class="mt-4 text-zinc-400 leading-relaxed">
-                    Software, web applications, and branding for modern,
-                    ambitious companies.
+                <p class="text-zinc-400 text-sm leading-relaxed max-w-sm">
+                    Software engineering, cloud architectures, and elite digital systems engineered for modern, ambitious companies globally.
                 </p>
-
             </div>
 
-            <!-- COLUMN 2 -->
-
-            <div class="reveal border border-zinc-900 p-8">
-
-                <h4 class="font-bold mb-6">
+            <!-- COLUMN 2: NAVIGATION LINKS (Spans 3 cols, indented) -->
+            <div class="reveal md:col-span-3 md:pl-8">
+                <h4 class="font-bold text-xs uppercase tracking-widest text-zinc-400 mb-6">
                     Company
                 </h4>
 
-                <div class="space-y-4 text-zinc-400">
-
-                    <a href="about.html" class="block hover:text-white">
-                        About
-                    </a>
-
-                    <a href="services.html" class="block hover:text-white">
-                        Services
-                    </a>
-
-                    <a href="portfolio.html" class="block hover:text-white">
-                        Portfolio
-                    </a>
-
-                    <a href="contact.html" class="block hover:text-white">
-                        Contact
-                    </a>
-
+                <div class="space-y-3.5 text-sm font-medium text-zinc-500">
+                    <a href="about.html" class="block hover:text-blue-400 transition-colors duration-200">About</a>
+                    <a href="services.html" class="block hover:text-blue-400 transition-colors duration-200">Services</a>
+                    <a href="portfolio.html" class="block hover:text-blue-400 transition-colors duration-200">Portfolio</a>
+                    <a href="contact.html" class="block hover:text-blue-400 transition-colors duration-200">Contact</a>
                 </div>
-
             </div>
 
-            <!-- COLUMN 3 -->
-
-            <div class="reveal border border-zinc-900 p-8">
-
-                <h4 class="font-bold mb-6">
-                    Reach us
+            <!-- COLUMN 3: ENTERPRISE COMMUNICATIONS (Spans 4 cols) -->
+            <div class="reveal md:col-span-4">
+                <h4 class="font-bold text-xs uppercase tracking-widest text-zinc-400 mb-6">
+                    Reach Us
                 </h4>
 
-                <div class="space-y-4 text-zinc-400">
+                <div class="space-y-4 text-sm text-zinc-400">
+                    
+                    <!-- Phone Link -->
+                    <a href="tel:+256763875861" class="group flex items-center gap-3 hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.802-5.122-4.1-6.924-6.924l1.293-.97a1.125 1.125 0 0 0 .417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" /></svg>
+                        +256 763 875 861
+                    </a>
 
-                    <p>Call +256 763 875 861</p>
+                    <!-- Phone Link 2 -->
+                    <a href="tel:+256786932194" class="group flex items-center gap-3 hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.802-5.122-4.1-6.924-6.924l1.293-.97a1.125 1.125 0 0 0 .417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" /></svg>
+                        +256 786 932 194
+                    </a>
 
-                    <p>Call +256 786 932 194</p>
-
-                    <p>info@formait.com</p>
+                    <!-- Email Link -->
+                    <a href="mailto:info@formait.com" class="group flex items-center gap-3 hover:text-blue-400 transition-colors duration-200 break-all">
+                        <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
+                        info@formait.com
+                    </a>
 
                 </div>
-
             </div>
 
         </div>
 
-        <div class="border-t border-zinc-900 mt-12 pt-8 text-center text-zinc-500 text-sm">
-            © 2026 forma.IT Group. All rights reserved.
+        <!-- COPYRIGHT BLOCK -->
+        <div class="border-t border-zinc-900/60 mt-16 pt-8 text-center text-zinc-600 text-xs font-medium tracking-wide">
+            &copy; 2026 forma.IT Group. All rights reserved.
         </div>
 
     </div>
@@ -616,7 +834,95 @@ function revealOnScroll() {
 
 window.addEventListener('scroll', revealOnScroll);
 revealOnScroll();
+document.addEventListener("DOMContentLoaded", () => {
+    const sendBtn = document.querySelector(".chat-send-btn");
+    const chatInput = document.querySelector(".chat-input-wrapper input");
+    const chatScroller = document.querySelector(".ai-chat-scroller");
+    const statusText = document.querySelector(".ai-status");
+
+    // Pool of automated AI insights to loop through
+      // 1. Changed from a simple list to a smart keyword dictionary
+    const aiResponses = {
+        "hello": "Hello! I am the forma.IT automation assistant. How can I help optimize your business systems today?",
+        "hi": "Hello! I am the forma.IT automation assistant. How can I help optimize your business systems today?",
+        "hy": "Hello! I am the forma.IT automation assistant. How can I help optimize your business systems today?",
+        "hey": "Hello! I am the forma.IT automation assistant. How can I help optimize your business systems today?",
+        "dashboard": "I've adjusted your dashboard view metrics to emphasize conversion speed.",
+        "layout": "I've adjusted your dashboard view metrics to emphasize conversion speed.",
+        "automate": "We design custom API pipelines and workflow hooks to automate manual invoices.",
+        "invoice": "We design custom API pipelines and workflow hooks to automate manual invoices.",
+        "default": "Analyzing that data point now. Your user acquisition efficiency looks optimal!"
+    };
+
+    function sendMessage() {
+        const text = chatInput.value.trim();
+        if (text === "") return;
+
+        // Render User Message
+        const userMsg = document.createElement("div");
+        userMsg.className = "chat-message user-msg";
+        userMsg.textContent = text;
+        chatScroller.appendChild(userMsg);
+        
+        chatInput.value = "";
+        scrollToBottom();
+
+        // FIXED: Pass the typed text directly into the AI response worker
+        setTimeout(() => triggerAIResponse(text), 800);
+    }
+
+    // FIXED: Added the 'userText' argument here to evaluate your input
+    function triggerAIResponse(userText) {
+        const originalHeaderHTML = statusText.innerHTML;
+        statusText.classList.add("typing");
+        statusText.innerHTML = '<span class="online-dot" style="background:#2563eb;"></span> Typing...';
+
+        const loadingBubble = document.createElement("div");
+        loadingBubble.className = "chat-message ai-msg id-loading";
+        loadingBubble.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+        chatScroller.appendChild(loadingBubble);
+        scrollToBottom();
+
+        setTimeout(() => {
+            loadingBubble.remove();
+            statusText.classList.remove("typing");
+            statusText.innerHTML = originalHeaderHTML;
+
+            // FIXED: Scan your text for keywords instead of using responseIndex loop
+            const lowerText = userText.toLowerCase().trim();
+            let finalReply = aiResponses.default;
+
+            for (const key in aiResponses) {
+                if (lowerText.includes(key) && key !== "default") {
+                    finalReply = aiResponses[key];
+                    break; // Match found! Stop searching.
+                }
+            }
+
+            // Generate and mount actual smart AI text bubble
+            const aiMsg = document.createElement("div");
+            aiMsg.className = "chat-message ai-msg";
+            aiMsg.textContent = finalReply;
+            chatScroller.appendChild(aiMsg);
+            
+            scrollToBottom();
+        }, 1500);
+    }
+
+
+    function scrollToBottom() {
+        chatScroller.scrollTop = chatScroller.scrollHeight;
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+    chatInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") sendMessage();
+    });
+});
+
 </script>
+<!-- Add '?v=1.1' to the end of your filename to force a clean server fetch -->
+<script src="script.js?v=1.1"></script>
 
 <script src="src/main.js"></script>
 </body>
