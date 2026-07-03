@@ -6,6 +6,7 @@
 
 <title>Portfolio | forma.IT GROUP</title>
 
+ <script src="./frontend/api.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -260,50 +261,67 @@ body{
 <!-- NAVIGATION -->
 <!-- ========================================= -->
 
+<!-- SECURE MASTER RESPONSIVE HEADER DECK CONTAINER -->
 <header class="fixed top-0 left-0 w-full z-50 border-b border-zinc-900 bg-[#0A0A0A]/90 backdrop-blur-xl">
 
-    <div class="max-w-7xl mx-auto px-6 lg:px-10">
-
-        <div class="h-20 flex items-center justify-between">
-
-            <a href="index.html" class="text-xl font-black tracking-tight">
-                forma<span class="text-blue-500">.IT</span> GROUP
-            </a>
-
-            <nav class="hidden md:flex items-center gap-10 text-sm font-medium">
-
-                <a href="index.html" class="hover:text-blue-500 transition">
-                    Home
-                </a>
-
-                <a href="about.html" class="hover:text-blue-500 transition">
-                    About
-                </a>
-
-                <a href="services.html" class="hover:text-blue-500 transition">
-                    Services
-                </a>
-
-                <a href="portfolio.html" class="text-blue-500">
-                    Portfolio
-                </a>
-
-                <a href="contact.html" class="hover:text-blue-500 transition">
-                    Contact
-                </a>
-
-            </nav>
-
-            <a href="contact.html"
-               class="hidden md:flex items-center justify-center px-6 py-3 rounded-full bg-blue-500 font-semibold hover:scale-105 transition">
-                Get Started
-            </a>
-
+    <!-- DYNAMIC RIGHT-SIDED MOBILE DRAWER OVERLAY (With 65%-70% Transparent Blue Background) -->
+    <div id="mobileDrawer" class="fixed inset-y-0 right-[-100%] w-64 bg-blue-950/65 border-l border-blue-500/20 p-6 z-50 transition-all duration-300 flex flex-col gap-6 md:hidden backdrop-blur-xl shadow-2xl shadow-blue-500/5">
+        <div class="flex justify-between items-center border-b border-blue-500/10 pb-4">
+            <span class="text-sm font-black tracking-tight text-white">forma<span class="text-blue-500">.IT</span></span>
+            <button id="closeDrawerBtn" class="text-zinc-400 hover:text-white text-xs uppercase font-bold bg-transparent border-none cursor-pointer transition-colors">Close ✕</button>
         </div>
-
+        
+        <!-- THE HIGH-CONTRAST MOBILE NAVIGATION MATRIX -->
+        <div class="flex flex-col gap-2 text-xs uppercase tracking-wider font-bold">
+            <a href="index.html" class="py-3 border-b border-blue-500/10 text-zinc-100 hover:text-blue-400 transition-colors duration-150 block">Home</a>
+            <a href="about.html" class="py-3 border-b border-blue-500/10 text-zinc-100 hover:text-blue-400 transition-colors duration-150 block">About</a>
+            <a href="services.html" class="py-3 border-b border-blue-500/10 text-zinc-100 hover:text-blue-400 transition-colors duration-150 block">Services</a>
+            <a href="portfolio.html" class="py-3 border-b border-blue-500/10 text-zinc-100 hover:text-blue-400 transition-colors duration-150 block">Portfolio</a>
+            <a href="contact.html" class="py-3 text-zinc-100 hover:text-blue-400 transition-colors duration-150 block">Contact</a>
+        </div>
     </div>
 
+    <!-- MAIN NAV CONTENT CONTAINER FRAME -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+    <div class="h-20 flex items-center justify-between gap-4">
+
+        <!-- BRAND CORE LOGO SIGNATURE -->
+        <a href="index.html" class="flex items-center flex-shrink-0 transition duration-200 hover:opacity-85">
+            <!-- 📉 REDUCED FURTHER: Tuned down to h-11 (44px) to blend perfectly with the h-20 nav container guidelines -->
+            <img 
+                src="./frontend/assets/image/logo.png" 
+                alt="forma.IT Group" 
+                class="h-16 w-auto object-contain select-none max-w-[200px]"
+                onerror="this.src='./frontend/assets/image/logo.svg'; this.onerror=function(){this.src='./frontend/assets/image/logo.jpg'};"
+            >
+        </a>
+
+            <!-- WIDESCREEN NAVBAR LINKS (Hidden automatically on phones and mobile screen devices) -->
+            <nav class="hidden md:flex items-center gap-6 lg:gap-8 xl:gap-10 text-sm font-medium text-zinc-400">
+                <a href="index.html" class="hover:text-blue-500 transition">Home</a>
+                <a href="about.html" class="hover:text-blue-500 transition">About</a>
+                <a href="services.html" class="hover:text-blue-500 transition">Services</a>
+                <a href="portfolio.html" class="hover:text-blue-500 transition">Portfolio</a>
+                <a href="contact.html" class="hover:text-blue-500 transition">Contact</a>
+            </nav>
+
+            <!-- CALL TO ACTION AND MOBILE MENU CONTROLLER BLOCK -->
+            <div class="flex items-center gap-4">
+                <a href="contact.html"
+                    class="hidden sm:flex items-center justify-center px-6 py-3 rounded-full bg-blue-500 text-black font-semibold hover:scale-105 transition text-sm shadow-lg shadow-blue-500/10">
+                    Get Started
+                </a>
+                
+                <!-- MOBILE TRIGGER BUTTON (Revealed on small mobile devices layout only) -->
+                <button id="mobileNavToggle" class="md:hidden p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-xs font-bold uppercase text-zinc-400 tracking-wider hover:text-white transition">
+                    Menu ☰
+                </button>
+            </div>
+
+        </div>
+    </div>
 </header>
+
 
 <!-- ========================================= -->
 <!-- HERO -->
@@ -386,7 +404,9 @@ body{
     </div>
 
     <!-- Inner Split Layout Container Wrapper -->
-    <div class="grid lg:grid-cols-12 gap-8 items-center">
+   <!-- EXPERT RESPONSIVE MATRIX: Stacks on mobile, scales to 12 columns on desktops -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+
         
         <!-- Left Side Layout Column Frame: Text Stack Block (7 Columns Wide) -->
         <div class="lg:col-span-7 space-y-8">
@@ -1117,39 +1137,193 @@ body{
 
 
 <!-- ========================================= -->
+<!-- CLIENT CONVERSATIONAL AI HUB (SIDEBAR)    -->
+<!-- ========================================= -->
+<div id="customerCareDrawer" class="fixed inset-y-0 right-0 w-full sm:w-96 bg-zinc-950/80 border-l border-zinc-900 z-50 backdrop-blur-xl translate-x-full transition-transform duration-300 flex flex-col hidden shadow-2xl">
+    
+    <!-- Drawer Header -->
+    <div class="p-6 border-b border-zinc-900 flex items-center justify-between bg-zinc-900/10">
+        <div class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+            <div>
+                <h4 class="text-sm font-black text-white tracking-tight">Cognitive Assistant</h4>
+                <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">Customer Care Line</p>
+            </div>
+        </div>
+        <!-- Close Button Trigger -->
+        <button id="closeCareBtn" class="p-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-lg text-zinc-400 hover:text-white transition text-xs cursor-pointer">
+            ✕
+        </button>
+    </div>
+
+    <!-- Chat Message Scroller Area -->
+    <div id="careChatScroller" class="flex-1 p-6 overflow-y-auto space-y-4 text-xs sm:text-sm custom-sidebar-scroll">
+        <!-- AI Greeting Bubble -->
+        <div class="flex items-start gap-3 max-w-[85%]">
+            <div class="w-6 h-6 rounded-full bg-blue-500 text-black text-[10px] font-black flex items-center justify-center flex-shrink-0">AI</div>
+            <div class="bg-zinc-900/80 border border-zinc-800/60 rounded-2xl rounded-tl-none px-4 py-3 text-zinc-300 leading-relaxed">
+                Hello! Welcome to the **forma.IT Group** Customer Care workspace. How can I assist you with your project architecture or service inquiries today?
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Input Gateway Deck -->
+    <div class="p-4 border-t border-zinc-900 bg-zinc-900/10 flex gap-2">
+        <input type="text" id="careChatInput" class="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 outline-none text-white focus:border-blue-500 transition placeholder-zinc-700 text-xs" placeholder="Ask about services, timelines, pricing...">
+        <button id="sendCareMsgBtn" class="bg-blue-500 hover:bg-blue-600 px-4 py-3 rounded-xl text-black font-black text-xs uppercase tracking-wider transition shadow-lg shadow-blue-500/10 cursor-pointer">
+            ➔
+        </button>
+    </div>
+</div>
+
+<!-- ========================================= -->
+<!-- HELP CENTER QUICK SEARCH MODAL INTERFACE  -->
+<!-- ========================================= -->
+<div id="helpCenterModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 hidden opacity-0 transition-opacity duration-300">
+    
+    <!-- Backdrop Blur Dimmer -->
+    <div id="closeHelpModalBg" class="absolute inset-0 bg-black/60 backdrop-blur-md cursor-pointer"></div>
+
+    <!-- Modal Content Box Chassis -->
+    <div class="relative w-full max-w-2xl bg-zinc-950 border border-zinc-900 rounded-[24px] shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+        
+        <!-- Modal Sticky Top Header -->
+        <div class="p-6 border-b border-zinc-900 bg-zinc-900/10 flex-shrink-0">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-lg font-black text-white tracking-tight">Help Center Matrix</h3>
+                    <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mt-0.5">Instant Documentation Knowledgebase</p>
+                </div>
+                <button id="closeHelpModalBtn" class="p-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-lg text-zinc-400 hover:text-white transition text-xs cursor-pointer">✕</button>
+            </div>
+            
+            <!-- Real-Time Query Filtering Input Search Bar -->
+            <div class="relative">
+                <input type="text" id="faqSearchInput" class="w-full bg-zinc-900/60 border border-zinc-800 text-zinc-100 py-3.5 px-5 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 transition duration-300 text-sm placeholder-zinc-600" placeholder="Search answers, keywords, platform parameters...">
+            </div>
+        </div>
+
+        <!-- Dynamic Scrollable FAQ Accordion Drawer Group -->
+        <div id="faqAccordionContainer" class="flex-1 overflow-y-auto p-6 space-y-4 custom-sidebar-scroll">
+            
+            <!-- FAQ Item 1 -->
+            <div class="faq-item border border-zinc-900 bg-zinc-900/10 rounded-xl overflow-hidden transition duration-200">
+                <button class="faq-trigger w-full text-left p-4 flex items-center justify-between gap-4 text-zinc-200 hover:text-white font-semibold text-sm transition">
+                    <span>What software services does forma.IT Group specialize in engineering?</span>
+                    <span class="faq-icon text-zinc-600 font-mono transition-transform duration-300 text-xs">▼</span>
+                </button>
+                <div class="faq-content max-h-0 opacity-0 transition-all duration-300 ease-in-out">
+                    <p class="p-4 pt-0 text-xs md:text-sm text-zinc-400 leading-relaxed border-t border-zinc-900/40 mt-3">
+                        We specialize in designing and scaling enterprise **Payment Solutions, automated Business Assessments, secure Risk Assessments, and custom Merchant Setups**. Our software engineering framework routes processes directly into immutable cloud environments optimized for performance.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-item border border-zinc-900 bg-zinc-900/10 rounded-xl overflow-hidden transition duration-200">
+                <button class="faq-trigger w-full text-left p-4 flex items-center justify-between gap-4 text-zinc-200 hover:text-white font-semibold text-sm transition">
+                    <span>What is your guaranteed response timeline SLA metrics?</span>
+                    <span class="faq-icon text-zinc-600 font-mono transition-transform duration-300 text-xs">▼</span>
+                </button>
+                <div class="faq-content max-h-0 opacity-0 transition-all duration-300 ease-in-out">
+                    <p class="p-4 pt-0 text-xs md:text-sm text-zinc-400 leading-relaxed border-t border-zinc-900/40 mt-3">
+                        Every transmission issued through our public form interfaces bypasses front-line automated grouping queues to enter active engineering backlogs natively. We maintain a strict **under 24-hour response SLA guarantee** for all client communications tracks.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-item border border-zinc-900 bg-zinc-900/10 rounded-xl overflow-hidden transition duration-200">
+                <button class="faq-trigger w-full text-left p-4 flex items-center justify-between gap-4 text-zinc-200 hover:text-white font-semibold text-sm transition">
+                    <span>Can we adjust website texts or content assets after production rollout?</span>
+                    <span class="faq-icon text-zinc-600 font-mono transition-transform duration-300 text-xs">▼</span>
+                </button>
+                <div class="faq-content max-h-0 opacity-0 transition-all duration-300 ease-in-out">
+                    <p class="p-4 pt-0 text-xs md:text-sm text-zinc-400 leading-relaxed border-t border-zinc-900/40 mt-3">
+                        Yes! Because we mount a dedicated **Website Content Management Router Engine** onto our underlying MongoDB atlas stack clusters, platform super administrators can adjust live title text segments and slogan copy directly inside `admin.html` without touch deployment file states.
+                    </p>
+                </div>
+            </div>
+        <!-- ... Previous Sibling FAQ Accordion Rows Above stay exactly the same ... -->
+        </div> <!-- Closes FAQ Accordion Container -->
+
+        <!-- 🚀 NEW SECURE CUSTOM INTAKE FORM & NOTIFICATION PANEL -->
+        <div class="p-6 border-t border-zinc-900 bg-zinc-950 flex-shrink-0">
+            
+         <!-- A. THE UPDATED HIGH-CONVERSIONS INPUT PANEL -->
+<form id="customFaqForm" class="space-y-4">
+    <label class="block text-[11px] font-bold uppercase tracking-widest text-zinc-500">Can't find your answer? Ask our engineering desk</label>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <input type="text" id="customFaqName" required class="w-full bg-zinc-900 border border-zinc-800 text-zinc-200 py-3 px-4 rounded-xl focus:outline-none focus:border-blue-500 transition text-xs" placeholder="Your Full Name">
+        <input type="email" id="customFaqEmail" required class="w-full bg-zinc-900 border border-zinc-800 text-zinc-200 py-3 px-4 rounded-xl focus:outline-none focus:border-blue-500 transition text-xs" placeholder="Business Email Address">
+    </div>
+    <div class="flex flex-col sm:flex-row gap-2.5">
+        <input type="text" id="customFaqInput" required class="flex-1 bg-zinc-900 border border-zinc-800 text-zinc-200 py-3 px-4 rounded-xl focus:outline-none focus:border-blue-500 transition text-xs" placeholder="Type your custom system question here...">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-black font-black text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition shrink-0 cursor-pointer">
+            Submit Inquiry
+        </button>
+    </div>
+</form>
+
+
+            <!-- B. THE HIDDEN REACTIVE NOTIFICATION STATE CHIPS (Hidden by default) -->
+            <div id="faqSuccessNotification" class="hidden p-4 rounded-xl bg-blue-500/5 border border-blue-500/20 flex items-start gap-3.5 transition duration-300">
+                <span class="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-black text-[10px] font-black shrink-0 mt-0.5">✓</span>
+                <div class="space-y-0.5">
+                    <h5 class="text-xs font-bold text-blue-400 uppercase tracking-wider">Inquiry Received Successfully</h5>
+                    <p class="text-zinc-400 text-xs leading-relaxed">
+                        Your custom architecture brief has been compiled. Tracking <strong id="faqTrackingId" class="font-mono text-zinc-200">#FAQ-0000</strong> has been safely pinned to our engineering backlog logs.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div> <!-- Closes Modal Content Box Chassis -->
+</div> <!-- Closes Main Help Center Modal Container -->
+
+<!-- ================= FOOTER ================= -->
+
+<!-- ========================================= -->
 <!-- PREMIUM MODERN SAAS FOOTER -->
 <!-- ========================================= -->
 <footer class="border-t border-zinc-900 bg-[#0A0A0A] relative z-10">
 
-    <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-16">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-12 md:py-16">
 
-        <!-- Grid Architecture: Stripped of harsh internal container borders -->
-        <div class="grid md:grid-cols-12 gap-12 md:gap-8 items-start">
+        <!-- Grid Architecture: Adjusted to grid-cols-12 for accurate column distribution -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 items-start">
 
-            <!-- COLUMN 1: BRAND ARCHITECTURE (Spans 5 cols for visual weight) -->
-            <div class="reveal md:col-span-5 space-y-5">
+            <!-- COLUMN 1: BRAND ARCHITECTURE (Spans 4 cols for clean layout weight) -->
+            <div class="reveal md:col-span-4 space-y-5 text-center md:text-left flex flex-col items-center md:items-start">
                 
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">
                     <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
                     <p class="mono text-blue-400 text-[10px] tracking-widest uppercase font-bold">Systems Active</p>
                 </div>
 
-                <h3 class="text-2xl font-black tracking-tight text-white">
-                    forma<span class="text-blue-500">.IT</span> GROUP
-                </h3>
+                   <a href="index.html" class="flex items-center transition duration-200 hover:opacity-85">
+                    <img 
+                        src="./frontend/assets/image/logo.png" 
+                        alt="forma.IT Group" 
+                        class="h-16 w-auto object-contain select-none max-w-[200px]"
+                        onerror="this.src='./frontend/assets/image/logo.svg'; this.onerror=function(){this.src='./frontend/assets/image/logo.jpg'};"
+                    >
+                </a>
 
-                <p class="text-zinc-400 text-sm leading-relaxed max-w-sm">
+
+                <p class="text-zinc-400 text-sm leading-relaxed max-w-xs md:max-w-sm mx-auto md:mx-0">
                     Software engineering, cloud architectures, and elite digital systems engineered for modern, ambitious companies globally.
                 </p>
             </div>
 
-            <!-- COLUMN 2: NAVIGATION LINKS (Spans 3 cols, indented) -->
-            <div class="reveal md:col-span-3 md:pl-8">
+            <!-- COLUMN 2: NAVIGATION LINKS (Spans 2 cols) -->
+            <div class="reveal md:col-span-2 md:pl-4 text-center md:text-left">
                 <h4 class="font-bold text-xs uppercase tracking-widest text-zinc-400 mb-6">
                     Company
                 </h4>
 
-                <div class="space-y-3.5 text-sm font-medium text-zinc-500">
+                <div class="space-y-3 text-sm font-medium text-zinc-500">
                     <a href="about.html" class="block hover:text-blue-400 transition-colors duration-200">About</a>
                     <a href="services.html" class="block hover:text-blue-400 transition-colors duration-200">Services</a>
                     <a href="portfolio.html" class="block hover:text-blue-400 transition-colors duration-200">Portfolio</a>
@@ -1157,43 +1331,130 @@ body{
                 </div>
             </div>
 
-            <!-- COLUMN 3: ENTERPRISE COMMUNICATIONS (Spans 4 cols) -->
-            <div class="reveal md:col-span-4">
+            <!-- COLUMN 3: ADDED SUPPORT ARCHITECTURE SECTION (Spans 2 cols, matching layout alignment) -->
+            <div class="reveal md:col-span-2 md:pl-2 text-center md:text-left">
                 <h4 class="font-bold text-xs uppercase tracking-widest text-zinc-400 mb-6">
-                    Reach Us
+                    Support Center
                 </h4>
 
-                <div class="space-y-4 text-sm text-zinc-400">
-                    
-                    <!-- Phone Link -->
-                    <a href="tel:+256763875861" class="group flex items-center gap-3 hover:text-white transition-colors duration-200">
-                        <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.802-5.122-4.1-6.924-6.924l1.293-.97a1.125 1.125 0 0 0 .417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" /></svg>
-                        +256 763 875 861
-                    </a>
 
-                    <!-- Phone Link 2 -->
-                    <a href="tel:+256786932194" class="group flex items-center gap-3 hover:text-white transition-colors duration-200">
-                        <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.802-5.122-4.1-6.924-6.924l1.293-.97a1.125 1.125 0 0 0 .417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" /></svg>
-                        +256 786 932 194
-                    </a>
+                <div class="space-y-3 text-sm font-medium text-zinc-500">
+                    <a href="#" id="customerCareLink" class="block hover:text-blue-400 transition-colors duration-200">Customer Care</a>
+                    <!-- Locate this link inside your support footer column and change it to this: -->
+<a href="#" id="helpCenterLink" class="block hover:text-blue-400 transition-colors duration-200">Help Center</a>
 
-                    <!-- Email Link -->
-                    <a href="mailto:info@formait.com" class="group flex items-center gap-3 hover:text-blue-400 transition-colors duration-200 break-all">
-                        <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
-                        info@formait.com
-                    </a>
+                    <div class="relative inline-block text-left w-full">
+    <!-- 🚀 DYNAMIC INFRASTRUCTURE STATUS POPUP BOX MATRIX -->
+    <div id="statusPopupBox" class="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 bg-zinc-950/95 border border-zinc-900 rounded-xl p-4 shadow-2xl hidden opacity-0 transition-all duration-200 pointer-events-none z-50 text-left">
+        <div class="flex items-center justify-between mb-3 border-b border-zinc-900 pb-2">
+            <span class="text-[10px] uppercase font-bold tracking-widest text-zinc-500">Core Diagnostic</span>
+            <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-[9px] font-mono font-bold text-emerald-400 tracking-wider">ONLINE</span>
+            </div>
+        </div>
+        <div class="space-y-2 text-[11px] font-medium text-zinc-400">
+            <div><span>API Gateway Proxy</span><span class="font-mono text-emerald-400 font-bold ml-2">100%</span></div>
+            <div><span>MongoDB Storage Clusters</span><span class="font-mono text-emerald-400 font-bold ml-2">Stable</span></div>
+            <div><span>SMTP Outbound Nodes</span><span class="font-mono text-blue-400 font-bold ml-2">Active</span></div>
+        </div>
+    </div>
+</div>
 
                 </div>
             </div>
 
+     <!-- COLUMN 4: ENTERPRISE COMMUNICATIONS (Spans 4 cols for clean contact string presentation) -->
+<div class="reveal md:col-span-4 text-center md:text-left">
+    <h4 class="font-bold text-xs uppercase tracking-widest text-zinc-400 mb-6">
+        Reach Us
+    </h4>
+
+    <div class="space-y-4 text-sm text-zinc-400">
+        
+        <!-- Phone Link -->
+        <a href="tel:+256763875861" class="group flex items-center justify-center md:justify-start gap-3 hover:text-white transition-colors duration-200">
+            <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.802-5.122-4.1-6.924-6.924l1.293-.97a1.125 1.125 0 0 0 .417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+            </svg>
+            <span>+256 763 875 861</span>
+        </a>
+
+        <!-- Phone Link 2 -->
+        <a href="tel:+256745860988" class="group flex items-center justify-center md:justify-start gap-3 hover:text-white transition-colors duration-200">
+            <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.802-5.122-4.1-6.924-6.924l1.293-.97a1.125 1.125 0 0 0 .417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+            </svg>
+            <span>+256 745 860 988</span>
+        </a>
+
+        <!-- Email Link -->
+        <a href="mailto:info@formait.com" class="group flex items-center justify-center md:justify-start gap-3 hover:text-white transition-colors duration-200">
+            <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-600 group-hover:text-blue-500 transition-colors">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+            </svg>
+            <span class="break-all">info@formait.com</span>
+        </a>
+
+        <!-- Location Tracker Badge -->
+        <div class="group flex items-center justify-center md:justify-start gap-3 cursor-default">
+            <div class="w-4 h-4 flex items-center justify-center">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            </div>
+            <span class="text-zinc-400">Kampala, Uganda</span>
         </div>
 
-        <!-- COPYRIGHT BLOCK -->
-        <div class="border-t border-zinc-900/60 mt-16 pt-8 text-center text-zinc-600 text-xs font-medium tracking-wide">
-            &copy; 2026 forma.IT Group. All rights reserved.
-        </div>
+       
+       </div>
 
+        <!-- Social Media Integrations Row (Natively nested into layout architecture) -->
+        <div class="pt-5 mt-5 border-t border-zinc-800/50">
+            <div class="flex items-center justify-center md:justify-start gap-5">
+                
+                <!-- Instagram Link -->
+                <!-- Instagram Link -->
+<a href="https://www.instagram.com/forma.itgroup?igsh=MWt6a3huamt3b3Ewcw=="
+   target="_blank"
+   rel="noopener noreferrer"
+   class="text-zinc-600 hover:text-pink-500 transition-colors duration-200"
+   aria-label="Instagram">
+    <svg xmlns="http://w3.org" width="18" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+</a>
+
+<!-- Facebook Link -->
+<a href="https://www.facebook.com/share/171GwhGJQ1/"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="text-zinc-600 hover:text-blue-600 transition-colors duration-200"
+   aria-label="Facebook">
+    <svg xmlns="http://w3.org" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+</a>
+
+<!-- X Link -->
+<a href="https://x.com/Formaitgroup"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="text-zinc-600 hover:text-white transition-colors duration-200"
+   aria-label="X">
+    <svg xmlns="http://w3.org" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36l-8.275-10.883H2.865l8.875 11.633Z"/></svg>
+</a>
+
+                <!-- WhatsApp Link (Pointing to your updated alternative communication sequence) -->
+                <a href="https://wa.me/256794616175" target="_blank" rel="noopener noreferrer" class="text-zinc-600 hover:text-emerald-500 transition-colors duration-200" aria-label="WhatsApp">
+                    <svg xmlns="http://w3.org" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.618-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+                </a>
+
+            </div>
+        </div>
+        
     </div>
+</div <!-- 👈 Properly closes Column 4 here -->
+
+<!-- COPYRIGHT BLOCK (Placed outside your row columns container to expand full-width at page bottom) -->
+<div class="w-full border-t border-zinc-900/60 mt-10 md:mt-16 pt-6 md:pt-8 text-center text-zinc-600 text-xs font-medium tracking-wide select-none clear-both">
+    &copy; 2026 forma<span id="secretBrandDot" class="text-zinc-600 hover:text-zinc-500 cursor-default select-none px-[1px]">.</span>IT Group. All rights reserved.
+</div>
+
 
 </footer>
 
@@ -1291,6 +1552,9 @@ revealOnScroll();
 </script>
 
 <script>
+// ========================================================
+// 1. PORTFOLIO CASE STUDY CATEGORY FILTER ENGINE
+// ========================================================
 function filterSelection(category) {
     const cards = document.querySelectorAll('.case-card');
     const buttons = document.querySelectorAll('.filter-btn');
@@ -1320,8 +1584,533 @@ function filterSelection(category) {
     });
 }
 
+// ========================================================
+// 2. UNIFIED RIGHT-EDGE MOBILE SLIDER TRIGGER ENGINE
+// ========================================================
+function initializeMobileFrontendMenu() {
+    const openBtn = document.getElementById("mobileNavToggle");
+    const closeBtn = document.getElementById("closeDrawerBtn");
+    const drawer = document.getElementById("mobileDrawer");
+
+    if (!openBtn || !drawer) return;
+
+    // Slide the glass panel into view smoothly from the right side edge boundary
+    openBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        drawer.style.right = "0"; // Flipped from left to right axis
+    });
+
+    // Slide it back hidden off the right display boundary on click
+    if (closeBtn) {
+        closeBtn.addEventListener("click", () => {
+            drawer.style.right = "-100%"; // Flipped from left to right axis
+        });
+    }
+
+    // Defensive design: Auto-closes the menu if a user taps outside the drawer frame
+    document.addEventListener("click", (e) => {
+        if (!drawer.contains(e.target) && e.target !== openBtn) {
+            drawer.style.right = "-100%"; // Flipped from left to right axis
+        }
+    });
+}
+
+// Bind both interaction tracks directly to default DOM layout lifecycles
+window.addEventListener("DOMContentLoaded", initializeMobileFrontendMenu);
+
+ document.addEventListener("DOMContentLoaded", () => {
+    const careLink = document.getElementById("customerCareLink");
+    const careDrawer = document.getElementById("customerCareDrawer");
+    const closeCareBtn = document.getElementById("closeCareBtn");
+    const chatInput = document.getElementById("careChatInput");
+    const chatScroller = document.getElementById("careChatScroller");
+    const sendBtn = document.getElementById("sendCareMsgBtn");
+
+    if (!careLink || !careDrawer || !closeCareBtn) return;
+
+    // 1. OPEN SIDEBAR PANEL DRAWER (Remove hidden and animate translation)
+    careLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        careDrawer.classList.remove("hidden");
+        setTimeout(() => careDrawer.classList.remove("translate-x-full"), 10);
+    });
+
+    // 2. CLOSE SIDEBAR PANEL DRAWER
+    closeCareBtn.addEventListener("click", () => {
+        careDrawer.classList.add("translate-x-full");
+        setTimeout(() => careDrawer.classList.add("hidden"), 300);
+    });
+
+    // 3. CORE CHAT CONVERSATION HANDLER FUNCTION
+    async function processCareMessage() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        // Append User Speech Bubble Node
+        const userMsg = document.createElement("div");
+        userMsg.className = "flex items-start gap-3 justify-end";
+        userMsg.innerHTML = `<div class="bg-blue-500/10 border border-blue-500/20 rounded-2xl rounded-tr-none px-4 py-2.5 text-blue-300 max-w-[85%] leading-relaxed">${text}</div>`;
+        chatScroller.appendChild(userMsg);
+        
+        chatInput.value = ""; // Flush input area text instantly
+        chatScroller.scrollTop = chatScroller.scrollHeight; // Fast auto-scroll down
+
+        // 🚀 BROADCASTS DYNAMIC CHAT ENTRIES LIVE TO YOUR BACKEND PORT 5000:
+        fetch("http://localhost:5000/api/crm/care-inquiry", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: text })
+        }).catch(err => console.error("Admin logging transmission dropped:", err));
+
+        // Append Thinking Loader Placeholder Node Block
+        const botThoughtNode = document.createElement("div");
+        botThoughtNode.className = "flex items-start gap-3";
+        botThoughtNode.innerHTML = `
+            <div class="w-6 h-6 rounded-full bg-blue-500 text-black text-[10px] font-black flex items-center justify-center flex-shrink-0">AI</div>
+            <div id="careThoughtBubble" class="bg-zinc-900 border border-zinc-800 rounded-2xl rounded-tl-none px-4 py-2.5 text-zinc-500 italic leading-relaxed">
+                Consulting company service matrices...
+            </div>
+        `;
+        chatScroller.appendChild(botThoughtNode);
+        chatScroller.scrollTop = chatScroller.scrollHeight;
+
+        // Simulated AI network callback lookup delay loop
+        setTimeout(() => {
+            const thoughtBox = document.getElementById("careThoughtBubble");
+            if (!thoughtBox) return;
+
+            let replyText = "Thank you for reaching out. Your inquiry has been routed straight to our engineering team queue. A representative will connect with you shortly.";
+            const cleanText = text.toLowerCase();
+
+            // Simple route classifier mapping key terms to business capabilities copy
+            if (cleanText.includes("service") || cleanText.includes("pricing") || cleanText.includes("cost")) {
+                replyText = "We engineer tailored **Payment Solutions, Merchant Setups, and Core Risk Assessments**. Reach out directly via our email channel or complete a project intake summary under our Contact page to receive an exact cost breakdown matrix.";
+            } else if (cleanText.includes("support") || cleanText.includes("help") || cleanText.includes("ticket")) {
+                replyText = "Need support tracking parameters? If you have an active incident ticket, our SLA uptime runs at 99.98%. Please check our **Help Center** modal layout or submit an incident docket cleanly via our help desks.";
+            }
+
+            // Un-mount indicator hash tags to finalize message delivery styling
+            thoughtBox.removeAttribute("id");
+            thoughtBox.className = "bg-zinc-900 border border-zinc-800 rounded-2xl rounded-tl-none px-4 py-2.5 text-zinc-300 leading-relaxed";
+            thoughtBox.innerHTML = replyText;
+            chatScroller.scrollTop = chatScroller.scrollHeight;
+        }, 1000);
+    } // 👈 This cleanly closes the function. The duplicates below it are removed.
+
+    // Bind event hooks to tracking variables safely on load
+    sendBtn.addEventListener("click", processCareMessage);
+    chatInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") processCareMessage();
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const helpLink = document.getElementById("helpCenterLink");
+    const helpModal = document.getElementById("helpCenterModal");
+    const closeBtn = document.getElementById("closeHelpModalBtn");
+    const closeBg = document.getElementById("closeHelpModalBg");
+    const searchInput = document.getElementById("faqSearchInput");
+    const faqItems = document.querySelectorAll(".faq-item");
+
+    if (!helpLink || !helpModal) return;
+
+    // 1. OPEN MODAL INTERFACE (Remove hidden classes, smoothly transition opacity views)
+    helpLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        helpModal.classList.remove("hidden");
+        setTimeout(() => helpModal.classList.add("opacity-100"), 10);
+    });
+
+    // 2. CLOSE MODAL INTERFACE CLOSER INTERCEPTOR FUNCTIONS
+    function hideHelpModal() {
+        helpModal.classList.remove("opacity-100");
+        setTimeout(() => helpModal.classList.add("hidden"), 300);
+    }
+    if (closeBtn) closeBtn.addEventListener("click", hideHelpModal);
+    if (closeBg) closeBg.addEventListener("click", hideHelpModal);
+
+    // 3. EXPANDABLE ACCORDION DRAWER LOGIC TOGGLE LOOP
+    const triggers = document.querySelectorAll(".faq-trigger");
+    triggers.forEach(trigger => {
+        trigger.addEventListener("click", () => {
+            const content = trigger.nextElementSibling;
+            const icon = trigger.querySelector(".faq-icon");
+            const parent = trigger.parentElement;
+
+            // Check if current panel item drawer is already expanded
+            const isOpen = content.style.maxHeight && content.style.maxHeight !== "0px";
+
+            // Loop and auto-collapse all other sibling items to preserve screen height rows
+            document.querySelectorAll(".faq-content").forEach(c => {
+                c.style.maxHeight = "0px";
+                c.style.opacity = "0";
+                c.parentElement.classList.remove("border-blue-500/30", "bg-zinc-900/30");
+            });
+            document.querySelectorAll(".faq-icon").forEach(i => i.style.transform = "rotate(0deg)");
+
+            if (!isOpen) {
+                // Smoothly calculate height and toggle styling rules
+                content.style.maxHeight = content.scrollHeight + "px";
+                content.style.opacity = "1";
+                icon.style.transform = "rotate(180deg)";
+                parent.classList.add("border-blue-500/30", "bg-zinc-900/30");
+            }
+        });
+    });
+
+    // 4. REAL-TIME FAQ PLAIN TEXT SEARCH FILTER ROUTINE
+    if (searchInput) {
+        searchInput.addEventListener("input", () => {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            faqItems.forEach(item => {
+                const questionText = item.querySelector(".faq-trigger span").innerText.toLowerCase();
+                const answerText = item.querySelector(".faq-content p").innerText.toLowerCase();
+                
+                if (questionText.includes(query) || answerText.includes(query)) {
+                    item.style.display = ""; // Matches query string
+                } else {
+                    item.style.display = "none"; // Drops out of viewport filter view
+                }
+            });
+        });
+    }
+
+    // ========================================================
+    // 5. CUSTOM HELP CENTER INQUIRY EVENT HANDLER (CLEAN MATRIX)
+    // ========================================================
+    const customFaqForm = document.getElementById("customFaqForm");
+    const customFaqName = document.getElementById("customFaqName");
+    const customFaqEmail = document.getElementById("customFaqEmail");
+    const customFaqInput = document.getElementById("customFaqInput");
+    const faqSuccessNotification = document.getElementById("faqSuccessNotification");
+    const faqTrackingId = document.getElementById("faqTrackingId");
+
+    if (customFaqForm) {
+        customFaqForm.addEventListener("submit", async (e) => {
+            e.preventDefault(); // Intercept browser reloads instantly
+            
+            const userName = customFaqName ? customFaqName.value.trim() : "Web Visitor";
+            const userEmail = customFaqEmail ? customFaqEmail.value.trim() : "visitor@formait.com";
+            const userQuestion = customFaqInput.value.trim();
+            
+            if (!userQuestion || !userEmail) return;
+
+            const trackingNumber = `FAQ-${Math.floor(1000 + Math.random() * 9000)}`;
+
+            try {
+                // 🚀 POSTS PROPER FIELDS AND CAPTURES THE REQUIRED 'MESSAGE' PROPERTY
+                const response = await fetch(`${API_BASE}/api/leads`, {
+                    method: "POST",
+                    headers: { 
+                        "Content-Type": "application/json"
+                    },
+                 // Locate your primary 'api/leads' submission block and update the JSON properties:
+body: JSON.stringify({
+    name: userName,
+    email: userEmail,
+    status: "new",           
+    source: "Support Center", // 🔥 CHANGED: Tagged explicitly as Support Center instead of "Website"
+    message: userQuestion    
+})
+
+                });
+
+                // Check if the server rejected the schema serialization pass
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.message || errData.error || "Schema validation exception.");
+                }
+
+                if (faqTrackingId) faqTrackingId.innerText = `#${trackingNumber}`;
+                
+                // Clear input layout states and display the glowing success banner card frame
+                if (customFaqName) customFaqName.value = "";
+                if (customFaqEmail) customFaqEmail.value = "";
+                customFaqInput.value = "";
+                
+                customFaqForm.classList.add("hidden");
+                if (faqSuccessNotification) faqSuccessNotification.classList.remove("hidden");
+
+            } catch (err) {
+                console.error("Failed to broadcast custom FAQ entry to admin backend:", err);
+                alert("Database logging pipeline rejected formatting: " + err.message);
+            }
+        });
+    }
+
+    // Reset view state when the Help Center modal gets clicked shut by the user
+    function resetFaqInputViewState() {
+        if (customFaqForm && faqSuccessNotification) {
+            customFaqForm.classList.remove("hidden");
+            faqSuccessNotification.classList.add("hidden");
+        }
+    }
+    
+    // Bind view reset lifecycle rules safely onto existing modal close actions
+    if (typeof closeBtn !== 'undefined' && closeBtn) closeBtn.addEventListener("click", resetFaqInputViewState);
+    if (typeof closeBg !== 'undefined' && closeBg) closeBg.addEventListener("click", resetFaqInputViewState);
+
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+    
+    // 🚀 1. AUTOMATED ADMINISTRATIVE SESSION LOG IN INITIALIZATION GATEWAY
+    let sessionToken = localStorage.getItem("token");
+    
+    if (!sessionToken) {
+        try {
+            console.log("[SECURITY HUB] Syncing authentication session keys...");
+            const authResponse = await fetch("http://localhost:5000/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: "admin@test.com",
+                    password: "123456"
+                })
+            });
+            
+            if (authResponse.ok) {
+                const authData = await authResponse.json();
+                sessionToken = authData.token;
+                localStorage.setItem("token", sessionToken);
+                console.log("[SECURITY HUB] Token serialized and saved securely to storage.");
+            }
+        } catch (err) {
+            console.error("[SECURITY ERROR] Autologin sequence handshake aborted:", err.message);
+        }
+    }
+})
 </script>
-<script src="src/main.js"></script>
+
+<!-- ========================================================================== -->
+<!-- 🧠 FORMA.IT GLOBAL COGNITIVE Assistant INTERFACE AUTOMATION                -->
+<!-- ========================================================================== -->
+<script>
+(function() {
+    // Isolated session security container token tracking
+    const chatSessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    const elements = {
+        careLink: document.querySelector("[data-trigger='care']") || document.querySelector(".careLink") || document.getElementById("careLink"),
+        careDrawer: document.getElementById("customerCareDrawer"),
+        closeCareBtn: document.getElementById("closeCareBtn"),
+        chatInput: document.getElementById("careChatInput"),
+        sendBtn: document.getElementById("sendCareMsgBtn"),
+        timelineScroller: document.getElementById("careChatScroller"),
+        statusLight: document.getElementById("chatStatusIndicator")
+    };
+
+    const parseMarkdown = (text) => {
+        if (!text) return "";
+        return text
+            .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+            .replace(/\n/g, "<br>");
+    };
+
+    const runAutomatedChatStream = async () => {
+        if (!elements.chatInput || !elements.timelineScroller) return;
+        const txt = elements.chatInput.value.trim();
+        if (!txt) return;
+
+        // 1. Render User Message Speech Bubble Layout Element View Instantly
+        const userBubble = document.createElement("div");
+        userBubble.className = "flex items-start gap-3 justify-end w-full mt-2";
+        userBubble.innerHTML = `
+            <div class="bg-blue-500/10 border border-blue-500/20 rounded-2xl rounded-tr-none px-4 py-2.5 text-blue-300 max-w-[85%] leading-relaxed break-words text-left">
+                ${parseMarkdown(txt)}
+            </div>`;
+        elements.timelineScroller.appendChild(userBubble);
+        elements.chatInput.value = ""; 
+        elements.timelineScroller.scrollTop = elements.timelineScroller.scrollHeight;
+
+        // 2. Render Floating AI Pulse "Thinking..." Animation Loader Bubble Component
+        if (elements.statusLight) elements.statusLight.className = "w-2 h-2 rounded-full bg-amber-500 animate-bounce";
+        const thinkingBubble = document.createElement("div");
+        const thinkingId = `ai-thinking-node-${Date.now()}`;
+        thinkingBubble.id = thinkingId;
+        thinkingBubble.className = "flex items-start gap-3 max-w-[85%] mt-2 animate-pulse";
+        thinkingBubble.innerHTML = `
+            <div class="w-6 h-6 rounded-full bg-blue-500 text-black text-[10px] font-black flex items-center justify-center shrink-0 select-none">AI</div>
+            <div class="bg-zinc-900/80 border border-zinc-800/60 rounded-2xl rounded-tl-none px-4 py-3 text-zinc-500 italic leading-relaxed text-left">
+                Computing data vectors...
+            </div>`;
+        elements.timelineScroller.appendChild(thinkingBubble);
+        elements.timelineScroller.scrollTop = elements.timelineScroller.scrollHeight;
+
+        try {
+const googleResponse = await fetch(
+    "http://localhost:5000/api/chat",
+    {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message: txt
+        })
+    }
+);
+
+const result = await googleResponse.json();
+
+console.log("FULL RESPONSE:", result);
+
+const serverReplyCopy = result.reply;
+const aiBubbleTarget = document.getElementById(thinkingId);
+
+if (!aiBubbleTarget) {
+    throw new Error("Thinking bubble not found.");
+}
+    result?.candidates?.[0]?.content?.parts?.[0]?.text ||
+    "NO AI RESPONSE RECEIVED";
+            // 3. Update interface layout views cleanly
+            if (elements.statusLight) elements.statusLight.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+            aiBubbleTarget.removeAttribute("id");
+            aiBubbleTarget.classList.remove("animate-pulse");
+            
+            const textSlot = aiBubbleTarget.querySelector(".text-zinc-500") || aiBubbleTarget.querySelector("div:nth-child(2)");
+            if (textSlot) {
+                textSlot.className = "text-zinc-300 leading-relaxed text-left";
+                textSlot.innerHTML = parseMarkdown(serverReplyCopy);
+            }
+
+            // Quietly sync lead metrics back to local MongoDB Atlas via server port 5000
+            fetch(`${API_BASE}/api/leads`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: "AI Chat Bot User", message: txt, details: serverReplyCopy, sessionId: chatSessionId })
+            }).catch(() => {});
+
+        } catch (err) {
+    console.error("CHAT ERROR:", err);
+            // Secure fallback layout injection if connection exceptions trigger
+            if (elements.statusLight) elements.statusLight.className = "w-2 h-2 rounded-full bg-rose-500";
+            const aiBubbleTarget = document.getElementById(thinkingId);
+            if (aiBubbleTarget) {
+                aiBubbleTarget.removeAttribute("id");
+                aiBubbleTarget.classList.remove("animate-pulse");
+                aiBubbleTarget.innerHTML = `
+                    <div class="w-6 h-6 rounded-full bg-red-900 text-red-200 text-[10px] font-black flex items-center justify-center shrink-0 select-none">!</div>
+                    <div class="bg-rose-950/40 border border-rose-900/50 text-rose-400 px-4 py-2.5 rounded-2xl rounded-tl-none font-mono text-[11px] max-w-[85%] text-left">
+                        Connection vector sync exception. Please check terminal telemetry metrics.
+                    </div>`;
+            }
+        } finally {
+            elements.timelineScroller.scrollTop = elements.timelineScroller.scrollHeight;
+        }
+    };
+
+    // Capture phase event bindings block to intercept executions safely
+    if (elements.sendBtn) {
+        elements.sendBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            runAutomatedChatStream();
+        }, true);
+    }
+    if (elements.chatInput) {
+        elements.chatInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                runAutomatedChatStream();
+            }
+        }, true);
+    }
+})();
+</script>
+
+<!-- ========================================================================== -->
+<!-- 🤫 SECRET EASTER-EGG ADMINISTRATIVE PASS-GATE ROUTER                       -->
+<!-- ========================================================================== -->
+<script>
+(function() {
+    let secretClickCounter = 0;
+    let secretClickResetTimer = null;
+    
+   const triggerNode = document.getElementById("secretAdminTrigger");
+
+if (!triggerNode) return;
+
+triggerNode.addEventListener("click", (e) => {
+            // Prevent standard text selection highlights from firing during rapid taps
+            e.preventDefault();
+            
+            secretClickCounter++;
+            console.log(`🤫 [SECURITY ACCESS PATTERN MATCH]: Tap ${secretClickCounter}/3 logged.`);
+            
+            // Clear any running timeout loop to give you a continuous tap window
+            clearTimeout(secretClickResetTimer);
+            
+            // If the user stalls or pauses too long between clicks, reset the counter to zero for security
+            secretClickResetTimer = setTimeout(() => {
+                secretClickCounter = 0;
+            }, 1200); // 1.2 second timeout safety gap
+            
+            // On the exact 3rd successive click, execute the secure portal redirect loop
+            if (secretClickCounter === 3) {
+                secretClickCounter = 0; // Wipe memory state
+                clearTimeout(secretClickResetTimer);
+                
+                console.log("✨ [ACCESS AUTHORIZED]: Redirecting securely to administration login matrix portal...");
+                
+                // Route the browser tab window straight to your administrative login screen
+                window.location.href = "admin.html"; // Change this to "login.html" if your login screen is a separate file!
+            }
+              });
+})();
+</script>
+<!-- ========================================================================== -->
+<!-- 🤫 BRAND BRAND MATRIX PORTAL GATEWAY (TRIPLE-TAP SECRET REDIRECT)          -->
+<!-- ========================================================================== -->
+<script>
+(function() {
+    let brandDotTapCount = 0;
+    let brandDotResetTimer = null;
+    
+    // Explicitly target the dot between 'forma' and 'IT'
+    const brandDotAnchor = document.getElementById("secretBrandDot");
+    
+    if (brandDotAnchor) {
+        brandDotAnchor.addEventListener("click", (e) => {
+            // Block standard browser double-click zooming text selections cleanly
+            e.preventDefault();
+            e.stopPropagation();
+            
+            brandDotTapCount++;
+            
+            // Wipe running timer loops to keep the tap window completely continuous
+            clearTimeout(brandDotResetTimer);
+            
+            // Reset to zero if the user pauses or stumbles too long between sequential clicks
+            brandDotResetTimer = setTimeout(() => {
+                brandDotTapCount = 0;
+            }, 1000); // 1.0 second safety gap window
+            
+            // Execute absolute route transition target precisely on the 3rd hit
+            if (brandDotTapCount === 3) {
+                brandDotTapCount = 0; 
+                clearTimeout(brandDotResetTimer);
+                
+                // Transit browser window location coordinates to your authentication layer link
+                window.location.href = "admin.html"; // Swap out for 'login.html' if needed!
+            }
+        });
+    }
+})();
+</script>
+<!-- 1. Load Core GSAP Library First -->
+<script src="https://cloudflare.com"></script>
+
+<!-- 2. Load ScrollTrigger Plugin Second -->
+<script src="https://cloudflare.com"></script>
+
+<!-- 3. Load your main logic LAST -->
+<script src="src/main.js"></script> 
+
 
 </body>
 </html>

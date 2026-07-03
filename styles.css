@@ -506,6 +506,14 @@ p {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  
+  /* 🎯 FIXED: Re-enforced structural side margins and interior text cushions */
+  padding: 12px 14px 12px 14px;
+  background: #0F0F0F;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  text-align: left;
 }
 
 .deal-title {
@@ -516,6 +524,7 @@ p {
 .deal-value {
   font-size: 12px;
   color: var(--primary);
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .deal-meta {
@@ -523,18 +532,23 @@ p {
   justify-content: space-between;
   font-size: 11px;
   color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
 }
 
+/* 🎯 STAGE INDICATORS WITH BUILT-IN PADDING PROTECTION */
 .deal-card.hot {
-  border-left: 3px solid #ef4444;
+  border-left: 4px solid #ef4444;
+  padding-left: 12px; /* Leaves a perfect breathing gap between red lines and your words */
 }
 
 .deal-card.warm {
-  border-left: 3px solid #f59e0b;
+  border-left: 4px solid #f59e0b;
+  padding-left: 12px;
 }
 
 .deal-card.cold {
-  border-left: 3px solid #3b82f6;
+  border-left: 4px solid #3b82f6;
+  padding-left: 12px;
 }
 
 .hero-title span {
@@ -548,6 +562,7 @@ p {
   0% { filter: hue-rotate(0deg); }
   100% { filter: hue-rotate(20deg); }
 }
+
 
 .hero::before {
   content: "";

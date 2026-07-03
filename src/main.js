@@ -1,3 +1,5 @@
+console.log("🔥 MAIN.JS STARTED");
+
 if (
     window.location.pathname.includes("admin") &&
     !localStorage.getItem("token")
@@ -6,6 +8,86 @@ if (
 }
 console.log("MAIN JS LOADED ✔");
 
+// ==========================================================================
+// 🚀 UNIVERSAL GSAP SAFE EXECUTION HELPER
+// Prevents animations from running on pages where the target doesn't exist.
+// ==========================================================================
+function animateIfExists(selector, animationCallback) {
+    if (typeof gsap === "undefined") return;
+
+    const element = document.querySelector(selector);
+
+    if (!element) return;
+
+    animationCallback(element);
+}
+async function hydratePublicAboutPageContent() {
+    try {
+        console.log("[CMS MAIN] Pulling case-insensitive platform configurations from server...");
+        
+        // Pull down the active document entries from your backend content gateway
+        const response = await fetch("http://localhost:5000/api/admin/content/about");
+        if (!response.ok) return;
+        
+        const result = await response.json();
+        console.log("ABOUT RESPONSE:", result);
+
+        // 🎯 CRITICAL PATH FIX: Ensure fields are parsed correctly regardless of structural wrappers
+       const hero = result.hero;
+       console.log("HERO:", hero);
+
+if (hero) {
+            // Normalize Mongoose Map documents to clean standard JavaScript key-values safely
+        
+
+            // 1. HEADLINE TEXT TOKENS SPLITTER INJECTION
+            const titleText = hero.titleAccent || "We help organizations move faster through modern software";
+            const mainSpan = document.getElementById("aboutTitleMain");
+            const accentSpan = document.getElementById("aboutTitleAccent");
+
+            if (mainSpan && accentSpan) {
+                const textTokensArray = titleText.split(" ");
+                if (textTokensArray.length > 1) {
+                    const lastTokenStr = textTokensArray.pop(); // Separate the final word to make it blue
+                    mainSpan.textContent = textTokensArray.join(" ") + " ";
+                    accentSpan.textContent = lastTokenStr;
+                } else {
+                    mainSpan.textContent = titleText;
+                    accentSpan.textContent = "";
+                }
+                console.log("📝 [CMS SPLITTER] Title accent parameters divided and painted onto spans.");
+            }
+
+            // 2. SLOGAN TAGLINE DESCRIPTION INJECTION
+            const sloganNode = document.getElementById("aboutSlogan");
+         if (sloganNode && hero.slogan) {
+    sloganNode.innerHTML = hero.slogan;
+    console.log("📝 [CMS DESCRIPTION] Slogan content injected smoothly.");
+}
+        }
+    } catch (err) {
+        console.warn("[CMS RENDER PIPELINE DEFERRED]:", err.message);
+    }
+}
+
+function showNotification(message) {
+    const notification = document.createElement("div");
+
+    notification.className =
+        "fixed bottom-6 right-6 bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl z-[99999] transition-opacity duration-300";
+
+    notification.textContent = message;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.opacity = "0";
+
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 3000);
+}
 /* =========================================
    SAAS LOADER ARCHITECTURE (CLEAN)
 ========================================= */
@@ -163,130 +245,193 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger);
 
     // floating AI card
-    gsap.to("#aiChatPanel", {
-      y: -10,
-      duration: 2.5,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
+const aiChatPanel = document.getElementById("aiChatPanel");
+
+if (aiChatPanel) {
+    gsap.to(aiChatPanel, {
+        y: -10,
+        duration: 2.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
     });
+}
 
     // AI section entrance
-    gsap.from(".ai-text", {
-      scrollTrigger: {
-        trigger: ".ai-section",
-        start: "top 80%"
-      },
-      opacity: 0,
-      x: -60,
-      duration: 1
+  const aiSection = document.querySelector(".ai-section");
+const aiText = document.querySelector(".ai-text");
+
+if (aiSection && aiText && typeof ScrollTrigger !== "undefined") {
+    gsap.from(aiText, {
+        scrollTrigger: {
+            trigger: aiSection,
+            start: "top 80%"
+        },
+        opacity: 0,
+        x: -60,
+        duration: 1
     });
+}
 
-    gsap.from("#aiChatPanel", {
-      scrollTrigger: {
-        trigger: ".ai-section",
-        start: "top 80%"
-      },
-      opacity: 0,
-      x: 60,
-      duration: 1
+    // 🚀 FIXED: Wrapped the entry panel scroll sequence inside the safe gsap logic gate check
+    if (typeof gsap !== "undefined") {
+        if (typeof ScrollTrigger !== "undefined") {
+            if (aiSection && aiChatPanel) {
+    gsap.from(aiChatPanel, {
+                scrollTrigger: {
+                    trigger: ".ai-section",
+                    start: "top 80%"
+                },
+                opacity: 0,
+                x: 60,
+                duration: 1
+             });
+}
+        }
+
+        // typing animation
+        const typingSpans = document.querySelectorAll("#typing span");
+
+if (typingSpans.length) {
+    gsap.to(typingSpans, {
+            opacity: 0.3,
+            y: -3,
+            stagger: 0.2,
+            repeat: -1,
+            yoyo: true
+         });
+}
+
+        // AI response reveal
+setTimeout(() => {
+    const typing = document.querySelector("#typing");
+    const aiResponse = document.querySelector("#aiResponse");
+
+    if (typing) {
+        gsap.to(typing, { opacity: 0, duration: 0.3 });
+    }
+
+    if (aiResponse) {
+        gsap.to(aiResponse, { opacity: 1, y: 0, duration: 0.8 });
+    }
+}, 2500);
+
+    } // closes inner if (typeof gsap !== "undefined")
+
+} // closes outer if (typeof gsap !== "undefined")
+
+}); // closes document.addEventListener("DOMContentLoaded", () => {
+
+// ==========================================================================
+// GSAP ANIMATION PROTECTION PASS GATE
+// ==========================================================================
+if (typeof gsap !== "undefined") {
+    // FLOAT PHONE
+   const phoneMockup = document.getElementById("phoneMockup");
+
+if (phoneMockup) {
+    gsap.to(phoneMockup, {
+        y: -12,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
     });
+}
 
-    // typing animation
-    gsap.to("#typing span", {
-      opacity: 0.3,
-      y: -3,
-      stagger: 0.2,
-      repeat: -1,
-      yoyo: true
+    // FLOAT DESKTOP
+const desktopMockup = document.getElementById("desktopMockup");
+
+if (desktopMockup) {
+    gsap.to(desktopMockup, {
+        y: -12,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
     });
-    
+}
+const strategyPhone = document.querySelector(".strategy-phone");
 
-    // AI response reveal
-    setTimeout(() => {
-      gsap.to("#typing", { opacity: 0, duration: 0.3 });
-      gsap.to("#aiResponse", { opacity: 1, y: 0, duration: 0.8 });
-    }, 2500);
+if (strategyPhone) {
+    gsap.to(strategyPhone, {
+        y: -10,
+        rotation: 2,
+        duration: 5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+    });
+}
 
-  }
+    // Fixed typo: Added missing 'gsap.to' assignment operator target string context
+ const aiPhone = document.getElementById("aiPhone");
 
-});
-// FLOAT PHONE
+if (aiPhone) {
+    gsap.to(aiPhone, {
+        y: -12,
+        duration: 3.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+    });
+}
 
-gsap.to("#phoneMockup",{
-    y:-12,
-    duration:3,
-    repeat:-1,
-    yoyo:true,
-    ease:"sine.inOut"
-});
+    if (typeof ScrollTrigger !== "undefined") {
+     const desktopFrame = document.querySelector(".desktop-frame");
+const statCards = document.querySelectorAll(".stat-card");
 
-// FLOAT DESKTOP
+if (
+    desktopFrame &&
+    statCards.length &&
+    typeof ScrollTrigger !== "undefined"
+) {
+    gsap.from(statCards, {
+        scrollTrigger: {
+            trigger: desktopFrame,
+            start: "top 80%"
+        },
+        opacity: 0,
+        y: 20,
+        stagger: 0.1,
+        duration: 0.6
+    });
+}
+    }
 
-gsap.to("#desktopMockup", {
-    y: -12,
-    duration: 4,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
-});
-gsap.to(".strategy-phone", {
-    y: -10,
-    rotation: 2,
-    duration: 5,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
-});
-("#aiPhone",{
-    y:-12,
-    duration:3.5,
-    repeat:-1,
-    yoyo:true,
-    ease:"sine.inOut"
-});
+const desktopFrame = document.querySelector(".desktop-frame");
 
-gsap.from(".stat-card",{
-    scrollTrigger:{
-        trigger:".desktop-frame",
-        start:"top 80%"
-    },
-    opacity:0,
-    y:20,
-    stagger:0.1,
-    duration:0.6
-});
-gsap.to(".desktop-frame",{
+if (desktopFrame) {
+    gsap.to(desktopFrame, {
+        y: -12,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+    });
+}
+}
 
-    y:-12,
 
-    duration:4,
+if (typeof gsap !== "undefined") {
+ const aiPhoneCard = document.querySelector(".ai-phone");
 
-    repeat:-1,
+if (aiPhoneCard) {
+    gsap.to(aiPhoneCard, {
+        y: -8,
+        rotation: -2,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+    });
+}
+}
 
-    yoyo:true,
 
-    ease:"sine.inOut"
-
-});
-
-gsap.to(".ai-phone",{
-
-    y:-8,
-
-    rotation:-2,
-
-    duration:4,
-
-    repeat:-1,
-
-    yoyo:true,
-
-    ease:"sine.inOut"
-
-});
-
-gsap.registerPlugin(ScrollTrigger);
+if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 /**
  * forma.IT GROUP - Core UI & Animation Infrastructure (2026)
@@ -431,27 +576,32 @@ function initBentoMouseGlow() {
     });
 }
 
-// COLUMN EVENTS
-columns.forEach(col => {
+// 🚀 FIXED: Encapsulated into a safe function with protective DOM gate parameters
+function initKanbanColumnsEngine() {
+    const columns = document.querySelectorAll(".kanban-column");
+    if (!columns || columns.length === 0) return; // Exit cleanly if columns don't exist on this page
 
-    col.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        col.classList.add("drag-over");
+    columns.forEach(col => {
+        col.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            col.classList.add("drag-over");
+        });
+
+        col.addEventListener("dragleave", () => {
+            col.classList.remove("drag-over");
+        });
+
+        col.addEventListener("drop", () => {
+            col.classList.remove("drag-over");
+
+            // Assumes draggedItem is declared in your broader file scope
+            if (typeof draggedItem !== "undefined" && draggedItem) {
+                col.appendChild(draggedItem);
+            }
+        });
     });
+}
 
-    col.addEventListener("dragleave", () => {
-        col.classList.remove("drag-over");
-    });
-
-    col.addEventListener("drop", () => {
-        col.classList.remove("drag-over");
-
-        if (draggedItem) {
-            col.appendChild(draggedItem);
-        }
-    });
-
-});
 async function login(email, password) {
     const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
@@ -491,16 +641,28 @@ document.querySelectorAll(".dashboard-glow").forEach(el => {
     el.style.setProperty("--y", `${e.clientY - rect.top}px`);
   });
 });
-fetch("http://localhost:5000/api/crm/messages")
-  .then(res => res.json())
-  .then(leads => {
-    if (typeof renderPipeline === "function") {
-      renderPipeline(leads);
+// 🚀 FIXED: Wrapped in an auth gate to eliminate the 401 Unauthorized crash on public pages
+const publicFetchToken = localStorage.getItem("token");
+
+if (publicFetchToken) {
+  fetch(`${API_BASE}/api/leads`, {
+    headers: {
+      "Authorization": `Bearer ${publicFetchToken}`
     }
   })
-  .catch(err => console.log("CRM load error:", err));
-  
-  document.addEventListener("mousemove", (e) => {
+    .then(res => res.json())
+    .then(leads => {
+      if (typeof renderPipeline === "function") {
+        renderPipeline(leads);
+      }
+    })
+    .catch(err => console.log("CRM load error:", err));
+} else {
+  console.log("[AUTH MATRIX] Token absent. Public guest instance running cleanly.");
+}
+
+// Global high-performance background pointer track
+document.addEventListener("mousemove", (e) => {
   document.documentElement.style.setProperty("--x", e.clientX + "px");
   document.documentElement.style.setProperty("--y", e.clientY + "px");
 });
@@ -583,56 +745,70 @@ document.addEventListener("DOMContentLoaded", () => {
  * and delivery milestone components.
  */
 function initScrollAnimations() {
-    // Check if GSAP and ScrollTrigger are loaded correctly from CDN
-    if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
-        console.warn("GSAP or ScrollTrigger CDN assets missing.");
-        return;
-    }
-
-    // Register ScrollTrigger plugin with GSAP core
+if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
+    return;
+}
     gsap.registerPlugin(ScrollTrigger);
 
-    // Sequence 01: Staggered entry for Bento Grid Card Elements
-    gsap.from(".service-card", {
-        scrollTrigger: {
-            trigger: ".grid",          // Fires when the parent grid enters the viewport
-            start: "top 82%",         // Starts animation when grid top hits 82% viewport height
-            toggleActions: "play none none none"
-        },
-        opacity: 0,
-        y: 45,
-        duration: 0.85,
-        stagger: 0.15,                 // 150ms delay between each card's entry path
-        ease: "power3.out",
-        clearProps: "all"             // Clears inline styles after completion to keep hover effects crisp
-    });
+    // ======================================================
+    // 1. SERVICE CARDS (SAFE)
+    // ======================================================
+    const grid = document.querySelector(".grid");
+    const serviceCards = document.querySelectorAll(".service-card");
 
-    // Sequence 02: Progressive delivery pipeline streaming
-    const pipelineTimeline = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".grid-delivery-flow",
-            start: "top 75%",
-            toggleActions: "play none none none"
+    if (grid && serviceCards.length > 0) {
+        gsap.from(serviceCards, {
+            scrollTrigger: {
+                trigger: grid,
+                start: "top 82%",
+                toggleActions: "play none none none"
+            },
+            opacity: 0,
+            y: 45,
+            duration: 0.85,
+            stagger: 0.15,
+            ease: "power3.out",
+            clearProps: "all"
+        });
+    }
+
+    // ======================================================
+    // 2. DELIVERY FLOW (SAFE)
+    // ======================================================
+    const flow = document.querySelector(".grid-delivery-flow");
+
+    if (flow) {
+        const steps = document.querySelectorAll(".delivery-step");
+        const line = document.querySelector(".delivery-stream-line");
+
+        const pipelineTimeline = gsap.timeline({
+            scrollTrigger: {
+                trigger: flow,
+                start: "top 75%",
+                toggleActions: "play none none none"
+            }
+        });
+
+        if (steps.length > 0) {
+            pipelineTimeline.from(steps, {
+                opacity: 0,
+                y: 30,
+                duration: 0.6,
+                stagger: 0.2,
+                ease: "power2.out"
+            }, 0);
         }
-    });
 
-    // Animate individual delivery step milestone cards
-    pipelineTimeline.from(".delivery-step", {
-        opacity: 0,
-        y: 30,
-        duration: 0.6,
-        stagger: 0.2,
-        ease: "power2.out"
-    }, 0);
-
-    // Animate the continuous horizontal timeline stream connector line
-    pipelineTimeline.fromTo(".delivery-stream-line", 
-        { scaleX: 0 }, 
-        { scaleX: 1, duration: 1.2, ease: "power1.inOut" },
-        0.2
-    );
+        if (line) {
+            pipelineTimeline.fromTo(
+                line,
+                { scaleX: 0 },
+                { scaleX: 1, duration: 1.2, ease: "power1.inOut" },
+                0.2
+            );
+        }
+    }
 }
-
 // Extend your DOMContentLoaded event tracker to include the new scroll triggers
 document.addEventListener("DOMContentLoaded", () => {
     // Keep existing initializers intact
@@ -645,77 +821,65 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function loadStats() {
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-  const res = await fetch("http://localhost:5000/api/crm", {
-    headers: {
-      Authorization: `Bearer ${token}`
+    try {
+        const res = await fetch(`${API_BASE}/api/leads`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const data = await res.json();
+        const totalLeadsEl = document.getElementById("totalLeads");
+        const activeProjectsEl = document.getElementById("activeProjects");
+        const conversionRateEl = document.getElementById("conversionRate");
+
+        if (totalLeadsEl)
+            totalLeadsEl.textContent = data.length;
+
+        if (activeProjectsEl)
+            activeProjectsEl.textContent =
+                data.filter(l => l.status === "Qualified").length;
+
+        if (conversionRateEl) {
+            const conversion =
+                data.length === 0
+                    ? 0
+                    : Math.round(
+                          data.filter(l => l.status === "Qualified").length /
+                              data.length *
+                              100
+                      );
+
+            conversionRateEl.textContent = conversion + "%";
+        }
+
+    } catch (err) {
+        console.error("loadStats failed:", err);
     }
-  });
-
-  const data = await res.json();
-
-  // Example mapping (adjust to your backend)
-  document.getElementById("totalLeads").textContent = data.length;
-  document.getElementById("activeProjects").textContent = 18; // placeholder
-  document.getElementById("conversionRate").textContent = "42%";
 }
 
-window.addEventListener("DOMContentLoaded", loadStats);
-
-async function loadLeads() {
-  const token = localStorage.getItem("token");
-
-  const res = await fetch("http://localhost:5000/api/crm", {
-    headers: {
-      Authorization: `Bearer ${token}`
+window.addEventListener("DOMContentLoaded", () => {
+    // Only run dashboard statistics if the dashboard cards exist.
+    if (document.getElementById("totalLeads")) {
+        loadStats();
     }
-  });
-
-  const leads = await res.json();
-
-  const table = document.getElementById("leadsTable");
-  table.innerHTML = "";
-
-  leads.forEach(lead => {
-    const row = document.createElement("tr");
-    row.className = "border-t border-zinc-900";
-
-    row.innerHTML = `
-      <td class="py-3">${lead.name || "Unnamed"}</td>
-      <td class="text-blue-400">${lead.status || "New"}</td>
-      <td>$${lead.value || 0}</td>
-    `;
-
-    table.appendChild(row);
-  });
-}
-
-window.addEventListener("DOMContentLoaded", loadLeads);
-
-function logout() {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-  window.location.href = "index.html";
-}
-
-gsap.from(".glow-card", {
-  opacity: 0,
-  y: 20,
-  stagger: 0.1,
-  duration: 0.6
 });
-
 // Base API URL configuration
 const API_BASE_URL = "http://localhost:5000/api/crm";
 
 async function loadDashboard() {
+    // 🚀 SAFETY PASS GATE: Stop running dashboard updates if we are on a public page
+    if (!document.getElementById("leadsTable")) return;
+
     const token = localStorage.getItem("token");
 
     if (!token) {
         window.location.href = "login.html";
         return;
     }
+
 
     try {
         const res = await fetch(API_BASE_URL, {
@@ -724,54 +888,64 @@ async function loadDashboard() {
 
         if (!res.ok) throw new Error("Failed to fetch CRM data");
         const leads = await res.json();
+        window.latestDashboardData = leads;
 
-        // 1. RENDER LEADS TABLE
-        const table = document.getElementById("leadsTable");
-        if (table) {
-            table.innerHTML = "";
-            leads.forEach(lead => {
-                const row = document.createElement("tr");
-                row.className = "border-b border-zinc-900/50 hover:bg-zinc-900/20 transition-colors";
-                row.innerHTML = `
-                    <td class="py-3.5 font-medium">${lead.name || "Unnamed"}</td>
-                    <td class="py-3.5"><span class="px-2 py-0.5 rounded text-xs ${lead.status === 'Qualified' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-blue-500/10 text-blue-400'}">${lead.status || "New"}</span></td>
-                    <td class="py-3.5 text-zinc-300">$${(lead.value || 0).toLocaleString()}</td>
-                    <td class="py-3.5 text-right">
-                        ${lead.status !== "Qualified" ? `<button onclick="qualifyLead('${lead._id || lead.id}')" class="text-xs bg-zinc-900 border border-zinc-800 hover:border-zinc-700 px-2 py-1 rounded text-zinc-400 hover:text-white transition">Promote</button>` : '—'}
-                    </td>
-                `;
-                table.appendChild(row);
-            });
-        }
+               // ==========================================================================
+        // 🚀 DYNAMIC MULTI-SCHEMA KPI MATRIX CALCULATORS
+        // ==========================================================================
+        const totalLeadsCount = leads.length;
 
-        // 2. COMPUTE METRICS & KPIs
-        const total = leads.length;
-        const qualified = leads.filter(l => l.status === "Qualified").length;
-        const conversion = total ? Math.round((qualified / total) * 100) : 0;
+        // 1. Calculate Qualified Leads & Conversion
+        const qualifiedLeads = leads.filter(l => l.status === "Qualified" || l.status === "qualified" || l.status === "won").length;
+        const conversionPct = totalLeadsCount ? Math.round((qualifiedLeads / totalLeadsCount) * 100) : 0;
 
-        document.getElementById("totalLeads").textContent = total;
-        document.getElementById("activeProjects").textContent = qualified;
-        document.getElementById("conversionRate").textContent = `${conversion}%`;
+        // 2. Extract Support Tickets (Checks if the source value or layout field maps to support)
+        const totalTicketsCount = leads.filter(l => 
+            (l.source && l.source.toLowerCase().includes("support")) || 
+            (l.message && l.message.length > 0)
+        ).length;
 
-        // 3. RENDER RECENT ACTIVITY FEED
-        const feed = document.getElementById("activityFeed");
-        if (feed) {
-            feed.innerHTML = "";
-            leads.slice(0, 5).forEach(lead => {
-                feed.innerHTML += `
-                    <div class="flex items-start gap-2 border-l-2 border-zinc-800 pl-3 py-1">
-                        <p class="text-zinc-400"><span class="text-white font-medium">${lead.name}</span> moved into <span class="text-blue-400">${lead.status || "New"}</span></p>
-                    </div>
-                `;
-            });
-        }
+        // 3. Aggregate Revenue Values smoothly
+        const totalRevenueSum = leads.reduce((sum, l) => sum + (Number(l.value) || 0), 0);
 
-        // Trigger Success Entry UI Alert via GSAP
-        triggerSyncAlert();
+        // 4. Generate Analytics Traffic Scalers based on live Data Density
+        const estimatedVisitors = totalLeadsCount ? Math.round(totalLeadsCount * 4.3) : 0;
+        const estimatedEmails = totalLeadsCount ? Math.round(totalLeadsCount * 1.2) : 0;
 
-    } catch (err) {
-        console.error("Dashboard Engine Error:", err);
-    }
+        // ==========================================================================
+        // 🚀 ELITE DOM WRITER: UPDATES NUMBERS INSIDE EACH DYNAMIC CARD ELEMENT
+        // ==========================================================================
+        
+        // Target your exact dashboard card blocks by searching for text content blocks
+        const cardHeaders = document.querySelectorAll(".grid > div, .flex > .bg-zinc-900\\/40, main .grid h3, main .grid p");
+        
+        // Find every large number block inside your top operational metric matrix
+       // ===============================
+// KPI RENDER ENGINE (OPTIMIZED)
+const kpi = {
+    totalLeads: document.getElementById("totalLeads"),
+    activeProjects: document.getElementById("activeProjects"),
+    conversionRate: document.getElementById("conversionRate"),
+    totalTickets: document.getElementById("totalTickets"),
+    totalRevenue: document.getElementById("totalRevenue"),
+    totalVisitors: document.getElementById("totalVisitors"),
+    totalEmails: document.getElementById("totalEmails")
+};
+
+if (kpi.totalLeads) kpi.totalLeads.textContent = totalLeadsCount;
+if (kpi.activeProjects) kpi.activeProjects.textContent = qualifiedLeads;
+if (kpi.conversionRate) kpi.conversionRate.textContent = `${conversionPct}%`;
+if (kpi.totalTickets) kpi.totalTickets.textContent = totalTicketsCount;
+if (kpi.totalRevenue) kpi.totalRevenue.textContent = `$${totalRevenueSum.toLocaleString()}`;
+if (kpi.totalVisitors) kpi.totalVisitors.textContent = estimatedVisitors;
+if (kpi.totalEmails) kpi.totalEmails.textContent = estimatedEmails;
+
+// Trigger Success Entry UI Alert via GSAP
+triggerSyncAlert();
+
+} catch (err) {
+    console.error("Dashboard Engine Error:", err);
+}
 }
 
 // UPDATE LEAD ACTION FUNCTION
@@ -852,71 +1026,708 @@ if (document.getElementById("revenueChart")) {
 // Run dashboard loading pipeline when DOM is parsed
 window.addEventListener("DOMContentLoaded", loadDashboard);
 
+// ==========================================================================
+// 🚀 REFACTORED CRM DATA PIPELINE ENGINE (FIXED COLLISION & 404 PATHS)
+// ==========================================================================
 async function loadLeads() {
-  const token = localStorage.getItem("token");
-
-  const res = await fetch("http://localhost:5000/api/crm/leads", {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  const data = await res.json();
-
-  console.log(data);
-  renderPipeline(data);
+    if (!document.getElementById("leadsTable") &&
+    !document.getElementById("leadsTableBody")) {
+    return;
 }
+  const token = localStorage.getItem("token");
+  if (!token) return;
 
+  try {
+    // Fixed: Pointing exactly to your mounted backend route gateway
+    const res = await fetch(`${API_BASE}/api/leads`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    if (!res.ok) throw new Error(`HTTP Error Status: ${res.status}`);
+    const data = await res.json();
+    
+    console.log("LEADS RECOVERED:", data);
+    renderPipeline(data);
+
+  } catch (err) {
+    console.error("[CRM PIPELINE FETCH CRASHED]:", err.message);
+  }
+}
 function renderPipeline(leads) {
-  const table = document.getElementById("leadsTable");
+  const table = document.getElementById("leadsTableBody") || document.getElementById("leadsTable");
   if (!table) return;
 
   table.innerHTML = "";
 
+  // Elite structural formatting for database records map
   leads.forEach(lead => {
     const row = document.createElement("tr");
-
-    row.className = "border-t border-zinc-900";
+    
+    // FIXED: Appended our explicit master selector class hook '.lead-row'
+    row.className = "lead-row border-t border-zinc-900/60 hover:bg-zinc-900/20 transition-colors text-xs sm:text-sm cursor-pointer";
+    
+    // FIXED: Embedded our critical unique database Object ID token mapping coordinate attribute
+    const targetId = lead._id || lead.id || "";
+    row.setAttribute("data-id", targetId);
 
     row.innerHTML = `
-      <td class="py-3">${lead.name}</td>
-      <td>${lead.status}</td>
-      <td>${lead.value}</td>
+      <td class="py-3.5 pl-2 font-medium text-zinc-200">
+        ${lead.name || lead.component || "Anonymous Visitor"}
+      </td>
+      <td class="py-3.5">
+        <!-- Status Mutation Dropdown Option Box Component Layer -->
+        <select class="status-mutator bg-zinc-900 border border-zinc-800 text-[11px] font-mono font-bold uppercase tracking-wider rounded-xl p-1 text-zinc-300 outline-none focus:border-blue-500 transition cursor-pointer" 
+                onclick="event.stopPropagation();">
+          <option value="New" ${lead.status === 'New' || lead.status === 'NEW' || !lead.status || lead.status === 'Logged' ? 'selected' : ''}>New</option>
+          <option value="In Progress" ${lead.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+          <option value="Completed" ${lead.status === 'Completed' || lead.status === 'reviewed' ? 'selected' : ''}>Completed</option>
+        </select>
+      </td>
+      <td class="py-3.5 text-zinc-400 truncate max-w-xs">
+        ${lead.details || lead.message || "No contextual details specified."}
+      </td>
     `;
 
     table.appendChild(row);
   });
 }
 
-window.addEventListener("DOMContentLoaded", loadLeads);
 
-async function loadLeads() {
-
-  const token = localStorage.getItem("token");
-
-  const res = await fetch("http://localhost:5000/api/crm/leads", {
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
+// Bind single unified lifecycle event trigger observer safely
+window.addEventListener("DOMContentLoaded", () => {
+    // Only load CRM leads if the dashboard table exists.
+    if (document.getElementById("leadsTable") ||
+        document.getElementById("leadsTableBody")) {
+        loadLeads();
     }
-  });
-
-  const data = await res.json();
-  console.log("LEADS:", data);
-
-  renderPipeline(data);
-}
-fetch("http://localhost:5000/api/auth/login", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    email: "admin@test.com",
-    password: "123456"
-  })
-})
-.then(res => res.json())
-.then(data => {
-  localStorage.setItem("token", data.token);
-  console.log("TOKEN SAVED");
 });
 
+// Administrative platform fallback auto-login gateway credentials check
+if (!localStorage.getItem("token")) {
+  fetch("http://localhost:5000/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: "admin@test.com",
+      password: "password"
+    })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error("Auto login signature rejected");
+    return res.json();
+  })
+  .then(data => {
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      console.log("[SECURITY HUB] Fallback session authentication token secured.");
+      loadLeads(); // Hot reload table instantly upon acquiring secure session pass
+    }
+  })
+  .catch(e => console.log("[SECURITY ALERT] Fallback auto-auth skipped:", e.message));
+}
+
+/**
+ * OBJECTIVE 4: MEDIA LIBRARY VAULT CONTROLLER
+ * Manages administrative console document uploads, progress tracking, and table lists.
+ */
+async function uploadMediaAsset(file) {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+        console.log("[MEDIA HUB] Streaming file package stream matrix...");
+        const res = await fetch("http://localhost:5000/api/admin/media/upload", {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${token}` },
+            body: formData
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            alert("FILE_UPLOAD_SUCCESS: Document saved to secure storage.");
+            loadMediaLibraryGrid(); // Reload visual interface components
+        } else {
+            throw new Error(data.error || "File stream rejected by server validations.");
+        }
+    } catch (err) {
+        console.error("[MEDIA CRYPT VAULT ERROR]:", err.message);
+    }
+}
+
+// Visual layout grid loader for file items tracking
+async function loadMediaLibraryGrid() {
+    const mediaContainer = document.getElementById("mediaVaultGrid");
+    if (!mediaContainer) return;
+
+    try {
+        const res = await fetch("http://localhost:5000/api/admin/media", {
+            headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+        });
+        const assets = await res.json();
+        
+        mediaContainer.innerHTML = "";
+
+        // ==========================================================================
+        // 🚀 TARGET 2: LIVE DISK CAPACITY AGGREGATOR
+        // ==========================================================================
+        let totalSizeBytes = 0;
+        if (Array.isArray(assets)) {
+            assets.forEach(asset => {
+                totalSizeBytes += (asset.fileSize || 0);
+            });
+        }
+
+        // Convert backend bytes payload into Megabytes format
+        const totalSizeMB = (totalSizeBytes / (1024 * 1024)).toFixed(2);
+        const maxCapacityMB = 1000; // 1GB cap benchmark limit parameter
+        const trackingPct = Math.min(100, ((totalSizeMB / maxCapacityMB) * 100).toFixed(1));
+
+        // Locate storage dashboard analytic nodes
+        const sizeStringField = document.getElementById("vaultSizeMetricString");
+        const progressTrackTrack = document.getElementById("vaultProgressBarMetricTrack");
+
+        // Map live properties straight onto visual dashboard widgets
+        if (sizeStringField) {
+            sizeStringField.textContent = `${totalSizeMB} MB / ${maxCapacityMB} MB Used`;
+        }
+        if (progressTrackTrack) {
+            progressTrackTrack.style.width = `${trackingPct}%`;
+        }
+        // ==========================================================================
+
+        if (!Array.isArray(assets) || assets.length === 0) {
+            mediaContainer.innerHTML = `<div class="col-span-full py-8 text-center text-zinc-600 font-mono text-[11px] tracking-wider">[ CRYPT_VAULT_EMPTY_NO_ASSETS_TRACKED ]</div>`;
+            return;
+        }
+
+        assets.forEach(asset => {
+            mediaContainer.innerHTML += `
+                <div class="border border-zinc-900 bg-zinc-950 p-4 rounded-xl flex flex-col justify-between gap-3 text-xs">
+                    <div class="truncate font-mono text-zinc-300 font-bold">${asset.filename}</div>
+                    <div class="text-[10px] text-zinc-600 uppercase tracking-wider">${asset.mimeType} | ${(asset.fileSize / 1024).toFixed(1)} KB</div>
+                    <a href="${asset.fileUrl}" target="_blank" class="text-center text-blue-500 bg-blue-500/5 border border-blue-500/20 py-1.5 rounded-lg font-medium hover:bg-blue-500 hover:text-black transition">View Document</a>
+                </div>
+            `;
+        });
+    } catch (e) { console.log("Media list tracking component failed:", e); }
+}
+
+// Hook media grid loading track to lifecycle safely (Fixed loop scopes block)
+window.addEventListener("DOMContentLoaded", () => {
+    if(document.getElementById("mediaVaultGrid")) loadMediaLibraryGrid();
+});
+
+
+/**
+ * REFACTORED ADMIN SUPPORT CENTER ENGINE
+ * Automatically fetches from the global leads array and isolates help tickets natively
+ */
+async function loadSupportCenterPanel() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+        console.log("[SUPPORT CENTER] Fetching system inquiries...");
+        // 🚀 Points directly to the shared leads api endpoint that has your data
+        const res = await fetch(`${API_BASE}/api/leads`, {
+            headers: { 
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json" 
+            }
+        });
+
+        if (!res.ok) throw new Error("Failed to capture database logs stream");
+        const allRecords = await res.json();
+
+     // 🚀 BROAD FALLBACK PASS: Captures all inbound records safely to force render into the view panel
+// 🚀 FIXED: Captures absolutely every object inside your collection to force layout row insertions instantly!
+const supportTickets = Array.isArray(allRecords) ? allRecords : [];
+
+
+
+
+        // Locate your specific layout target element box for the support window view
+       // 🚀 BULLETPROOF SELECTOR: Finds the container even if the DOM layout is heavily nested
+const targetContainer = document.getElementById("supportCenterContainer") || 
+                        document.getElementById("supportTicketsTable") || 
+                        document.querySelector(".xl\\:col-span-2 .divide-y") ||
+                        document.querySelector("[id*='support']");
+
+        if (!targetContainer) return;
+
+              targetContainer.innerHTML = "";
+
+        // 🚀 Move counter here so it always refreshes—even if there are 0 tickets!
+        const countBadge = document.getElementById("supportBacklogCount");
+        if (countBadge) {
+            countBadge.textContent = `${supportTickets.length} Tickets`;
+        }
+
+        if (supportTickets.length === 0) {
+            targetContainer.innerHTML = `
+                <div class="p-8 text-center text-zinc-600 font-mono text-xs tracking-wider">
+                    [ NO_ACTIVE_SUPPORT_TICKETS_FOUND ]
+                </div>`;
+            return;
+        }
+
+
+        // 🚀 BULLETPROOF FIELD LOOKUP INJECTOR PASS
+        supportTickets.forEach((ticket, index) => {
+            const ticketRow = document.createElement("div");
+            ticketRow.className = "p-4 border border-zinc-900 bg-zinc-950/40 hover:bg-zinc-900/20 transition-all rounded-xl flex flex-col gap-3 mb-2.5 cursor-pointer select-none group/ticket";
+            
+            const detailsElementId = `ticket-unfold-id-${index}`;
+
+            // 💡 Extract properties safely using loose checks for both lowercase and uppercase variations
+            const displayName = ticket.name || ticket.component || "System Contact";
+            const displayEmail = ticket.email || "visitor@formait.com";
+            const displayStatus = (ticket.status || "NEW").toUpperCase();
+            
+            // 💡 Fallback extraction matrix captures text content from any incoming schema parameters
+            const displayMessage = ticket.message || ticket.text || ticket.details || "No query or payload description provided.";
+
+            ticketRow.innerHTML = `
+                <!-- Master Always-Visible Row Header Deck Layout -->
+                <div class="flex items-center justify-between gap-4 text-xs w-full" onclick="document.getElementById('${detailsElementId}').classList.toggle('hidden')">
+                    <div class="truncate max-w-[200px] shrink-0">
+                        <h5 class="text-white font-bold tracking-tight group-hover/ticket:text-blue-400 transition-colors">${displayName}</h5>
+                        <p class="text-zinc-500 font-mono text-[10px] mt-0.5 truncate">${displayEmail}</p>
+                    </div>
+                    
+                    <!-- Short Message Preview Substring Fragment Block -->
+                    <div class="flex-1 text-zinc-400 font-medium px-2 truncate max-w-sm italic">
+                        ${displayMessage}
+                    </div>
+                    
+                    <!-- State Action Control Indicators -->
+                    <div class="flex items-center gap-3 shrink-0">
+                        <span class="px-2 py-0.5 font-mono text-[10px] uppercase font-bold rounded bg-blue-500/10 text-blue-400 border border-blue-500/10">${displayStatus}</span>
+                        <button onclick="event.stopPropagation(); if(typeof resolveTicket === 'function') resolveTicket('${ticket._id || ticket.id}')" class="text-[10px] bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:text-white px-2.5 py-1 rounded transition text-zinc-400">Close</button>
+                    </div>
+                </div>
+
+                <!-- 🌐 Dynamic Expandable Container Panel Block -->
+                <div id="${detailsElementId}" class="hidden border-t border-zinc-900/80 pt-3 mt-1 text-xs text-zinc-300 leading-relaxed bg-[#0A0A0A]/60 p-3 rounded-lg border border-zinc-900/40 font-mono whitespace-pre-wrap">
+                    <span class="text-blue-500 font-bold block mb-1 uppercase tracking-widest text-[9px]">SYSTEM_MESSAGE_PAYLOAD:</span>
+                    ${displayMessage}
+                </div>
+            `;
+            targetContainer.appendChild(ticketRow);
+        });
+
+
+    } catch (err) {
+        console.error("[SUPPORT COMPONENT RUNTIME ERROR]:", err.message);
+    }
+}
+
+// Attach the layout updating routine to execute immediately when the Support Center menu item is loaded
+const supportCenterMenuButton = document.getElementById("supportCenterLink") || document.querySelector('[href="#support"]'); 
+if (supportCenterMenuButton) {
+    supportCenterMenuButton.addEventListener("click", loadSupportCenterPanel);
+}
+
+// ==========================================================================
+// 🚀 DYNAMIC INTERCEPTOR (CONSOLIDATED GLOBAL WORKSPACE DELEGATION ROUTER)
+// ==========================================================================
+document.addEventListener("click", (event) => {
+    // 1. GLOBAL ELEMENT EVENT DELEGATION PASS GATE FOR THE FILE INPUT BROWSER
+    const browseTrigger = event.target.closest("#browseFilesTrigger") || 
+                           event.target.closest(".underline.cursor-pointer");
+    
+    if (browseTrigger) {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log("[VAULT ENGINE] Local file explorer trigger clicked. Sumonning file browser path...");
+        
+        const fileInput = document.getElementById("mediaFileInput") || document.querySelector("input[type='file']");
+        if (fileInput) {
+            fileInput.click();
+            return; // Exit click execution safely
+        }
+    }
+
+    // 2. CENTRAL SIDEBAR NAVIGATION TAB SWITCH WATCHER
+    const target = event.target.closest("#supportCenterLink") || 
+                   event.target.closest('[href="#support"]') || 
+                   (event.target.textContent && (
+                       event.target.textContent.toLowerCase().includes("support center") || 
+                       event.target.textContent.toLowerCase().includes("media library")
+                   ));
+
+    if (target) {
+        const textContentLower = event.target.textContent ? event.target.textContent.toLowerCase() : "";
+
+        // Support Center View Trigger Synchronization Channel
+        if (textContentLower.includes("support center") || event.target.closest("#supportCenterLink")) {
+            console.log("[NAV WATCHER] Support Center active. Mounting live ticket streams...");
+            setTimeout(() => {
+                if (typeof loadSupportCenterPanel === "function") loadSupportCenterPanel();
+            }, 250); // Safe delay window ensures html blueprint text is fully painted to screen first
+        }
+
+        // Media Library View Trigger Synchronization Channel
+        if (textContentLower.includes("media library")) {
+            console.log("[NAV WATCHER] Media Library active. Instantiating storage layout view models...");
+            setTimeout(() => {
+                if (typeof loadMediaLibraryGrid === "function") loadMediaLibraryGrid();
+                if (typeof initMediaVaultIntakeZone === "function") initMediaVaultIntakeZone();
+            }, 250);
+        }
+    }
+});
+
+// ==========================================================================
+// 🚀 OBJECTIVE 4: MEDIA LIBRARY VAULT MANAGEMENT CONTROLLER PIPELINE
+// ==========================================================================
+
+// Central dynamic lifecycle initialization listener
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.getElementById("mediaVaultGrid") || window.location.pathname.includes("admin")) {
+        initMediaVaultIntakeZone();
+    }
+});
+
+function initMediaVaultIntakeZone() {
+    const dropZone = document.getElementById("mediaDropZone");
+    const fileInput = document.getElementById("mediaFileInput");
+
+    if (!dropZone || !fileInput) return;
+
+    console.log("[VAULT ENGINE] Media upload drag & drop dropzone modules connected successfully.");
+
+    // Prevent default browser file preview file interceptions
+    ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => e.preventDefault(), false);
+    });
+
+    // Visual drop state border hover style tracking parameters toggle transitions
+    ["dragenter", "dragover"].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => dropZone.classList.add("border-blue-500/50", "bg-blue-500/5"), false);
+    });
+    ["dragleave", "drop"].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => dropZone.classList.remove("border-blue-500/50", "bg-blue-500/5"), false);
+    });
+
+    // Capture file system drop streams transfers
+    dropZone.addEventListener("drop", (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0 && typeof handleMediaFilesIngest === "function") handleMediaFilesIngest(files);
+    });
+
+    fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0 && typeof handleMediaFilesIngest === "function") handleMediaFilesIngest(fileInput.files);
+    });
+}
+
+async function handleMediaFilesIngest(files) {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    const progressBox = document.getElementById("uploadProgressContainer");
+    const nameStr = document.getElementById("uploadingFilenameString");
+    const percentTxt = document.getElementById("uploadProgressPercentageText");
+    const progressTrack = document.getElementById("uploadProgressBarTrack");
+
+    // Sequential multi-file ingestion pipeline processing loop
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const formData = new FormData();
+        formData.append("file", file);
+
+        if (progressBox) progressBox.classList.remove("hidden");
+        if (nameStr) nameStr.textContent = `Ingesting: ${file.name}`;
+
+        try {
+            // Emulate client side stream tracking progression markers smoothly
+            let pct = 0;
+            const timer = setInterval(() => {
+                pct = Math.min(pct + 15, 90);
+                if (percentTxt) percentTxt.textContent = `${pct}%`;
+                if (progressTrack) progressTrack.style.width = `${pct}%`;
+            }, 100);
+
+            const res = await fetch("http://localhost:5000/api/admin/media/upload", {
+                method: "POST",
+                headers: { "Authorization": `Bearer ${token}` },
+                body: formData
+            });
+
+            clearInterval(timer);
+            const data = await res.json();
+
+            if (!res.ok) throw new Error(data.error || "Server validation exception");
+
+            if (percentTxt) percentTxt.textContent = "100%";
+            if (progressTrack) progressTrack.style.width = "100%";
+            
+            setTimeout(() => {
+                if (progressBox) progressBox.classList.add("hidden");
+            }, 800);
+
+        loadMediaLibraryGrid();
+
+if (typeof loadDashboard === "function") {
+    loadDashboard();
+}
+        } catch (err) {
+            console.error("[MEDIA CRYPT ENGINE FAIL]:", err.message);
+            alert("File transmission rejected by security: " + err.message);
+            if (progressBox) progressBox.classList.add("hidden");
+        }
+    }
+}
+
+async function loadMediaLibraryGrid() {
+    const container = document.getElementById("mediaVaultGrid");
+    if (!container) return;
+
+    try {
+        const res = await fetch("http://localhost:5000/api/admin/media", {
+            headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
+        });
+        if (!res.ok) throw new Error("Database validation mapping stalled.");
+        const assets = await res.json();
+
+        container.innerHTML = "";
+
+        // ==========================================================================
+        // 🚀 TARGET 2: DYNAMIC STORAGE ANALYTICS CAPACITY CALCULATOR
+        // ==========================================================================
+        let totalSizeBytes = 0;
+        assets.forEach(asset => {
+            totalSizeBytes += (asset.fileSize || 0);
+        });
+
+        // Convert raw database bytes data to readable Megabytes
+        const totalSizeMB = (totalSizeBytes / (1024 * 1024)).toFixed(2);
+        const maxCapacityMB = 1000; // Your 1GB storage metric limit cap parameters
+        const calculationPercentage = Math.min(100, ((totalSizeMB / maxCapacityMB) * 100).toFixed(1));
+
+        // Locate layout UI analytics nodes
+        const sizeStringField = document.getElementById("vaultSizeMetricString");
+        const progressTrackTrack = document.getElementById("vaultProgressBarMetricTrack");
+
+        // Map computed footprint values directly into dashboard visual indicators
+        if (sizeStringField) {
+            sizeStringField.textContent = `${totalSizeMB} MB / ${maxCapacityMB} MB Used`;
+        }
+        if (progressTrackTrack) {
+            progressTrackTrack.style.width = `${calculationPercentage}%`;
+        }
+        // ==========================================================================
+
+        if (assets.length === 0) {
+            container.innerHTML = `<div class="col-span-full py-8 text-center text-zinc-600 font-mono text-[11px] tracking-wider">[ CRYPT_VAULT_EMPTY_NO_ASSETS_TRACKED ]</div>`;
+            return;
+        }
+
+        assets.forEach(asset => {
+            const card = document.createElement("div");
+            card.className = "border border-zinc-900 bg-zinc-950 p-4 rounded-xl flex flex-col justify-between gap-3 text-xs font-mono border-zinc-900/60";
+            card.innerHTML = `
+                <div class="space-y-1">
+                    <div class="truncate text-zinc-300 font-bold tracking-tight text-[11px]">${asset.filename}</div>
+                    <div class="text-[9px] text-zinc-600 uppercase tracking-widest">${asset.mimeType} • ${(asset.fileSize / 1024).toFixed(1)} KB</div>
+                </div>
+                <div class="flex items-center gap-2 pt-1 border-t border-zinc-900/40 mt-1">
+                    <a href="${asset.fileUrl}" target="_blank" class="flex-1 text-center font-sans font-semibold text-blue-400 bg-blue-500/5 border border-blue-500/10 py-1.5 rounded-lg hover:bg-blue-500 hover:text-black transition duration-200">View Document</a>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+               } catch (e) { 
+        console.log("Media database layout grid sync skipped:", e.message); 
+    }
+}
+
+// ==========================================================================
+// 🚀 FIXED: UNIFIED WORKSPACE ROUTER INTERCEPTOR & CLICK DELEGATOR
+// ==========================================================================
+document.addEventListener("click", (event) => {
+    // 1. GLOBAL INTERCEPTION FOR DYNAMIC FILE BROWSE CLICK EVENTS
+    const browseTrigger = event.target.closest("#browseFilesTrigger") || 
+                          event.target.closest(".underline.cursor-pointer");
+    
+    if (browseTrigger) {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log("[VAULT ENGINE] Native file explorer summoned successfully.");
+        const hiddenInput = document.getElementById("mediaFileInput") || document.querySelector("input[type='file']");
+        if (hiddenInput) {
+            hiddenInput.click();
+            return;
+        }
+    }
+
+    // 2. CENTRAL SIDEBAR ROUTER TAB WATCHER
+    const target = event.target.closest("#supportCenterLink") || 
+                   event.target.closest('[href="#support"]') || 
+                   (event.target.textContent && (
+                       event.target.textContent.toLowerCase().includes("support center") || 
+                       event.target.textContent.toLowerCase().includes("media library")
+                   ));
+
+    if (target) {
+        const textContentLower = event.target.textContent ? event.target.textContent.toLowerCase() : "";
+
+        // Support Center Hot reload trigger
+        if (textContentLower.includes("support center") || event.target.closest("#supportCenterLink")) {
+            console.log("[NAV WATCHER] Support Center active. Mounting live ticket streams...");
+            setTimeout(() => {
+                if (typeof loadSupportCenterPanel === "function") loadSupportCenterPanel();
+            }, 250);
+        }
+
+        // Media Library Hot reload trigger
+        if (textContentLower.includes("media library")) {
+            console.log("[NAV WATCHER] Media Library active. Initializing templates...");
+            setTimeout(() => {
+                if (typeof loadMediaLibraryGrid === "function") loadMediaLibraryGrid();
+                if (typeof initMediaVaultIntakeZone === "function") initMediaVaultIntakeZone();
+            }, 250);
+        }
+    }
+});
+
+// ==========================================================================
+// 🚀 ADMINISTRATIVE HANDSHAKE FUNCTION: RESOLVE & UPDATE TICKET STATES
+// ==========================================================================
+async function resolveTicket(id) {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+        console.log(`[SUPPORT CENTER] Patching closure state payload for ID: ${id}...`);
+        const res = await fetch(`http://localhost:5000/api/leads/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ status: "Closed" })
+        });
+
+        if (!res.ok) throw new Error(`Server validation exception status: ${res.status}`);
+        console.log("[SUPPORT CENTER] Ticket updated inside MongoDB Atlas. Hot-reloading list rows...");
+        
+       if (typeof loadSupportCenterPanel === "function")
+    loadSupportCenterPanel();
+
+if (typeof loadDashboard === "function")
+    loadDashboard();
+
+if (typeof loadLeads === "function")
+    loadLeads();
+
+    } catch (err) {
+        console.error("[RESOLVE ENGINE ERROR]:", err.message);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    hydratePublicAboutPageContent();
+});
+
+// ==========================================================================
+// 🌐 UNIVERSAL LEAD SUBMISSION ENGINE
+// ==========================================================================
+
+async function submitLead(name, email, phone = "", message = "", source = "Website") {
+    try {
+        const response = await fetch(`${API_BASE}/api/leads`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                phone,
+                message,
+                source
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Lead submission failed.");
+        }
+
+        console.log("✅ Lead submitted successfully:", data);
+
+        return {
+            success: true,
+            data
+        };
+
+    } catch (error) {
+        console.error("❌ Lead submission failed:", error);
+
+        return {
+            success: false,
+            error
+        };
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const forms = document.querySelectorAll("form");
+
+    forms.forEach(form => {
+
+        form.addEventListener("submit", async (e) => {
+
+            e.preventDefault();
+
+            const name =
+                form.querySelector('input[type="text"]')?.value.trim() || "";
+
+            const email =
+                form.querySelector('input[type="email"]')?.value.trim() || "";
+
+            const phone =
+                form.querySelector('input[type="tel"]')?.value.trim() || "";
+
+            const textarea =
+                form.querySelector("textarea");
+
+            const message =
+                textarea?.value.trim() ||
+                form.querySelectorAll('input[type="text"]')[1]?.value.trim() ||
+                "";
+
+            const result = await submitLead(
+                name,
+                email,
+                phone,
+                message,
+                window.location.pathname
+            );
+
+            if (result.success) {
+
+                alert("✅ Thank you! Your inquiry has been received.");
+
+                form.reset();
+
+            } else {
+
+                alert("❌ Unable to communicate with backend server.");
+
+            }
+
+        });
+
+    });
+
+});
