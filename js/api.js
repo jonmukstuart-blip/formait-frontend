@@ -1,11 +1,8 @@
-const API = "http://localhost:5000/api";
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : "https://formait-backend.onrender.com";
 
-export async function getMessages(token) {
-  const res = await fetch(`${API}/admin/messages`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
+window.API_BASE = API_BASE;
 
-  return res.json();
-}
+console.log("[API BASE LOADED]", API_BASE);

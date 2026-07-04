@@ -59,7 +59,7 @@ if (!body.projectId) {
     alert("Invalid review link: missing projectId");
     return;
 }
-                const response = await fetch("http://localhost:5000/api/testimonials", {
+                const response = await fetch("https://formait-backend.onrender.com/api/testimonials", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

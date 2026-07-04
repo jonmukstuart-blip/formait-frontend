@@ -226,7 +226,7 @@ function renderMessagesFeed(messages) {
 /// ==========================================================================
 // 🔗 SYSTEM MONITOR CORE CONFIGURATION & LOG INFRASTRUCTURE
 // ==========================================================================
-const API_CONFIG = window.API_CONFIG || { BASE_URL: "http://localhost:5000/api" };
+const API_CONFIG = window.API_CONFIG || { BASE_URL: "https://formait-backend.onrender.com/api" };
 
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("token");
@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                          targetRow.querySelector("button[onclick*='purgeSupportTicket']");
                 
                 let targetEndpoint = isSupportMessage 
-                    ? `http://localhost:5000/api/messages/${leadId}`
+                    ? `https://formait-backend.onrender.com/api/messages/${leadId}`
                     : `${API_CONFIG.BASE_URL}/leads/${leadId}`;
 
                 console.log(`[PIPELINE INTEGRATION] Connecting secure fetch vector to: ${targetEndpoint}`);
@@ -319,7 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.status === 404) {
                     const fallbackEndpoint = isSupportMessage
                         ? `${API_CONFIG.BASE_URL}/leads/${leadId}`
-                        : `http://localhost:5000/api/messages/${leadId}`;
+                        : `https://formait-backend.onrender.com/api/messages/${leadId}`;
                     
                     console.log(`🔄 [404 DETECTED] Retrying alternative database collection pipeline: ${fallbackEndpoint}`);
                     response = await fetch(fallbackEndpoint, { method: "GET", headers });
@@ -461,7 +461,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const routePath = isSupportMessage ? 'messages' : 'leads';
                     
                     try {
-                        const res = await fetch(`http://localhost:5000/api/${routePath}/${lead._id}`, { method: "DELETE", headers });
+                        const res = await fetch(`https://formait-backend.onrender.com/api/${routePath}/${lead._id}`, { method: "DELETE", headers });
                         if (!res.ok) throw new Error(`Server returned error: ${res.status}`);
                         
                         targetRow.remove();
@@ -479,7 +479,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         const routePath = isSupportMessage ? 'messages' : 'leads';
                         
                         try {
-                            const res = await fetch(`http://localhost:5000/api/${routePath}/${lead._id}`, {
+                            const res = await fetch(`https://formait-backend.onrender.com/api/${routePath}/${lead._id}`, {
                                 method: "PUT", 
                                 headers, 
                                 body: JSON.stringify({ status: "reviewed" })

@@ -54,7 +54,7 @@ app.get("/", (req, res) => {
 // Multi-Origin Production CORS Matrix Configuration
 const allowedOrigins = process.env.ALLOWED_CORS_ORIGINS 
     ? process.env.ALLOWED_CORS_ORIGINS.split(",") 
-    : ["http://localhost:5173", "http://localhost:5000", "http://localhost:5500"];
+    : ["http://localhost:5173", "https://formait-backend.onrender.com", "http://localhost:5500"];
 
 app.use(cors({
     origin: (origin, callback) => {

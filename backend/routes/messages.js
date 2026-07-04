@@ -39,7 +39,7 @@ router.post("/:id/reply", protect, upload.single("file"), async (req, res) => {
         let dynamicAttachmentUrl = "";
 
         if (req.file) {
-            dynamicAttachmentUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+            dynamicAttachmentUrl = `https://formait-backend.onrender.com/uploads/${req.file.filename}`;
         }
 
         const updatePayload = {

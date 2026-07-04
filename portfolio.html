@@ -1656,7 +1656,7 @@ window.addEventListener("DOMContentLoaded", initializeMobileFrontendMenu);
         chatScroller.scrollTop = chatScroller.scrollHeight; // Fast auto-scroll down
 
         // 🚀 BROADCASTS DYNAMIC CHAT ENTRIES LIVE TO YOUR BACKEND PORT 5000:
-        fetch("http://localhost:5000/api/crm/care-inquiry", {
+        fetch("https://formait-backend.onrender.com/api/crm/care-inquiry", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: text })
@@ -1862,7 +1862,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!sessionToken) {
         try {
             console.log("[SECURITY HUB] Syncing authentication session keys...");
-            const authResponse = await fetch("http://localhost:5000/api/auth/login", {
+            const authResponse = await fetch("https://formait-backend.onrender.com/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -1942,7 +1942,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         try {
 const googleResponse = await fetch(
-    "http://localhost:5000/api/chat",
+    "https://formait-backend.onrender.com/api/chat",
     {
         method: "POST",
         headers: {

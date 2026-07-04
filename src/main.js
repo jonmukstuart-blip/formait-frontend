@@ -26,7 +26,7 @@ async function hydratePublicAboutPageContent() {
         console.log("[CMS MAIN] Pulling case-insensitive platform configurations from server...");
         
         // Pull down the active document entries from your backend content gateway
-        const response = await fetch("http://localhost:5000/api/admin/content/about");
+        const response = await fetch("https://formait-backend.onrender.com/api/admin/content/about");
         if (!response.ok) return;
         
         const result = await response.json();
@@ -603,7 +603,7 @@ function initKanbanColumnsEngine() {
 }
 
 async function login(email, password) {
-    const res = await fetch("http://localhost:5000/api/auth/login", {
+    const res = await fetch("https://formait-backend.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -625,7 +625,7 @@ async function login(email, password) {
 const token = localStorage.getItem("token");
 
 async function getLeads() {
-    const res = await fetch("http://localhost:5000/api/crm", {
+    const res = await fetch("https://formait-backend.onrender.com/api/crm", {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -867,7 +867,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 // Base API URL configuration
-const API_BASE_URL = "http://localhost:5000/api/crm";
+const API_BASE_URL = "https://formait-backend.onrender.com/api/crm";
 
 async function loadDashboard() {
     // 🚀 SAFETY PASS GATE: Stop running dashboard updates if we are on a public page
@@ -1107,7 +1107,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // Administrative platform fallback auto-login gateway credentials check
 if (!localStorage.getItem("token")) {
-  fetch("http://localhost:5000/api/auth/login", {
+  fetch("https://formait-backend.onrender.com/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -1142,7 +1142,7 @@ async function uploadMediaAsset(file) {
 
     try {
         console.log("[MEDIA HUB] Streaming file package stream matrix...");
-        const res = await fetch("http://localhost:5000/api/admin/media/upload", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/media/upload", {
             method: "POST",
             headers: { "Authorization": `Bearer ${token}` },
             body: formData
@@ -1166,7 +1166,7 @@ async function loadMediaLibraryGrid() {
     if (!mediaContainer) return;
 
     try {
-        const res = await fetch("http://localhost:5000/api/admin/media", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/media", {
             headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
         });
         const assets = await res.json();
@@ -1454,7 +1454,7 @@ async function handleMediaFilesIngest(files) {
                 if (progressTrack) progressTrack.style.width = `${pct}%`;
             }, 100);
 
-            const res = await fetch("http://localhost:5000/api/admin/media/upload", {
+            const res = await fetch("https://formait-backend.onrender.com/api/admin/media/upload", {
                 method: "POST",
                 headers: { "Authorization": `Bearer ${token}` },
                 body: formData
@@ -1490,7 +1490,7 @@ async function loadMediaLibraryGrid() {
     if (!container) return;
 
     try {
-        const res = await fetch("http://localhost:5000/api/admin/media", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/media", {
             headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
         });
         if (!res.ok) throw new Error("Database validation mapping stalled.");
@@ -1606,7 +1606,7 @@ async function resolveTicket(id) {
 
     try {
         console.log(`[SUPPORT CENTER] Patching closure state payload for ID: ${id}...`);
-        const res = await fetch(`http://localhost:5000/api/leads/${id}`, {
+        const res = await fetch(`https://formait-backend.onrender.com/api/leads/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

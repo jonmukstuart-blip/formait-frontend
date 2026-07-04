@@ -7,8 +7,8 @@ const getEnvConfig = () => {
     
     if (isLocalhost) {
         return {
-            API_BASE_URL: "http://localhost:5000/api/leads",
-            SOCKET_SERVER_URL: "http://localhost:5000",
+            API_BASE_URL: "https://formait-backend.onrender.com/api/leads",
+            SOCKET_SERVER_URL: "https://formait-backend.onrender.com",
             ENV: "development"
         };
     }

@@ -32,7 +32,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Real-Time Socket Distribution Client Hook -->
-    <script src="http://localhost:5000/socket.io/socket.io.js"></script>
+    <script src="https://formait-backend.onrender.com/socket.io/socket.io.js"></script>
     <script type="module" src="./frontend/main.js"></script>
 
     <script>
@@ -97,7 +97,7 @@
             const currentToken = localStorage.getItem("token");
 
             try {
-                const authResponse = await fetch("http://localhost:5000/api/auth/login", {
+                const authResponse = await fetch("https://formait-backend.onrender.com/api/auth/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -1902,7 +1902,7 @@ function initializeAICognitiveEngine() {
 
         try {
             // C. Dispatches network request to your server endpoint
-            const response = await fetch("http://localhost:5000/api/admin/ai/prompt", {
+            const response = await fetch("https://formait-backend.onrender.com/api/admin/ai/prompt", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -1972,8 +1972,8 @@ function initializeAICognitiveEngine() {
 // Safely enforce global fallback routing constants if not declared earlier on the page
 if (typeof API_CONFIG === "undefined") {
     var API_CONFIG = {
-        BASE_URL: "http://localhost:5000/api",
-        SOCKET_URL: "http://localhost:5000"
+        BASE_URL: "https://formait-backend.onrender.com/api",
+        SOCKET_URL: "https://formait-backend.onrender.com"
     };
 }
 
@@ -1981,7 +1981,7 @@ async function fetchLiveCmsContent(pageKey) {
     const verifiedBearerToken = localStorage.getItem("token");
     
     try {
-        const response = await fetch(`http://localhost:5000/api/admin/content/${pageKey}`, {
+        const response = await fetch(`https://formait-backend.onrender.com/api/admin/content/${pageKey}`, {
             headers: { 
                 "Authorization": `Bearer ${verifiedBearerToken}`, 
                 "Content-Type": "application/json" 
@@ -2051,7 +2051,7 @@ const payload = {
             submitBtn.disabled = true;
         }
 
-        const response = await fetch(`http://localhost:5000/api/admin/content/${pageKey}`, {
+        const response = await fetch(`https://formait-backend.onrender.com/api/admin/content/${pageKey}`, {
             method: "POST",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${verifiedBearerToken}` },
             body: JSON.stringify(payload)
@@ -2109,7 +2109,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     
     try {
         // 🎯 CRITICAL CORRECTION: Transmits the exact email and password expected by auth.js
-        const authResponse = await fetch("http://localhost:5000/api/auth/login", {
+        const authResponse = await fetch("https://formait-backend.onrender.com/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -2229,7 +2229,7 @@ window.addEventListener("resize", applyMobileLayoutSafely);
 // ==========================================================================
 document.addEventListener("DOMContentLoaded", () => {
 
-    const socket = io("http://localhost:5000", {
+    const socket = io("https://formait-backend.onrender.com", {
     transports: ["websocket", "polling"]
 });
 
@@ -2429,7 +2429,7 @@ async function loadServicesManagementPanel() {
 
     const bearerToken = localStorage.getItem("token");
     try {
-        const res = await fetch("http://localhost:5000/api/admin/services", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/services", {
             headers: { "Authorization": `Bearer ${bearerToken}`, "Content-Type": "application/json" }
         });
         if (!res.ok) throw new Error("Services data retrieval stalled");
@@ -2478,7 +2478,7 @@ async function createNewServiceTier(e) {
     }
 
     try {
-        const res = await fetch("http://localhost:5000/api/admin/services", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/services", {
             method: "POST",
             headers: { "Authorization": `Bearer ${bearerToken}`, "Content-Type": "application/json" },
             body: JSON.stringify({ title, tier, price, tag })
@@ -2505,7 +2505,7 @@ const getMediaSrc = (media) => {
 
   return media.startsWith("http")
     ? media
-    : `http://localhost:5000/uploads/${media}`;
+    : `https://formait-backend.onrender.com/uploads/${media}`;
 };
 
 async function loadPortfolioManagementPanel() {
@@ -2519,10 +2519,10 @@ async function loadPortfolioManagementPanel() {
         // FETCH DATA
         // =========================
 const [portfolioRes, testimonialRes] = await Promise.all([
-    fetch("http://localhost:5000/api/admin/portfolio", {
+    fetch("https://formait-backend.onrender.com/api/admin/portfolio", {
         headers: { Authorization: `Bearer ${bearerToken}` }
     }),
-    fetch("http://localhost:5000/api/admin/testimonials", {
+    fetch("https://formait-backend.onrender.com/api/admin/testimonials", {
         headers: { Authorization: `Bearer ${bearerToken}` }
     })
 ]);
@@ -2750,7 +2750,7 @@ async function createNewPortfolioItem(e) {
             submitBtn.disabled = true;
         }
 
-        const res = await fetch("http://localhost:5000/api/admin/portfolio", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/portfolio", {
             method: "POST",
             headers: { "Authorization": `Bearer ${bearerToken}` }, // Multipart handles its own boundary array properties
             body: formData
@@ -2785,7 +2785,7 @@ async function loadBlogEditorialPanel() {
 
     const bearerToken = localStorage.getItem("token");
     try {
-        const res = await fetch("http://localhost:5000/api/admin/blog", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/blog", {
             headers: { "Authorization": `Bearer ${bearerToken}`, "Content-Type": "application/json" }
         });
         if (!res.ok) throw new Error("Blog data stream exception");
@@ -2844,7 +2844,7 @@ async function createNewBlogArticle(e) {
             submitBtn.disabled = true;
         }
 
-        const res = await fetch("http://localhost:5000/api/admin/blog", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/blog", {
             method: "POST",
             headers: { "Authorization": `Bearer ${bearerToken}`, "Content-Type": "application/json" },
             body: JSON.stringify({ title, category, status, tags, seoScore })
@@ -2875,7 +2875,7 @@ async function loadSeoManagementPanel() {
 
     const bearerToken = localStorage.getItem("token");
     try {
-        const res = await fetch("http://localhost:5000/api/admin/seo", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/seo", {
             headers: { "Authorization": `Bearer ${bearerToken}` }
         });
         if (!res.ok) throw new Error("SEO read transaction stalled");
@@ -2899,7 +2899,7 @@ async function updateRobotsTxtConfig(e) {
             submitBtn.disabled = true;
         }
 
-        const res = await fetch("http://localhost:5000/api/admin/seo/robots", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/seo/robots", {
             method: "POST",
             headers: { "Authorization": `Bearer ${bearerToken}`, "Content-Type": "application/json" },
             body: JSON.stringify({ robotsTxt: robotsTextVal })
@@ -2927,7 +2927,7 @@ async function regenerateSitemapXml(e) {
             sitemapBtn.disabled = true;
         }
 
-        const res = await fetch("http://localhost:5000/api/admin/seo/sitemap", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/seo/sitemap", {
             method: "POST",
             headers: { "Authorization": `Bearer ${bearerToken}`, "Content-Type": "application/json" }
         });
@@ -2954,7 +2954,7 @@ async function loadMarketingHubPanel() {
 
     const bearerToken = localStorage.getItem("token");
     try {
-        const res = await fetch("http://localhost:5000/api/admin/marketing", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/marketing", {
             headers: { "Authorization": `Bearer ${bearerToken}` }
         });
         if (!res.ok) throw new Error("Data fetch error");
@@ -3039,7 +3039,7 @@ try {
         submitBtn.disabled = true;
     }
 
-    const res = await fetch("http://localhost:5000/api/admin/marketing", {
+    const res = await fetch("https://formait-backend.onrender.com/api/admin/marketing", {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${bearerToken}`
@@ -3087,7 +3087,7 @@ async function loadSupportCenterPanel(e) {
     const secureToken = localStorage.getItem("token");
     try {
         console.log("[SUPPORT CENTER] Querying live technical records streams...");
-        const res = await fetch("http://localhost:5000/api/messages", {
+        const res = await fetch("https://formait-backend.onrender.com/api/messages", {
             headers: { "Authorization": `Bearer ${secureToken}`, "Content-Type": "application/json" }
         });
         
@@ -3209,7 +3209,7 @@ async function submitAdminMessageResponse(e, ticketId) {
     }
 
     try {
-        const res = await fetch(`http://localhost:5000/api/messages/${ticketId}/reply`, {
+        const res = await fetch(`https://formait-backend.onrender.com/api/messages/${ticketId}/reply`, {
             method: "POST",
             headers: { "Authorization": `Bearer ${token}` },
             body: formData
@@ -3226,7 +3226,7 @@ async function purgeSupportTicket(ticketId) {
     if (!confirm("Permanently archive and close out this support ticket inquiry?")) return;
     const token = localStorage.getItem("token");
     try {
-        await fetch(`http://localhost:5000/api/messages/${ticketId}`, {
+        await fetch(`https://formait-backend.onrender.com/api/messages/${ticketId}`, {
             method: "DELETE",
             headers: { "Authorization": `Bearer ${token}` }
         });
@@ -3244,7 +3244,7 @@ async function loadMediaLibraryGrid(e) {
 
     const token = localStorage.getItem("token");
     try {
-        const res = await fetch("http://localhost:5000/api/admin/media", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/media", {
             headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" }
         });
         if (!res.ok) throw new Error(`Vault transaction status: ${res.status}`);
@@ -3343,7 +3343,7 @@ async function uploadMediaBinaryPayload(files) {
         try {
             await new Promise((resolve, reject) => {
                 const xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:5000/api/admin/media/upload");
+                xhr.open("POST", "https://formait-backend.onrender.com/api/admin/media/upload");
                 xhr.setRequestHeader("Authorization", `Bearer ${token}`);
 
                 xhr.upload.addEventListener("progress", (e) => {
@@ -3385,7 +3385,7 @@ async function loadOperatorsManagementPanel() {
 
     const tokenPass = localStorage.getItem("token");
     try {
-        const res = await fetch("http://localhost:5000/api/admin/operators", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/operators", {
             headers: { "Authorization": `Bearer ${tokenPass}`, "Content-Type": "application/json" }
         });
         if (!res.ok) throw new Error(`Fetch status: ${res.status}`);
@@ -3446,7 +3446,7 @@ async function mutateOperatorStatus(opId, targetStatus) {
 
     const tokenPass = localStorage.getItem("token");
     try {
-        const res = await fetch(`http://localhost:5000/api/admin/operators/${cleanId}/status`, {
+        const res = await fetch(`https://formait-backend.onrender.com/api/admin/operators/${cleanId}/status`, {
             method: "PUT",
             headers: { "Authorization": `Bearer ${tokenPass}`, "Content-Type": "application/json" },
             body: JSON.stringify({ status: targetStatus })
@@ -3477,7 +3477,7 @@ async function commitOperatorPasswordReset(opId) {
     }
 
     try {
-        const res = await fetch(`http://localhost:5000/api/admin/operators/${cleanId}/password`, {
+        const res = await fetch(`https://formait-backend.onrender.com/api/admin/operators/${cleanId}/password`, {
             method: "PUT",
             headers: { "Authorization": `Bearer ${tokenPass}`, "Content-Type": "application/json" },
             body: JSON.stringify({ newPassword })
@@ -3504,7 +3504,7 @@ async function purgeOperatorSeat(opId) {
     if (!confirm("Permanently delete and revoke active access bounds for this seat operator?")) return;
     const tokenPass = localStorage.getItem("token");
     try {
-        const res = await fetch(`http://localhost:5000/api/admin/operators/${cleanId}`, {
+        const res = await fetch(`https://formait-backend.onrender.com/api/admin/operators/${cleanId}`, {
             method: "DELETE",
             headers: { "Authorization": `Bearer ${tokenPass}` }
         });
@@ -3538,7 +3538,7 @@ async function provisionNewSeatLink(e) {
             submitBtn.disabled = true;
         }
 
-        const res = await fetch("http://localhost:5000/api/admin/operators", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/operators", {
             method: "POST",
             headers: { "Authorization": `Bearer ${tokenPass}`, "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, role, status, networkLocation: "Secure Core Remote Network" })
@@ -3574,7 +3574,7 @@ async function loadIntegrationsManagementPanel() {
     const token = localStorage.getItem("token");
     try {
         console.log("[INTEGRATIONS] Extracting active pipeline maps from server...");
-        const res = await fetch("http://localhost:5000/api/admin/integrations", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/integrations", {
             headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" }
         });
         if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
@@ -3623,7 +3623,7 @@ async function authenticateNewApiRoute(e) {
             submitBtn.disabled = true;
         }
 
-        const res = await fetch("http://localhost:5000/api/admin/integrations", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/integrations", {
             method: "POST",
             headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
             body: JSON.stringify({ moduleName, scope, status: "CONNECTED" })
@@ -3645,7 +3645,7 @@ async function authenticateNewApiRoute(e) {
 async function toggleIntegrationState(modId) {
     const token = localStorage.getItem("token");
     try {
-        const res = await fetch(`http://localhost:5000/api/admin/integrations/${modId}/toggle`, {
+        const res = await fetch(`https://formait-backend.onrender.com/api/admin/integrations/${modId}/toggle`, {
             method: "PUT",
             headers: { "Authorization": `Bearer ${token}` }
         });
@@ -3663,7 +3663,7 @@ async function loadSecurityOperationsPanel() {
     const token = localStorage.getItem("token");
     try {
         console.log("[SECURITY] Streaming immutable system audit logs trail...");
-        const res = await fetch("http://localhost:5000/api/admin/security/logs", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/security/logs", {
             headers: { "Authorization": `Bearer ${token}` }
         });
         if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
@@ -3704,7 +3704,7 @@ async function triggerGlobalSessionPurge(e) {
             submitBtn.disabled = true;
         }
 
-        await fetch("http://localhost:5000/api/admin/security/session-reset", {
+        await fetch("https://formait-backend.onrender.com/api/admin/security/session-reset", {
             method: "POST",
             headers: { "Authorization": `Bearer ${token}` }
         });
@@ -3718,7 +3718,7 @@ async function loadCompanySettingsPanel() {
     const token = localStorage.getItem("token");
     try {
         console.log("[SETTINGS] Extracting brand variables configurations...");
-        const res = await fetch("http://localhost:5000/api/admin/settings", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/settings", {
             headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" }
         });
         if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
@@ -3754,7 +3754,7 @@ async function commitCompanyGlobalSettings(e) {
             submitBtn.disabled = true;
         }
 
-        const res = await fetch("http://localhost:5000/api/admin/settings", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/settings", {
             method: "POST",
             headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
             body: JSON.stringify(payload)
@@ -3784,7 +3784,7 @@ async function loadActivityTrackingStream() {
     const token = localStorage.getItem("token");
     try {
         console.log("[AUDIT] Synchronizing event timeline stream with MongoDB Atlas...");
-        const res = await fetch("http://localhost:5000/api/admin/activity-logs", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/activity-logs", {
             headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" }
         });
         if (!res.ok) throw new Error(`Fetch error: ${res.status}`);
@@ -3838,7 +3838,7 @@ async function exportImmutableAuditCsv(e) {
     
     try {
         if (csvBtn) csvBtn.innerText = "COMPILING SPREADSHEETS...";
-        const res = await fetch("http://localhost:5000/api/admin/activity-logs", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/activity-logs", {
             headers: { "Authorization": `Bearer ${token}` }
         });
         const logs = await res.json();
@@ -3888,7 +3888,7 @@ async function commitEmailAutoReplyTemplate(e) {
             submitBtn.disabled = true;
         }
 
-        const res = await fetch("http://localhost:5000/api/admin/email/templates", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/email/templates", {
             method: "POST",
             headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
             body: JSON.stringify({ triggerTag, replyBody })
@@ -3923,7 +3923,7 @@ async function loadAnalyticsDataFeed(e) {
     const token = localStorage.getItem("token");
     try {
         console.log("[ANALYTICS] Fetching real-time workspace traffic metrics...");
-        const res = await fetch("http://localhost:5000/api/admin/analytics", {
+        const res = await fetch("https://formait-backend.onrender.com/api/admin/analytics", {
             headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" }
         });
         if (!res.ok) throw new Error(`Fetch state error: ${res.status}`);
@@ -3973,7 +3973,7 @@ async function loadAnalyticsDataFeed(e) {
 async function generateTestimonialLink(projectId, projectTitle) {
 
     try {
-        const res = await fetch("http://localhost:5000/api/testimonials/generate", {
+        const res = await fetch("https://formait-backend.onrender.com/api/testimonials/generate", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -4106,7 +4106,7 @@ function toggleTestimonial(id) {
 // =========================================
 
 async function approveTestimonial(id) {
-    await fetch(`http://localhost:5000/api/admin/testimonials/${id}/approve`, {
+    await fetch(`https://formait-backend.onrender.com/api/admin/testimonials/${id}/approve`, {
         method: "PUT",
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -4117,7 +4117,7 @@ async function approveTestimonial(id) {
 }
 
 async function rejectTestimonial(id) {
-    await fetch(`http://localhost:5000/api/admin/testimonials/${id}/reject`, {
+    await fetch(`https://formait-backend.onrender.com/api/admin/testimonials/${id}/reject`, {
         method: "PUT",
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`

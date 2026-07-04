@@ -1031,7 +1031,7 @@ document.addEventListener("DOMContentLoaded", () => {
             elements.careChatScroller.scrollTop = elements.careChatScroller.scrollHeight;
 
             // Silent log upload to CRM log stream proxy
-            fetch("http://localhost:5000/api/crm/care-inquiry", {
+            fetch("https://formait-backend.onrender.com/api/crm/care-inquiry", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ text: txt })
@@ -1206,7 +1206,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
 const googleResponse = await fetch(
-    "http://localhost:5000/api/chat",
+    "https://formait-backend.onrender.com/api/chat",
     {
         method: "POST",
         headers: {

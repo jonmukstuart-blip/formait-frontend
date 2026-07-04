@@ -58,7 +58,7 @@ router.post("/media/upload", protect, uploadMiddleware.single("file"), async (re
         }
 
         // Generating asset resolution tracking parameters path urls context mapping natively
-        const resolvedFileUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+        const resolvedFileUrl = `https://formait-backend.onrender.com/uploads/${req.file.filename}`;
 
         // 🚀 CRITICAL ALIGNMENT MATRIX ADAPTATION: Match with the strict Mongoose fields we saved in Target 3
         const assetRecord = new MediaAsset({
@@ -176,7 +176,7 @@ router.post("/portfolio", protect, uploadMiddleware.single("file"), async (req, 
         // Track image URL url paths natively if a physical thumbnail was uploaded
         let uploadedImageUrl = "";
         if (req.file) {
-            uploadedImageUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+            uploadedImageUrl = `https://formait-backend.onrender.com/uploads/${req.file.filename}`;
             
             // 🚀 INTEGRITY LOGGING BONUS: Create a metadata log inside your general Media Asset collection too!
             const mediaLog = new MediaAsset({
@@ -335,7 +335,7 @@ router.post("/marketing", protect, uploadMiddleware.single("file"), async (req, 
         // Extract the locally saved upload file url if the admin appended an asset package chunk
         let finalCreativeUrl = "";
         if (req.file) {
-            finalCreativeUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+            finalCreativeUrl = `https://formait-backend.onrender.com/uploads/${req.file.filename}`;
             
             // Log it in your general Media Assets pool too so your global storage bars track the space
             const logAsset = new MediaAsset({
