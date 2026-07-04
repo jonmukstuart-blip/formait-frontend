@@ -12,7 +12,7 @@ import Service from "../models/Service.js";
 import Portfolio from "../models/Portfolio.js";
 import Blog from "../models/Blog.js";
 import Seo from "../models/Seo.js";
-import Marketing from "../models/marketing.js";
+import Marketing from "../models/Marketing.js";
 import Operator from "../models/Operator.js";
 import Integration from "../models/Integration.js";
 import AuditLog from "../models/AuditLog.js";
