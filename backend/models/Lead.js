@@ -50,6 +50,17 @@ const leadSchema = new mongoose.Schema({
     notes: {
         type: String,
         default: ""
+    },
+
+    // ✅ FIXED PART BELOW
+    reply: {
+        type: String,
+        default: ""
+    },
+
+    repliedAt: {
+        type: Date,
+        default: null
     }
 
 }, { timestamps: true });

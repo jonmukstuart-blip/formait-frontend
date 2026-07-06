@@ -872,5 +872,16 @@ router.post("/content/:pageKey", protect, async (req, res) => {
     }
 });
 
+async function sendReply(id, reply) {
+  const res = await fetch(`${API_BASE}/api/leads/${id}/reply`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    },
+    body: JSON.stringify({ reply })
+  });
 
+  return res.json();
+}
 export default router;

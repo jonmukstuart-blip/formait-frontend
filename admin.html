@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>forma.IT Admin Dashboard</title>
 
-     <script src="./frontend/api.js"></script>
+     <script src="./js/api.js"></script>
     <!-- 🎯 1. SYNCHRONOUS FORCE-HIDE SECURITY INTERCEPTOR (KILLS FLASHES INSTANTLY) -->
     <script>
        (function enforceSecureAuthGate() {
@@ -3214,12 +3214,22 @@ async function submitAdminMessageResponse(e, ticketId) {
             headers: { "Authorization": `Bearer ${token}` },
             body: formData
         });
-        if (res.ok) {
-            // Note: The UI updates instantly across all open monitors automatically 
-            // because your backend routes trigger a broad WebSocket sync emission request!
-            await loadSupportCenterPanel();
-        }
-    } catch (err) { console.error(err.message); }
+      if (res.ok) {
+
+    alert("✅ Reply sent successfully.");
+
+    document.getElementById(`replyText-${ticketId}`).value = "";
+
+    if (fileInput) {
+        fileInput.value = "";
+    }
+
+    await loadSupportCenterPanel();
+}
+    } catch (err) {
+    console.error(err);
+    alert("❌ Failed to send reply.");
+}
 }
 
 async function purgeSupportTicket(ticketId) {

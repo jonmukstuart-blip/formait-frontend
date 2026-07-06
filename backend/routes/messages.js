@@ -45,10 +45,11 @@ router.post("/:id/reply", protect, upload.single("file"), async (req, res) => {
         const updatePayload = {
             $push: {
                 adminReplies: {
-                    text: replyText,
-                    createdAt: new Date(),
-                    attachmentUrl: dynamicAttachmentUrl || null
-                }
+    text: replyText,
+    createdAt: new Date(),
+    repliedBy: req.user?.name || "Administrator",
+    attachmentUrl: dynamicAttachmentUrl || null
+}
             }
         };
 
@@ -61,6 +62,23 @@ router.post("/:id/reply", protect, upload.single("file"), async (req, res) => {
         if (!updatedTicket) {
             return res.status(404).json({ error: "Ticket not found" });
         }
+
+        await transporter.sendMail({
+    from: `"FORMA.IT" <${process.env.EMAIL_USER}>`,
+    to: updatedTicket.email,
+    subject: "Response from FORMA.IT",
+
+    text: `Hi ${updatedTicket.name},
+
+Thank you for contacting FORMA.IT.
+
+Our response:
+
+${replyText}
+
+Best regards,
+FORMA.IT Team`
+});
 
         console.log(`💾 Reply saved for ticket: ${id}`);
 

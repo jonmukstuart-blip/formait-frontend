@@ -36,10 +36,27 @@ const messageSchema = new mongoose.Schema(
     },
 
     // 🚀 NEW HIGH-DENSITY AUDIT TRAIL: Records multi-reply history streams inside MongoDB
-    adminReplies: [{
-        replyText: { type: String, required: true },
-        timestamp: { type: Date, default: Date.now }
-    }],
+   adminReplies: [{
+    text: {
+        type: String,
+        required: true
+    },
+
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+
+    repliedBy: {
+        type: String,
+        default: "Administrator"
+    },
+
+    attachmentUrl: {
+        type: String,
+        default: ""
+    }
+}],
 
     // 🚀 NEW STORAGE TRACKER: Stores uploaded file attachments or screenshot URLs
     attachmentUrl: {
