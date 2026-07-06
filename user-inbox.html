@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Messages - FORMA.IT</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        const API_BASE =
+          window.location.hostname === "localhost"
+            ? "http://localhost:5000"
+            : "https://formait-backend.onrender.com";
+    </script>
+
+    <script src="./js/user-inbox.js"></script>
+</head>
+
+<body class="bg-black text-white p-6">
+
+    <h1 class="text-2xl font-bold mb-6">📩 My Messages</h1>
+
+    <!-- EMAIL INPUT -->
+    <div class="mb-4">
+        <input id="emailInput"
+               placeholder="Enter your email"
+               class="w-full p-3 bg-zinc-900 border border-zinc-700 rounded text-white">
+    </div>
+
+    <!-- BUTTON -->
+    <button onclick="loadUserMessages(document.getElementById('emailInput').value)"
+            class="bg-blue-500 text-black px-5 py-2 rounded font-bold">
+        Load My Messages
+    </button>
+
+    <!-- MESSAGES -->
+    <div id="messagesContainer" class="mt-6 space-y-4"></div>
+
+</body>
+</html>
