@@ -1,50 +1,107 @@
+let isInitialLoadDone = false;
+
+const socket = io("https://formait-backend.onrender.com");
+
 async function loadUserMessages(email) {
     if (!email) {
         alert("Please enter your email");
         return;
     }
 
-    const res = await fetch(`${API_BASE}/api/messages`);
-    const messages = await res.json();
+    try {
+        const res = await fetch(`${API_BASE}/api/messages/public/${email}`);
+        const messages = await res.json();
 
-    const userMessages = messages.filter(m => m.email === email);
+        if (!Array.isArray(messages)) {
+            throw new Error("Invalid response from server");
+        }
 
-    const container = document.getElementById("messagesContainer");
+        const container = document.getElementById("messagesContainer");
 
-    if (userMessages.length === 0) {
-        container.innerHTML = "<p class='text-zinc-500'>No messages found.</p>";
-        return;
-    }
+        if (messages.length === 0) {
+            container.innerHTML = "<p class='text-zinc-500'>No messages found.</p>";
+            return;
+        }
 
-    container.innerHTML = userMessages.map(msg => `
-        <div class="border border-zinc-800 p-4 rounded-lg">
+        container.innerHTML = messages.map(msg => `
 
-            <p class="font-bold text-white">${msg.name}</p>
-            <p class="text-zinc-400 mt-1">${msg.message}</p>
+            <div class="border border-zinc-800 p-4 rounded-lg mb-6 bg-black/20">
 
-            <div class="mt-3">
-                <p class="text-xs text-zinc-500">Status: ${msg.status}</p>
+                <!-- STATUS -->
+                <div class="flex justify-between items-center mb-3 text-xs">
+                    <span class="text-zinc-500">
+                        ${msg.status || "New"}
+                    </span>
+
+                    ${
+                        msg.adminReplies?.length > 0
+                        ? `<span class="text-green-400 font-bold">✔ Replied</span>`
+                        : `<span class="text-yellow-400">⏳ Waiting</span>`
+                    }
+                </div>
+
+                <!-- USER MESSAGE (RIGHT SIDE) -->
+                <div class="flex justify-end mb-3">
+                    <div class="bg-zinc-800 text-white px-3 py-2 rounded-xl max-w-xs break-words">
+                        ${msg.message}
+                        <div class="text-[10px] text-zinc-500 mt-1">
+                            You
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADMIN REPLIES (LEFT SIDE) -->
+                ${
+                    msg.adminReplies?.length
+                    ? msg.adminReplies.map(r => `
+                        <div class="flex justify-start mb-2">
+                            <div class="bg-blue-600 text-white px-3 py-2 rounded-xl max-w-xs break-words">
+                                ${r.text}
+                                <div class="text-[10px] opacity-60 mt-1">
+                                    ${new Date(r.createdAt).toLocaleString()}
+                                </div>
+                            </div>
+                        </div>
+                    `).join("")
+                    : `<p class="text-xs text-zinc-500">No reply yet</p>`
+                }
+
             </div>
 
-            ${
-                msg.adminReplies?.length
-                ? `
-                    <div class="mt-4 p-3 bg-zinc-900 rounded">
-                        <p class="text-green-400 text-xs font-bold mb-2">Admin Replies:</p>
+        `).join("");
 
-                        ${msg.adminReplies.map(r => `
-                            <div class="border-l-2 border-blue-500 pl-3 mb-2">
-                                <p class="text-sm text-white">${r.text}</p>
-                                <p class="text-[10px] text-zinc-500">
-                                    ${new Date(r.createdAt).toLocaleString()}
-                                </p>
-                            </div>
-                        `).join("")}
-                    </div>
-                `
-                : `<p class="text-xs text-zinc-500 mt-2">No reply yet</p>`
-            }
+        // AUTO SCROLL TO BOTTOM
+        setTimeout(() => {
+            container.scrollTop = container.scrollHeight;
+        }, 100);
 
-        </div>
-    `).join("");
+    } catch (err) {
+        console.error("Failed to load messages:", err);
+        document.getElementById("messagesContainer").innerHTML =
+            "<p class='text-red-400'>Failed to load messages</p>";
+    }
 }
+isInitialLoadDone = true;
+
+// AUTO LOAD ON PAGE OPEN
+document.addEventListener("DOMContentLoaded", () => {
+    const email =
+    localStorage.getItem("userEmail") ||
+    document.getElementById("emailInput")?.value;
+
+    if (email) {
+        loadUserMessages(email);
+    }
+});
+
+socket.on("messageUpdated", (data) => {
+    const email =
+        localStorage.getItem("userEmail") ||
+        document.getElementById("emailInput")?.value;
+
+    if (!email || !data.email) return;
+
+    if (data.email === email && isInitialLoadDone) {
+        loadUserMessages(email);
+    }
+});
