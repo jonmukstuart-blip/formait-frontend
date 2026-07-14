@@ -74,6 +74,7 @@ async function loadUserMessages(email) {
         setTimeout(() => {
             container.scrollTop = container.scrollHeight;
         }, 100);
+        isInitialLoadDone = true;
 
     } catch (err) {
         console.error("Failed to load messages:", err);
@@ -81,7 +82,6 @@ async function loadUserMessages(email) {
             "<p class='text-red-400'>Failed to load messages</p>";
     }
 }
-isInitialLoadDone = true;
 
 // AUTO LOAD ON PAGE OPEN
 document.addEventListener("DOMContentLoaded", () => {
@@ -101,7 +101,10 @@ socket.on("messageUpdated", (data) => {
 
     if (!email || !data.email) return;
 
-    if (data.email === email && isInitialLoadDone) {
-        loadUserMessages(email);
-    }
+    if (data.email !== email) return;
+
+    // only refresh AFTER first load is done
+    if (!isInitialLoadDone) return;
+
+    loadUserMessages(email);
 });

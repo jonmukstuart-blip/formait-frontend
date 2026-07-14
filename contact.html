@@ -149,11 +149,12 @@ body {
             </nav>
 
             <!-- CALL TO ACTION AND MOBILE MENU CONTROLLER BLOCK -->
-            <div class="flex items-center gap-4">
-                <a href="contact.html"
-                    class="hidden sm:flex items-center justify-center px-6 py-3 rounded-full bg-blue-500 text-black font-semibold hover:scale-105 transition text-sm shadow-lg shadow-blue-500/10">
-                    Get Started
-                </a>
+            <div id="clientAuthArea" class="hidden sm:flex"></div>
+
+<a href="contact.html"
+    class="hidden sm:flex items-center justify-center px-6 py-3 rounded-full bg-blue-500 text-black font-semibold hover:scale-105 transition text-sm shadow-lg shadow-blue-500/10">
+    Get Started
+</a>
                 
                 <!-- MOBILE TRIGGER BUTTON (Revealed on small mobile devices layout only) -->
                 <button id="mobileNavToggle" class="md:hidden p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-xs font-bold uppercase text-zinc-400 tracking-wider hover:text-white transition">
@@ -343,7 +344,7 @@ body {
 
                         <!-- 4. REGISTRATION SUBMIT ACTION LINK -->
                         <button type="submit" class="w-full flex items-center justify-center py-4 px-6 rounded-xl bg-blue-500 text-black font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-sm shadow-lg shadow-blue-500/10 cursor-pointer">
-                            Transmit System Payload ➔
+                            SUBMIT ➔
                         </button>
 
                     </form>
@@ -874,7 +875,7 @@ window.addEventListener("DOMContentLoaded", initializeMobileFrontendMenu);
 
             if (!response.ok) throw new Error("Server pipeline rejected entry.");
 
-            await fetch("http://127.0.0.1:5000/api/messages", {
+            await fetch(`${API_BASE}/api/messages`, {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -1370,6 +1371,7 @@ triggerNode.addEventListener("click", (e) => {
     }
 })();
 </script>
+
 <!-- 1. Load Core GSAP Library First -->
 <script src="https://cloudflare.com"></script>
 

@@ -1,7 +1,9 @@
 // backend/server.js
 import dotenv from "dotenv";
-dotenv.config(); // Must remain on top to feed values to modules
+dotenv.config();
 
+console.log("MAIL USER:", process.env.EMAIL_USER);
+console.log("MAIL PASS:", process.env.EMAIL_PASS ? "FOUND" : "MISSING");
 import { setServers } from "node:dns";
 try {
     setServers(["8.8.8.8", "8.8.4.4"]); // Safely map database stream connections
@@ -34,6 +36,7 @@ import aiAgentRouter from "./routes/aiAgent.js"; // Unified Autonomous Agent Rou
 import chatRoutes from "./routes/chat.js";
 import testimonialRoutes from "./routes/testimonialRoutes.js";
 import portfolioRoutes from "./routes/portfolioRoutes.js";
+import clientRoutes from "./routes/client.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -84,6 +87,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/admin/testimonials", testimonialAdminRoutes);
 app.use("/api/portfolio", portfolioRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/client", clientRoutes);
 
 // Direct target gateway for your AI Agent Panel executions
 app.use("/api/ai", aiAgentRouter); 
