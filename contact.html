@@ -865,7 +865,7 @@ window.addEventListener("DOMContentLoaded", initializeMobileFrontendMenu);
 
         try {
             // Streams data live through your active backend proxy gateway
-            const response = await fetch("http://127.0.0.1:5000/api/leads", {
+            const response = await fetch(`${API_BASE}/api/leads`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
