@@ -1,5 +1,5 @@
 const API_CONFIG = {
-    BASE_URL: window.API_BASE || "https://formait-backend.onrender.com/api"
+    BASE_URL: `${window.API_BASE || "https://formait-backend.onrender.com"}/api`
 };
 
 // Global cache storage to keep track of live data arrays
@@ -305,14 +305,9 @@ let targetEndpoint = isSupportMessage
                 let response = await fetch(targetEndpoint, { method: "GET", headers });
                 
                 // ⚡ FAILOVER LIFELINE VALUE: If the guessed collection returns 404, hot-swap endpoints instantly!
-                if (response.status === 404) {
-                  const fallbackEndpoint = isSupportMessage
-    ? `${API_CONFIG.BASE_URL}/leads/${leadId}`
-    : `${API_CONFIG.BASE_URL}/messages/${leadId}`;
-    
-                    console.log(`🔄 [404 DETECTED] Retrying alternative database collection pipeline: ${fallbackEndpoint}`);
-                    response = await fetch(fallbackEndpoint, { method: "GET", headers });
-                }
+if (!response.ok) {
+    throw new Error(`Record lookup failed: ${response.status}`);
+}
 
                 // If both the primary and fallback routes fail, securely exit the loop
                 if (!response.ok) throw new Error(`Dual-Gateway collection route lookup failed: ${response.status}`);
