@@ -35,59 +35,14 @@
     <script src="./frontend/main.js"></script>
 
     <script>
-        // ==========================================================================
-        // 🛡️ 2. CRITICAL UI ARCHITECTURE ACCIDENTAL OVERWRITE DEFLECTOR
-        // ==========================================================================
-        (function freezePipelineRenderingArchitecture() {
-            console.log("🔒 [SECURITY SHIELD] Locking the master layout pipeline rendering functions against accidental background script loops...");
+window.renderLeadsPipeline = function(leads){
+    const tableBody = document.getElementById("leadsTableBody") || document.getElementById("leadsTable");
+    if(!tableBody) return;
 
-            const masterPipelineRendererEngine = function universalProtectedRenderEngine(leads) {
-                const tableBody = document.getElementById("leadsTableBody") || document.getElementById("leadsTable");
-                if (!tableBody) return;
-
-                if (!leads || leads.length === 0) {
-                    tableBody.innerHTML = `<tr><td colspan="3" class="py-8 text-center text-zinc-600 text-xs font-mono uppercase tracking-wider">No active pipeline records detected in database buffer.</td></tr>`;
-                    return;
-                }
-
-                tableBody.innerHTML = leads.map(lead => {
-                    const targetId = lead._id || lead.id || "";
-                    const currentStatus = lead.status || "New";
-                    return `
-                        <tr class="lead-row group border-b border-zinc-900/40 hover:bg-zinc-900/30 transition duration-150 cursor-pointer select-none" data-id="${targetId}">
-                            <td class="py-4 pr-4 pl-2">
-                                <div class="text-sm font-semibold text-zinc-100 group-hover:text-blue-400 transition truncate max-w-[240px]">${lead.name || 'Al Chat Bot User'}</div>
-                                <div class="text-xs text-zinc-500 font-mono mt-1 truncate max-w-[240px]">${lead.email || "client-node@forma.it"}</div>
-                            </td>
-                            <td class="py-4">
-                                <select class="status-mutator bg-zinc-950 border border-zinc-800 hover:border-zinc-700 text-zinc-300 rounded-lg px-2.5 py-1 text-xs font-mono tracking-wide focus:border-blue-500 focus:outline-none cursor-default transition uppercase" data-id="${targetId}" onclick="event.stopPropagation();">
-                                    <option value="New" ${currentStatus === 'New' || currentStatus === 'NEW' || !currentStatus || currentStatus === 'Logged' ? 'selected' : ''}>🆕 New</option>
-                                    <option value="Contacted" ${currentStatus === 'Contacted' ? 'selected' : ''}>📞 Contacted</option>
-                                    <option value="Qualified" ${currentStatus === 'Qualified' ? 'selected' : ''}>🔥 Qualified</option>
-                                    <option value="Won" ${currentStatus === 'Won' ? 'selected' : ''}>🏆 Won</option>
-                                </select>
-                            </td>
-                            <td class="py-4 text-right pl-4">
-                                <div class="flex items-center justify-end gap-3">
-                                    <span class="text-xs font-mono text-zinc-400 tracking-tight pr-2">${lead.source || "Website Contact Form"}</span>
-                                    <button class="delete-lead-btn p-1.5 text-zinc-600 hover:text-red-400 rounded-lg hover:bg-red-500/10 transition duration-200 cursor-pointer" data-id="${targetId}" onclick="event.stopPropagation();">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>`;
-                }).join("");
-            };
-
-            try {
-                Object.defineProperty(window, 'renderLeadsPipeline', { value: masterPipelineRendererEngine, writable: false, configurable: false });
-                Object.defineProperty(window, 'renderPipeline', { value: masterPipelineRendererEngine, writable: false, configurable: false });
-            } catch (e) {
-                window.renderLeadsPipeline = masterPipelineRendererEngine;
-                window.renderPipeline = masterPipelineRendererEngine;
-            }
-        })();
-
+    if(typeof window.renderPipelineSource === "function"){
+        return window.renderPipelineSource(leads);
+    }
+};
         // =========================================================================
         // 🔒 3. ENFORCED SESSION AUTH HANDSHAKE (WITH SYNCHRONOUS VISIBILITY BLOCKS)
         // =========================================================================
