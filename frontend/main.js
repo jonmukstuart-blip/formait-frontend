@@ -968,3 +968,59 @@ async function submitAdminMessageResponse(e, ticketId) {
 // IMPORTANT:
 // inline onclick needs this exposed globally
 window.submitAdminMessageResponse = submitAdminMessageResponse;
+
+window.submitAdminMessageResponse = async function(event, messageId) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const textBox = document.getElementById(`replyText-${messageId}`);
+    const fileInput = document.getElementById(`replyFile-${messageId}`);
+
+    if (!textBox) {
+        console.error("Reply textarea missing");
+        return;
+    }
+
+    const replyText = textBox.value.trim();
+
+    if (!replyText) {
+        alert("Please type a reply first");
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    try {
+
+        const response = await fetch(
+            `https://formait-backend.onrender.com/api/messages/${messageId}/reply`,
+            {
+                method:"POST",
+                headers:{
+                    "Authorization":`Bearer ${token}`,
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    reply:replyText
+                })
+            }
+        );
+
+
+        if(!response.ok){
+            throw new Error(await response.text());
+        }
+
+
+        textBox.value="";
+
+        alert("Reply sent successfully");
+
+    }
+    catch(err){
+        console.error("[REPLY FAILED]",err);
+        alert("Reply failed");
+    }
+
+};

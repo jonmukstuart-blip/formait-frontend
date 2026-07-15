@@ -1,5 +1,5 @@
-const API_CONFIG = window.API_CONFIG || {
-    BASE_URL: "https://formait-backend.onrender.com/api"
+const API_CONFIG = {
+    BASE_URL: window.API_BASE || "https://formait-backend.onrender.com/api"
 };
 
 // Global cache storage to keep track of live data arrays
@@ -26,7 +26,7 @@ window.refreshActiveTab = async function(targetTabId = document.querySelector(".
                 
                 // 🎯 FIXED: Direct fallback matrix aligning with 'renderPipeline'
                 if (typeof renderPipeline === "function") {
-                    renderPipeline(DashboardCache.leads);
+                    renderPipeline(window.DashboardCache.leads);
                 } else if (typeof renderLeadsPipeline === "function") {
                     renderLeadsPipeline(DashboardCache.leads);
                 }
@@ -39,7 +39,7 @@ window.refreshActiveTab = async function(targetTabId = document.querySelector(".
         if (targetTabId === "messages" || targetTabId === "support" || targetTabId === "email") {
             const res = await fetch(`${API_CONFIG.BASE_URL}/messages`, { headers });
             if (res.ok) {
-                DashboardCache.messages = await res.json();
+                window.DashboardCache.messages = await res.json();
                 
                 // 🎯 FIXED: Aligns perfectly with your live Support Center calculator
                 if (typeof loadSupportCenterPanel === "function") {
@@ -150,8 +150,7 @@ window.renderLeadsPipeline = function(leads) {
 };
 
 // 🎯 THE CORE ALIGNMENT BRACE: Force both legacy and modern rendering hooks to point to this clean component function
-window.renderPipeline = renderLeadsPipeline;
-window.renderLeadsPipeline = renderLeadsPipeline;
+window.renderPipeline = window.renderLeadsPipeline;
 
 
 
@@ -192,7 +191,7 @@ window.renderActivityLogs = function(logs) {
 // ==========================================================================
 // 💬 TAB 3: REAL-TIME OPERATIONS INBOUND MESSAGES FEED
 // ==========================================================================
-function renderMessagesFeed(messages) {
+window.renderMessagesFeed = function(messages) {
     const feedTrack = document.getElementById("messagesFeedContainer");
     if (!feedTrack) return;
 
@@ -259,9 +258,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================================================
     // 🚀 UNIVERSAL PIPELINE ROUTING ENGINE (UNFOLDS LEADS & SUPPORT MESSAGES)
     // ==========================================================================
-    if (leadsTable) {
-        leadsTable.addEventListener("click", async (e) => {
-            // 1. Precise Safety Filter: Only block if clicking interactive form control nodes directly
+if (leadsTable && !leadsTable.dataset.boundClick) {
+
+    leadsTable.dataset.boundClick = "true";
+
+    leadsTable.addEventListener("click", async (e) => {
             if (
                 e.target.classList.contains("status-mutator") || 
                 e.target.closest(".delete-lead-btn") ||
@@ -433,15 +434,53 @@ document.addEventListener("DOMContentLoaded", () => {
                 modal.onclick = (e) => { if (e.target === modal) closeModalWindow(); };
 
                 // A. Handle Outbound Dynamic Message Transmission
-                document.getElementById("crmDispatchReplyBtn").onclick = () => {
-                    const replyInput = document.getElementById("crmActionReplyInput");
-                    const msgVal = replyInput.value.trim();
-                    if (!msgVal) return;
+modal.querySelector("#crmDispatchReplyBtn").onclick = async () => {
 
-                    pushLocalActivityLog(`Outbound CRM reply dispatched to <${lead.email}>.`);
-                    replyInput.value = "";
-                    alert("Outbound response dispatched successfully.");
-                };
+    const replyInput = modal.querySelector("#crmActionReplyInput");
+
+    const msgVal = replyInput.value.trim();
+
+    if (!msgVal) return;
+
+
+    try {
+
+        const res = await fetch(
+            `${API_CONFIG.BASE_URL}/messages/${lead._id}/reply`,
+            {
+                method:"POST",
+                headers,
+                body: JSON.stringify({
+                    reply: msgVal
+                })
+            }
+        );
+
+
+        if(!res.ok){
+            throw new Error(`Reply failed ${res.status}`);
+        }
+
+
+        pushLocalActivityLog(
+            `Outbound CRM reply dispatched to <${lead.email}>.`
+        );
+
+
+        replyInput.value="";
+
+        alert("Reply sent successfully");
+
+
+    } catch(err){
+
+        console.error("[REPLY ERROR]",err);
+
+        alert("Reply failed: "+err.message);
+
+    }
+
+};
 
                 // B. Handle Database Record Purging Operations
                 document.getElementById("crmExecuteDeleteBtn").onclick = async () => {
@@ -449,7 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const routePath = isSupportMessage ? 'messages' : 'leads';
                     
                     try {
-                        const res = await fetch(`https://formait-backend.onrender.com/api/${routePath}/${lead._id}`, { method: "DELETE", headers });
+                        const res = await fetch(`${API_CONFIG.BASE_URL}/${routePath}/${lead._id}`, { method: "DELETE", headers });
                         if (!res.ok) throw new Error(`Server returned error: ${res.status}`);
                         
                         targetRow.remove();
@@ -467,7 +506,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         const routePath = isSupportMessage ? 'messages' : 'leads';
                         
                         try {
-                            const res = await fetch(`https://formait-backend.onrender.com/api/${routePath}/${lead._id}`, {
+                            const res = await fetch(`${API_CONFIG.BASE_URL}/${routePath}/${lead._id}`, {
                                 method: "PUT", 
                                 headers, 
                                 body: JSON.stringify({ status: "reviewed" })
@@ -497,6 +536,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+    });
+
 
         // ==========================================================================
         // 🔄 STATUS MUTATOR DROPDOWN HANDLER (WITH INTERACTIVE RESTORATION)
@@ -528,40 +569,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // ==========================================================================
-        // 🗑️ INLINE ROW PURGE ACTION HANDLER
-        // ==========================================================================
-        leadsTable.addEventListener("click", async (e) => {
-            const targetBtn = e.target.closest(".delete-lead-btn");
-            if (targetBtn) {
-                e.stopPropagation(); // Prevent launching full inspection panel unfold on deletion click
-                
-                const parentRow = targetBtn.closest("tr[data-id]") || targetBtn.closest(".lead-row");
-                const targetId = targetBtn.getAttribute("data-id") || (parentRow ? parentRow.getAttribute("data-id") : null);
-                
-                if (!targetId || targetId === "undefined") {
-                    console.warn("⚠️ Purge Aborted: Record tracking reference identity missing from elements.");
-                    return;
-                }
-
-                if (!confirm("Are you sure you want to permanently delete this lead?")) return;
-
-                try {
-                    console.log(`[PURGE ACTION ENGAGED] Transmitting delete request for ID: ${targetId}`);
-                    const res = await fetch(`${API_CONFIG.BASE_URL}/leads/${targetId}`, { method: "DELETE", headers });
-                    if (!res.ok) throw new Error(`Server returned error payload: ${res.status}`);
-
-                    if (parentRow) parentRow.remove();
-                    pushLocalActivityLog(`Inline Command Execution: Record tracking asset index [${targetId}] destroyed.`);
-                                // Close out the Atlas network response catch matrix safely
-                               } catch (err) {
-                    console.error("[DELETE ERROR]", err.message);
-                }
-            }
-        });
-    }
-);
-
+        
 window.loadDashboardMetrics = async function(leadsArray) {
 
     let leads = leadsArray;
