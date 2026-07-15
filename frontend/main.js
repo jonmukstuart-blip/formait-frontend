@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", hydratePublicAboutPageContent);
 
 
 
-export async function loadDashboardData(showLoading = true) {
+async function loadDashboardData(showLoading = true) {
     const token = localStorage.getItem("token");
     const headers = {
         "Authorization": `Bearer ${token}`,
@@ -657,7 +657,7 @@ export function switchTab(targetTabId) {
 // ==========================================================================
 // 🚀 ENTERPRISE SUBMODULE RUNTIME HOOK: DATA ASSEMBLE ENGINE
 // ==========================================================================
-export async function loadSubmoduleContent(tabId) {
+async function loadSubmoduleContent(tabId) {
     // Dynamic lookups matching your target single-page view wrapper structures
     const container = document.getElementById("submoduleFormContainer") || 
                       document.getElementById("supportCenterContainer");
