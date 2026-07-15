@@ -297,19 +297,19 @@ if (leadsTable && !leadsTable.dataset.boundClick) {
                                          targetRow.closest("#supportCenterContainer") ||
                                          targetRow.querySelector("button[onclick*='purgeSupportTicket']");
                 
-                let targetEndpoint = isSupportMessage 
-                    ? `https://formait-backend.onrender.com/api/messages/${leadId}`
-                    : `${API_CONFIG.BASE_URL}/leads/${leadId}`;
+let targetEndpoint = isSupportMessage 
+    ? `${API_CONFIG.BASE_URL}/messages/${leadId}`
+    : `${API_CONFIG.BASE_URL}/leads/${leadId}`;
 
                 console.log(`[PIPELINE INTEGRATION] Connecting secure fetch vector to: ${targetEndpoint}`);
                 let response = await fetch(targetEndpoint, { method: "GET", headers });
                 
                 // ⚡ FAILOVER LIFELINE VALUE: If the guessed collection returns 404, hot-swap endpoints instantly!
                 if (response.status === 404) {
-                    const fallbackEndpoint = isSupportMessage
-                        ? `${API_CONFIG.BASE_URL}/leads/${leadId}`
-                        : `https://formait-backend.onrender.com/api/messages/${leadId}`;
-                    
+                  const fallbackEndpoint = isSupportMessage
+    ? `${API_CONFIG.BASE_URL}/leads/${leadId}`
+    : `${API_CONFIG.BASE_URL}/messages/${leadId}`;
+    
                     console.log(`🔄 [404 DETECTED] Retrying alternative database collection pipeline: ${fallbackEndpoint}`);
                     response = await fetch(fallbackEndpoint, { method: "GET", headers });
                 }
