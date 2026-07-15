@@ -578,8 +578,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================================================================
 // 🔀 CENTRAL VIEW PANEL SWAPPING ROUTER
 // ==========================================================================
-
-export function switchTab(targetTabId) {
+function switchTab(targetTabId) {
     const dashboardView = document.getElementById("view_dashboard");
     const submoduleView = document.getElementById("view_submodule");
     
