@@ -1,7 +1,9 @@
-import { API_CONFIG } from "./config.js";
+const API_CONFIG = window.API_CONFIG || {
+    BASE_URL: "https://formait-backend.onrender.com/api"
+};
 
 // Global cache storage to keep track of live data arrays
-export const DashboardCache = {
+window.DashboardCache = window.DashboardCache || {
     leads: [],
     messages: [],
     media: []
@@ -11,7 +13,7 @@ export const DashboardCache = {
  * Main Reactive Entry Point
  * Pulls down clean arrays from port 5000 and redraws active elements.
  */
-export async function refreshActiveTab(targetTabId = document.querySelector(".tab-trigger.bg-blue-500")?.getAttribute("data-tab") || "dashboard") {
+window.refreshActiveTab = async function(targetTabId = document.querySelector(".tab-trigger.bg-blue-500")?.getAttribute("data-tab") || "dashboard") {
     const token = localStorage.getItem("token");
     const headers = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
 
@@ -69,7 +71,7 @@ export async function refreshActiveTab(targetTabId = document.querySelector(".ta
     } catch (err) {
         console.error(`[SPA REFRESH STALL] Failed data sync for view [${targetTabId}]:`, err.message);
     }
-}
+};
 
 
 // Quick placeholder template for the activity logs view render
