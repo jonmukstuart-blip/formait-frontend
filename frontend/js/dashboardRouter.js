@@ -22,7 +22,7 @@ window.refreshActiveTab = async function(targetTabId = document.querySelector(".
         if (targetTabId === "dashboard" || targetTabId === "leads") {
             const res = await fetch(`${API_CONFIG.BASE_URL}/leads`, { headers });
             if (res.ok) {
-                DashboardCache.leads = await res.json();
+               window.DashboardCache.leads = await res.json();
                 
                 // 🎯 FIXED: Direct fallback matrix aligning with 'renderPipeline'
                 if (typeof renderPipeline === "function") {
@@ -72,19 +72,6 @@ window.refreshActiveTab = async function(targetTabId = document.querySelector(".
         console.error(`[SPA REFRESH STALL] Failed data sync for view [${targetTabId}]:`, err.message);
     }
 };
-
-
-// Quick placeholder template for the activity logs view render
-function renderActivityLogs(logs) {
-    const container = document.getElementById("activityLogsContainer");
-    if (!container) return;
-    container.innerHTML = logs.map(log => `
-        <div class="py-2 border-b border-zinc-900 text-xs font-mono text-zinc-400">
-            <span class="text-blue-500">[${new Date(log.createdAt).toLocaleTimeString()}]</span> ${log.message || log.type}
-        </div>
-    `).join("");
-}
-
 
 // ==========================================================================
 // 👥 TABS 1 & 2: LEADS INTERACTIVE TABLE AND FIELD MUTATOR BUTTONS
@@ -228,7 +215,6 @@ function renderMessagesFeed(messages) {
 /// ==========================================================================
 // 🔗 SYSTEM MONITOR CORE CONFIGURATION & LOG INFRASTRUCTURE
 // ==========================================================================
-const API_CONFIG = window.API_CONFIG || { BASE_URL: "https://formait-backend.onrender.com/api" };
 
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("token");
@@ -600,7 +586,6 @@ window.loadDashboardMetrics = async function(leadsArray) {
 
     // keep the rest of your existing code here
 
-};
 
     // 1. Calculate Real-Time Metrics Parameters
     const totalLeadsCount = leads.length;
@@ -631,3 +616,4 @@ window.loadDashboardMetrics = async function(leadsArray) {
     if (nodes.tickets) nodes.tickets.textContent = totalTicketsCount;
     if (nodes.revenue) nodes.revenue.textContent = `$${calculatedRevenue.toLocaleString()}`;
     if (nodes.conversion) nodes.conversion.textContent = `${conversionPct}%`;
+};
