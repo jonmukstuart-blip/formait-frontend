@@ -172,7 +172,7 @@ window.renderLeadsPipeline = renderLeadsPipeline;
  * 💬 2. Global Activity Timeline Log Renderer
  * Populates your vertical left-bordered audit timeline track cleanly.
  */
-export function renderActivityLogs(logs) {
+window.renderActivityLogs = function(logs) {
     const activityFeed = document.getElementById("activityFeed");
     if (!activityFeed) return;
 
@@ -199,7 +199,7 @@ export function renderActivityLogs(logs) {
             </div>
         </div>
     `).join("");
-}
+};
 
 
 // ==========================================================================
@@ -576,21 +576,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 );
 
-export async function loadDashboardMetrics(leadsArray) {
+window.loadDashboardMetrics = async function(leadsArray) {
 
     let leads = leadsArray;
+
     if (!leads) {
         try {
             const token = localStorage.getItem("token");
+
             const res = await fetch(`${API_CONFIG.BASE_URL}/leads`, {
-                headers: { "Authorization": `Bearer ${token}` }
+                headers: { 
+                    "Authorization": `Bearer ${token}` 
+                }
             });
+
             leads = await res.json();
+
         } catch (err) {
             console.error("[METRICS ERROR] Fetch stall:", err.message);
             return;
         }
     }
+
+    // keep the rest of your existing code here
+
+};
 
     // 1. Calculate Real-Time Metrics Parameters
     const totalLeadsCount = leads.length;
@@ -621,4 +631,3 @@ export async function loadDashboardMetrics(leadsArray) {
     if (nodes.tickets) nodes.tickets.textContent = totalTicketsCount;
     if (nodes.revenue) nodes.revenue.textContent = `$${calculatedRevenue.toLocaleString()}`;
     if (nodes.conversion) nodes.conversion.textContent = `${conversionPct}%`;
-}
