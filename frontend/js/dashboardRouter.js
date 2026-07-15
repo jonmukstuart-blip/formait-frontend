@@ -94,7 +94,7 @@ function renderActivityLogs(logs) {
 // ==========================================================================
 // 🎯 DUAL-ALIGNMENT PIPELINE RENDERER (ELIMINATES VISUAL VANISHING ERRORS)
 // ==========================================================================
-function renderLeadsPipeline(leads) {
+window.renderLeadsPipeline = function(leads) {
     // Catch both variations of your HTML table container element references safely
     const tableBody = document.getElementById("leadsTableBody") || document.getElementById("leadsTable");
     if (!tableBody) {
@@ -158,7 +158,7 @@ function renderLeadsPipeline(leads) {
             </tr>
         `;
     }).join("");
-}
+};
 
 // 🎯 THE CORE ALIGNMENT BRACE: Force both legacy and modern rendering hooks to point to this clean component function
 window.renderPipeline = renderLeadsPipeline;

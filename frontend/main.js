@@ -182,52 +182,6 @@ async function loadDashboardData(showLoading = true) {
     }
 }
 
-
-function renderLeadsPipeline(leads) {
-    const tableBody = document.getElementById("leadsTableBody") || document.getElementById("leadsTable");
-    if (!tableBody) return;
-
-    if (!leads || leads.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="3" class="py-8 text-center text-zinc-600 text-xs font-mono uppercase tracking-wider">No active pipeline records detected.</td></tr>`;
-        return;
-    }
-
-    tableBody.innerHTML = leads.map(lead => {
-        const targetId = lead._id || lead.id || "";
-        
-        return `
-            <!-- 🎯 FIXED: Injected explicit '.lead-row' class identifier for unified click routing mapping -->
-            <tr class="lead-row group hover:bg-zinc-900/10 transition duration-150 cursor-pointer select-none" data-id="${targetId}">
-                <td class="py-4 pr-4">
-                    <div class="text-sm font-semibold text-zinc-100 group-hover:text-blue-400 transition truncate max-w-[240px]">${lead.name || "AI Parameter Visitor"}</div>
-                    <div class="text-xs text-zinc-500 font-mono mt-1 truncate max-w-[240px]">${lead.email || "no-email@formait.com"}</div>
-                </td>
-                <td class="py-4">
-                    <!-- The Dropdown Fix: Inline event propagation isolation stops selection clicks from firing row modals -->
-                    <select class="status-mutator bg-zinc-950 border border-zinc-800 text-zinc-300 rounded-lg px-2.5 py-1 text-xs font-mono tracking-wide focus:border-blue-500 focus:outline-none cursor-default" data-id="${targetId}" onclick="event.stopPropagation();">
-                        <option value="New" ${lead.status === 'New' || lead.status === 'NEW' || !lead.status || lead.status === 'Logged' ? 'selected' : ''}>🆕 New</option>
-                        <option value="Contacted" ${lead.status === 'Contacted' ? 'selected' : ''}>📞 Contacted</option>
-                        <option value="Qualified" ${lead.status === 'Qualified' ? 'selected' : ''}>🔥 Qualified</option>
-                        <option value="Won" ${lead.status === 'Won' ? 'selected' : ''}>🏆 Won</option>
-                    </select>
-                </td>
-                <td class="py-4 text-right pl-4">
-                    <div class="flex items-center justify-end gap-3">
-                        <span class="text-xs font-mono text-zinc-400 tracking-tight">${lead.source || "Website"}</span>
-                        <!-- The Button Fix: Inline event propagation isolation stops delete clicks from firing row modals -->
-                        <button class="delete-lead-btn p-1.5 text-zinc-600 hover:text-red-400 rounded-lg hover:bg-red-500/10 transition duration-200 cursor-pointer" data-id="${targetId}" onclick="event.stopPropagation();">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                            </svg>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        `;
-    }).join("");
-}
-
-
 // 🚀 FIND THIS FUNCTION IN JS/MAIN.JS AND UPDATE ITS INNER BODY:
 function recalculateStatsDeck(leads) {
     const totalLeadsCount = leads.length;
