@@ -144,8 +144,7 @@ async function loadDashboardData(showLoading = true) {
     }
 
     try {
-        const res = await fetch(
-            `${API_CONFIG.BASE_URL}/leads`,
+        const res = await fetch(`${API_BASE}/api/leads`, 
             { headers }
         );
 

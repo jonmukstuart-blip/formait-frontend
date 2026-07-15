@@ -1,7 +1,7 @@
 const API_BASE =
   window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : "https://formait-backend.onrender.com";
+    ? "http://localhost:5000/api"
+    : "https://formait-backend.onrender.com/api";
 
 window.API_BASE = API_BASE;
 
