@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>forma.IT Admin Dashboard</title>
 
-     <script src="./js/api.js"></script>
     <!-- 🎯 1. SYNCHRONOUS FORCE-HIDE SECURITY INTERCEPTOR (KILLS FLASHES INSTANTLY) -->
     <script>
        (function enforceSecureAuthGate() {
@@ -538,8 +537,9 @@ MAIN
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
-<script src="./src/assets/js/main.js"></script>
+<script src="./js/api.js"></script>
 <script src="./frontend/main.js"></script>
+
 <script>
 
 // ========================================================
@@ -1967,14 +1967,6 @@ function initializeAICognitiveEngine() {
 // ==========================================================================
 // 🚀 DYNAMIC CONTENT MANAGEMENT INFRASTRUCTURE (EXPRESS PORTS ALIGNED)
 // ==========================================================================
-
-// Safely enforce global fallback routing constants if not declared earlier on the page
-if (typeof API_CONFIG === "undefined") {
-    var API_CONFIG = {
-        BASE_URL: "https://formait-backend.onrender.com/api",
-        SOCKET_URL: "https://formait-backend.onrender.com"
-    };
-}
 
 async function fetchLiveCmsContent(pageKey) {
     const verifiedBearerToken = localStorage.getItem("token");
