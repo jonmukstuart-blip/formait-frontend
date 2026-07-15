@@ -3137,7 +3137,7 @@ async function loadSupportCenterPanel(e) {
             const pastReplies = (msg.adminReplies || []).map(r => `
                 <div class="bg-zinc-900 border border-zinc-800/40 p-2 rounded-xl text-zinc-400 mt-1.5 text-[11px]">
                     <span class="text-blue-400 font-bold block text-[9px] uppercase tracking-wider mb-0.5">Admin Response:</span>
-                    ${r.replyText}
+                    ${r.text}
                 </div>
             `).join("");
 
@@ -3189,7 +3189,7 @@ async function loadSupportCenterPanel(e) {
 }
 
 
-async function submitAdminMessageResponse(e, ticketId) {
+window.submitAdminMessageResponse = async function(e, ticketId) {
     if (e) e.preventDefault();
     const token = localStorage.getItem("token");
     const replyText = document.getElementById(`replyText-${ticketId}`)?.value.trim();

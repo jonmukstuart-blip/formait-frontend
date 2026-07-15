@@ -926,3 +926,92 @@ function initPublicPhoneChatbot() {
 
 // Attach lifecycle trigger to fire the moment the web view elements are parsed
 document.addEventListener("DOMContentLoaded", initPublicPhoneChatbot);
+
+async function submitAdminMessageResponse(e, ticketId) {
+
+    if (e) e.preventDefault();
+
+    console.log("🔥 ADMIN REPLY FUNCTION STARTED:", ticketId);
+
+    const token = localStorage.getItem("token");
+
+    const replyBox = document.getElementById(`replyText-${ticketId}`);
+
+    if (!replyBox) {
+        console.error("❌ Reply textarea missing");
+        return;
+    }
+
+    const replyText = replyBox.value.trim();
+
+    if (!replyText) {
+        alert("Write a reply first");
+        return;
+    }
+
+
+    const formData = new FormData();
+
+    formData.append("replyText", replyText);
+
+
+    const fileInput = document.getElementById(`replyFile-${ticketId}`);
+
+    if (fileInput && fileInput.files.length > 0) {
+        formData.append("file", fileInput.files[0]);
+    }
+
+
+    try {
+
+        console.log("📡 Sending reply request...");
+
+
+        const response = await fetch(
+            `https://formait-backend.onrender.com/api/messages/${ticketId}/reply`,
+            {
+                method:"POST",
+                headers:{
+                    "Authorization":`Bearer ${token}`
+                },
+                body:formData
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        console.log("SERVER RESPONSE:", data);
+
+
+        if(!response.ok){
+            throw new Error(data.error || "Reply failed");
+        }
+
+
+        alert("✅ Reply sent");
+
+
+        replyBox.value="";
+
+
+        if(typeof loadSubmoduleContent === "function"){
+            loadSubmoduleContent("support center");
+        }
+
+
+    } catch(err){
+
+        console.error("❌ REPLY PIPELINE ERROR:",err);
+
+        alert("Reply failed");
+
+    }
+
+}
+
+
+// IMPORTANT:
+// inline onclick needs this exposed globally
+window.submitAdminMessageResponse = submitAdminMessageResponse;

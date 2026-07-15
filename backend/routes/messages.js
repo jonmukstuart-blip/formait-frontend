@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import Message from "../models/Message.js";
 import { protect } from "../middleware/auth.js";
+import { sendMail } from "../services/mailer.js";
 
 const router = express.Router();
 
@@ -73,6 +74,7 @@ router.get("/", protect, async (req, res) => {
 // B. ADMINISTRATIVE REPLY + ATTACHMENT CHANNEL INTAKE (POST /api/messages/:id/reply)
 // ==========================================================================
 router.post("/:id/reply", protect, upload.single("file"), async (req, res) => {
+    console.log("🔥 ADMIN REPLY ROUTE HIT:", req.params.id);
     try {
         const { id } = req.params;
         const { replyText } = req.body;
@@ -107,25 +109,18 @@ router.post("/:id/reply", protect, upload.single("file"), async (req, res) => {
         if (!updatedTicket) {
             return res.status(404).json({ error: "Ticket not found" });
         }
+console.log("📨 Attempting email send to:", updatedTicket.email);
 
-        await transporter.sendMail({
-    from: `"FORMA.IT" <${process.env.EMAIL_USER}>`,
-    to: updatedTicket.email,
-    subject: "Response from FORMA.IT",
-
-    text: `Hi ${updatedTicket.name},
-
-Thank you for contacting FORMA.IT.
-
-Our response:
-
-${replyText}
-
-Best regards,
-FORMA.IT Team`
+await sendMail({
+    name: updatedTicket.name,
+    email: updatedTicket.email,
+    message: replyText
 });
 
-        console.log(`💾 Reply saved for ticket: ${id}`);
+console.log("📧 Reply email dispatched to:", updatedTicket.email);
+
+console.log(`💾 Reply saved for ticket: ${id}`);
+
 
         if (req.app?.get("io")) {
             req.app.get("io").emit("globalWorkspaceSyncRequest", {
@@ -139,9 +134,15 @@ FORMA.IT Team`
             data: updatedTicket
         });
 
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+   } catch (err) {
+
+    console.error("❌ REPLY ERROR:", err);
+
+    res.status(500).json({
+        error: err.message
+    });
+
+}
 });
 // ==========================================================================
 // C. ADMINISTRATIVE CLOSE BUTTON ROUTE LAYER (DELETE /api/messages/:id)
