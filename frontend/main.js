@@ -1,7 +1,3 @@
-const API_CONFIG = {
-    BASE_URL: "https://formait-backend.onrender.com/api",
-    SOCKET_URL: "https://formait-backend.onrender.com"
-};
 
 // ==========================================================================
 // ⚡ GLOBAL STATE STORE BUFFER
