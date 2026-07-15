@@ -1,8 +1,12 @@
+window.API_CONFIG = window.API_CONFIG || {
+    BASE_URL: "https://formait-backend.onrender.com/api",
+    SOCKET_URL: "https://formait-backend.onrender.com"
+};
 
 // ==========================================================================
 // ⚡ GLOBAL STATE STORE BUFFER
 // ==========================================================================
-const DashboardState = {
+window.DashboardState = window.DashboardState || {
     leads: [],
     activities: [],
     activeTab: "dashboard"
