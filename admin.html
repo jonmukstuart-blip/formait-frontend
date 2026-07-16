@@ -2193,6 +2193,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const toastName = document.getElementById("toastNameField");
     const toastEmail = document.getElementById("toastEmailField");
         // 🎯 FIXED MATRIX: Declared wrapper with 'async' to securely authorize inline await streams
+       
+        let lastRefresh = 0;
         socket.on("globalWorkspaceSyncRequest", async (pulse) => {
             if (Date.now() - lastRefresh < 2000) return;
 lastRefresh = Date.now();

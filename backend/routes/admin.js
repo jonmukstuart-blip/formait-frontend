@@ -24,10 +24,17 @@ import AiContext from "../models/AiContext.js";
 
 const router = express.Router(); 
 
+import fs from "fs";
+
+const uploadDir = "uploads";
+
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 // Disk configuration mapping engine bounds
 const storageConfig = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "uploads/"); // Safely routing stream blocks to storage disk bounds path directories
+        cb(null, uploadDir); // Safely routing stream blocks to storage disk bounds path directories
     },
     filename: (req, file, cb) => {
         const structuralTimestampKey = Date.now();
@@ -87,8 +94,15 @@ router.post("/media/upload", protect, uploadMiddleware.single("file"), async (re
             data: savedAsset
         });
     } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+
+    console.error("🔥 PORTFOLIO CREATION CRASH:", err);
+
+    res.status(500).json({
+        error: err.message,
+        stack: err.stack
+    });
+
+}
 });
 
 router.get("/modules", (req, res) => {
@@ -168,26 +182,31 @@ router.get("/portfolio", protect, async (req, res) => {
 // Replace your router.post("/portfolio") route inside backend/routes/admin.js with this:
 router.post("/portfolio", protect, uploadMiddleware.single("file"), async (req, res) => {
     try {
+
+        console.log("===== PORTFOLIO CREATE =====");
+        console.log("BODY:", req.body);
+        console.log("FILE:", req.file);
+
         const { title, client, status, tags } = req.body;
         
         // Parse the tech stack tags array back into JSON format safely
-        const parsedTags = tags ? JSON.parse(tags) : [];
+      let parsedTags = [];
 
+try {
+    parsedTags = tags ? JSON.parse(tags) : [];
+} catch(err) {
+    parsedTags = [];
+}
         // Track image URL url paths natively if a physical thumbnail was uploaded
         let uploadedImageUrl = "";
-        if (req.file) {
-            uploadedImageUrl = `https://formait-backend.onrender.com/uploads/${req.file.filename}`;
-            
-            // 🚀 INTEGRITY LOGGING BONUS: Create a metadata log inside your general Media Asset collection too!
-            const mediaLog = new MediaAsset({
-                fileName: req.file.originalname,
-                storageUrl: uploadedImageUrl,
-                fileMimeType: req.file.mimetype,
-                fileSizeBytes: req.file.size,
-                uploadedBy: req.user?.email || "Portfolio Engine"
-            });
-            await mediaLog.save();
-        }
+if (req.file) {
+
+    uploadedImageUrl =
+    `https://formait-backend.onrender.com/uploads/${req.file.filename}`;
+
+    console.log("MEDIA LOG SKIPPED FOR TEST");
+
+}
 
         // Save project metrics along with its cover layout straight to MongoDB Atlas
         const newProject = await Portfolio.create({
@@ -208,9 +227,17 @@ router.post("/portfolio", protect, uploadMiddleware.single("file"), async (req, 
         }
 
         res.status(201).json({ success: true, data: newProject });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+} catch (err) {
+
+    console.error("PORTFOLIO CREATE ERROR");
+    console.error(err);
+
+    res.status(500).json({
+        success: false,
+        error: err.message
+    });
+
+}
 });
 
 // ==========================================================================
@@ -385,20 +412,6 @@ router.get("/operators", protect, async (req, res) => {
             return res.status(200).json(defaults);
         }
         res.status(200).json(users);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
-
-router.post("/operators", protect, async (req, res) => {
-    try {
-        const freshSeat = await Operator.create(req.body);
-        
-        // Broadcast the real-time mutation pulse down your websocket transport channels
-        if (req.app && req.app.get("io")) {
-            req.app.get("io").emit("globalWorkspaceSyncRequest", { action: "DATABASE_OPERATORS_SYNC", tab: "users & roles" });
-        }
-        res.status(201).json({ success: true, data: freshSeat });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
