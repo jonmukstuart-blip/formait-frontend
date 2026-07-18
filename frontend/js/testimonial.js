@@ -1,7 +1,7 @@
 // =============================================
 // FORMA.IT CLIENT TESTIMONIAL ENGINE (WIZARD FIXED)
 // =============================================
-const loader = document.getElementById("stepLoader");
+let loader = null;
 let selectedRating = 5;
 
 let currentStep = 0;
@@ -9,6 +9,7 @@ let steps = [];
 let progressBar = null;
 
 document.addEventListener("DOMContentLoaded", () => {
+    loader = document.getElementById("stepLoader");
 
     const params = new URLSearchParams(window.location.search);
 
@@ -20,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
         input.value = decodeURIComponent(project);
     }
 
-    let selectedRating = 5;
 
     const stars = document.querySelectorAll("#ratingStars span");
 

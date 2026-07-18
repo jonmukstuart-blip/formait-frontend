@@ -1854,34 +1854,6 @@ body: JSON.stringify({
 
 });
 
-document.addEventListener("DOMContentLoaded", async () => {
-    
-    // 🚀 1. AUTOMATED ADMINISTRATIVE SESSION LOG IN INITIALIZATION GATEWAY
-    let sessionToken = localStorage.getItem("token");
-    
-    if (!sessionToken) {
-        try {
-            console.log("[SECURITY HUB] Syncing authentication session keys...");
-            const authResponse = await fetch("https://formait-backend.onrender.com/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email: "admin@test.com",
-                    password: "123456"
-                })
-            });
-            
-            if (authResponse.ok) {
-                const authData = await authResponse.json();
-                sessionToken = authData.token;
-                localStorage.setItem("token", sessionToken);
-                console.log("[SECURITY HUB] Token serialized and saved securely to storage.");
-            }
-        } catch (err) {
-            console.error("[SECURITY ERROR] Autologin sequence handshake aborted:", err.message);
-        }
-    }
-})
 </script>
 
 <!-- ========================================================================== -->

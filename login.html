@@ -101,15 +101,42 @@
             margin-bottom: 1rem;
             display: none;
         }
+
+        .login-logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+}
+
+.login-logo {
+    height: 42px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    display: block;
+}
     </style>
 </head>
 <body>
 
     <div class="login-card">
-        <div class="header">
-            <h1>forma<span class="accent-dot">.IT</span></h1>
-            <p>Master Access Gateway</p>
-        </div>
+       <div class="header">
+
+    <div class="login-logo-wrapper">
+        <img 
+            src="./frontend/assets/image/logo.png" 
+            alt="forma.IT Group"
+            class="login-logo"
+            onerror="this.src='./frontend/assets/image/logo.svg'; this.onerror=function(){this.src='./frontend/assets/image/logo.jpg'};"
+        >
+    </div>
+
+    <p>Master Access Gateway</p>
+
+</div>
 
         <div id="errorMsg" class="error-text"></div>
 
@@ -119,10 +146,36 @@
                 <input id="email" type="email" required placeholder="admin@forma.it">
             </div>
 
-            <div class="form-group">
-                <label>Secure Password</label>
-                <input id="password" type="password" required placeholder="••••••••">
-            </div>
+<div class="form-group password-wrapper">
+    <label>Secure Password</label>
+
+    <div style="position:relative;">
+        <input 
+            id="password" 
+            type="password" 
+            required 
+            placeholder="••••••••"
+        >
+
+        <button 
+            type="button"
+            id="togglePassword"
+            style="
+                position:absolute;
+                right:12px;
+                top:50%;
+                transform:translateY(-50%);
+                background:none;
+                border:none;
+                cursor:pointer;
+                color:#71717a;
+            "
+            aria-label="Show password"
+        >
+            👁
+        </button>
+    </div>
+</div>
 
             <button type="submit" class="submit-btn">
                 Authenticate Secure Access
@@ -172,6 +225,25 @@
             }
         });
     </script>
+
+<script>
+const passwordInput = document.getElementById("password");
+const togglePassword = document.getElementById("togglePassword");
+
+if (passwordInput && togglePassword) {
+
+    togglePassword.addEventListener("click", () => {
+
+        const isHidden = passwordInput.type === "password";
+
+        passwordInput.type = isHidden ? "text" : "password";
+
+        togglePassword.textContent = isHidden ? "🙈" : "👁";
+
+    });
+
+}
+</script>
 
 </body>
 </html>

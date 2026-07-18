@@ -1105,30 +1105,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Administrative platform fallback auto-login gateway credentials check
-if (!localStorage.getItem("token")) {
-  fetch("https://formait-backend.onrender.com/api/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email: "admin@test.com",
-      password: "password"
-    })
-  })
-  .then(res => {
-    if (!res.ok) throw new Error("Auto login signature rejected");
-    return res.json();
-  })
-  .then(data => {
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-      console.log("[SECURITY HUB] Fallback session authentication token secured.");
-      loadLeads(); // Hot reload table instantly upon acquiring secure session pass
-    }
-  })
-  .catch(e => console.log("[SECURITY ALERT] Fallback auto-auth skipped:", e.message));
-}
-
 /**
  * OBJECTIVE 4: MEDIA LIBRARY VAULT CONTROLLER
  * Manages administrative console document uploads, progress tracking, and table lists.
