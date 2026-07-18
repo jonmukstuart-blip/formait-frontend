@@ -7,7 +7,6 @@ const router = express.Router();
 
 
 router.post("/login", async (req, res) => {
-
     try {
 
         const { email, password } = req.body;
@@ -16,19 +15,24 @@ router.post("/login", async (req, res) => {
 
         const user = await User.findOne({ email });
 
+        console.log("[USER FOUND]", !!user);
+
         if (!user) {
             console.log("[LOGIN FAILED] User not found");
+
             return res.status(401).json({
                 message: "Invalid email or password"
             });
         }
 
+        console.log("[DB EMAIL]", user.email);
 
         const passwordMatch = await bcrypt.compare(
             password,
             user.password
         );
 
+        console.log("[PASSWORD MATCH]", passwordMatch);
 
         if (!passwordMatch) {
 
@@ -39,7 +43,6 @@ router.post("/login", async (req, res) => {
             });
 
         }
-
 
         const token = jwt.sign(
             {
@@ -53,17 +56,14 @@ router.post("/login", async (req, res) => {
             }
         );
 
-
         console.log("[LOGIN SUCCESS]", email);
 
-
         res.json({
-            success:true,
+            success: true,
             token
         });
 
-
-    } catch(err){
+    } catch (err) {
 
         console.error("[AUTH ERROR]", err);
 
@@ -72,8 +72,6 @@ router.post("/login", async (req, res) => {
         });
 
     }
-
 });
-
 
 export default router;
