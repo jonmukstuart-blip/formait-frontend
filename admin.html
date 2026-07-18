@@ -2018,47 +2018,30 @@ function assignStandardCmsPlaceholders() {
 
 
 // ==========================================================================
-// ⚙️ UNIFIED WORKSPACE INITIALIZATION ENGINE (CREDENTIALS ALIGNED)
+// ⚙️ UNIFIED WORKSPACE INITIALIZATION ENGINE
 // ==========================================================================
 window.addEventListener("DOMContentLoaded", async () => {
+
     console.log("🛠️ [INITIALIZING WORKSPACE SYSTEMS CORE]");
 
-    // 🎯 PRIORITY 1: Initialize your global real-time WebSocket socket channel first 
-    
-    try {
-        // 🎯 CRITICAL CORRECTION: Transmits the exact email and password expected by auth.js
-        const authResponse = await fetch("https://formait-backend.onrender.com/api/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                email: "admin@forma.it", // Mapped to match your true server rule
-                password: "password"      // Mapped to match your true server rule
-            })
-        });
+    const token = localStorage.getItem("token");
 
-        if (authResponse.ok) {
-            const sessionData = await authResponse.json();
-            if (sessionData.token) {
-                // Secures the real server-generated JWT bearer token into local storage cache
-                localStorage.setItem("token", sessionData.token);
-                console.log("🔒 [SECURITY HUB] Secure validation token acquired! Unlocked change stream pipelines.");
-            }
-        } else {
-            console.error("[SECURITY GATEWAY] Administrative signature parameters rejected by backend auth service.");
-        }
-    } catch (authError) {
-        console.warn("[AUTH FAILURE] Server unreachable. Sandbox simulator mode active:", authError.message);
+    if (!token) {
+        console.warn("[AUTH] No active session token found.");
+        window.location.replace("login.html");
+        return;
     }
-    
-    // Run data fetch queries using the fresh server-verified token signature inside safe async bounds
+
+    console.log("🔒 [AUTH] Existing JWT session detected.");
+
     if (typeof loadLeads === "function") {
         await loadLeads();
     }
-    
-    // Auto-populate input forms fields on initial landing if tab menu focus aligns
+
     if (typeof fetchLiveCmsContent === "function") {
         await fetchLiveCmsContent("about");
     }
+
 });
 
 
