@@ -513,8 +513,12 @@ MAIN
 // 1. SECURE AUTHENTICATION CHECK GATE
 // ========================================================
 const token = localStorage.getItem("token");
+
+console.log("🔐 ADMIN TOKEN CHECK:", token);
+
 if (!token) {
-    window.location.href = "login.html";
+    console.log("❌ NO TOKEN - REDIRECT BLOCKED");
+    // window.location.href = "login.html";
 }
 
 // ========================================================
