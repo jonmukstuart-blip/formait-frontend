@@ -143,7 +143,7 @@
         <form id="loginForm">
             <div class="form-group">
                 <label>Admin Email</label>
-                <input id="email" type="email" required placeholder="admin@forma.it">
+                <input id="email" type="email" required placeholder="admin@formaitgroup.com">
             </div>
 
 <div class="form-group password-wrapper">
@@ -193,13 +193,6 @@
             // ==========================================================================
             // 🔒 INSTANT SANDBOX BYPASS VECTOR (ELIMINATES THE 2-SECOND DELAY)
             // ==========================================================================
-            // If checking local developer parameters, grant local sandbox credentials instantly
-            if (email === "admin@forma.it" && password === "password") {
-                console.log("🛠️ [SANDBOX GATES] Local developer keys verified. Granting instant session signature.");
-                localStorage.setItem("token", "sandbox-dev-token-99999");
-                window.location.href = "admin.html";
-                return; // Cease execution immediately to prevent network fetch requests
-            }
 
             try {
                 // Production network pathway used strictly when running live servers
