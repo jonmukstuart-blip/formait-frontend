@@ -602,28 +602,6 @@ function initKanbanColumnsEngine() {
     });
 }
 
-async function login(email, password) {
-    const res = await fetch("https://formait-backend.onrender.com/api/auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email, password })
-    });
-
-    const data = await res.json();
-
-    if (data.token) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-
-        window.location.href = "admin.html";
-    } else {
-        alert("Login failed");
-    }
-}
-const token = localStorage.getItem("token");
-
 async function getLeads() {
     const res = await fetch("https://formait-backend.onrender.com/api/crm", {
         headers: {

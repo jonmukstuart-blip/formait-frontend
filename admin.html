@@ -43,50 +43,6 @@ window.renderLeadsPipeline = function(leads){
         return window.renderPipelineSource(leads);
     }
 };
-        // =========================================================================
-        // 🔒 3. ENFORCED SESSION AUTH HANDSHAKE (WITH SYNCHRONOUS VISIBILITY BLOCKS)
-        // =========================================================================
-        (async function ensureValidTokenSignature() {
-            console.log("[SECURITY MATRIX] Checking administrative token validity.");
-            const currentToken = localStorage.getItem("token");
-
-            try {
-                const authResponse = await fetch("https://formait-backend.onrender.com/api/auth/login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        email: "admin@forma.it",
-                        password: "password"
-                    })
-                });
-
-                if (authResponse.ok) {
-                    const data = await authResponse.json();
-                    if (data.token) {
-                        localStorage.setItem("token", data.token);
-                        if (data.user) localStorage.setItem("user", JSON.stringify(data.user));
-                        
-                        console.log("🔒 [SECURITY HUB] Valid administrative token secured!");
-                        
-                        // RESTORE VIEWPORT VISIBILITY VISUALLY AFTER AUTO-LOGIN COMPLETES
-                        document.documentElement.style.display = ""; 
-                        
-                        // Trigger hot reloads securely using updated valid authorization tokens
-                        if (typeof fetchLiveCmsContent === "function") fetchLiveCmsContent("about");
-                        if (typeof loadLeads === "function") loadLeads();
-                        if (typeof loadDashboard === "function") loadDashboard();
-                    }
-                } else {
-                    console.error("[AUTH ERROR] Backend credentials layout rejected.");
-                    // Fallback redirect directly to user login gate if the server rejects auth keys
-                    window.location.replace("login.html");
-                }
-            } catch (err) {
-                console.warn("[AUTH STALL] Sandbox mode proxy fallback active:", err.message);
-                // If local test environment/sandbox is active, release hidden display cleanly to build mock views
-                document.documentElement.style.display = "";
-            }
-        })();
     </script>
 </head>
 
