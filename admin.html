@@ -56,7 +56,12 @@ window.renderLeadsPipeline = function(leads){
 <!-- ==========================================
 SIDEBAR (Scrollable & Reactive SPA Blueprint Master)
 =========================================== -->
-<aside id="sidebarMenu" class="w-72 bg-[#0f0f0f] border-r border-zinc-800 p-6 flex flex-col h-screen sticky top-0">
+<aside
+    id="sidebarMenu"
+    class="fixed lg:sticky top-0 left-0 z-[100] w-[86vw] max-w-72 lg:w-72
+           bg-[#0f0f0f] border-r border-zinc-800 p-6 flex flex-col h-screen
+           -translate-x-full lg:translate-x-0 transition-transform duration-300"
+>
 
     <!-- Brand Header -->
    <!-- Brand Header -->
@@ -198,6 +203,10 @@ SIDEBAR PART 2: ADVANCED MANAGEMENT (Tabs 10 - 18)
 
     </nav>
 </aside>
+<div
+    id="sidebarBackdrop"
+    class="fixed inset-0 z-[90] bg-black/70 backdrop-blur-sm hidden lg:hidden"
+></div>
 
 
 <style>
@@ -209,15 +218,26 @@ SIDEBAR PART 2: ADVANCED MANAGEMENT (Tabs 10 - 18)
 <!-- ===========================
 MAIN
 =========================== -->
-<main class="flex-1 p-4 sm:p-6 lg:p-8 min-w-0">
+<main class="w-full lg:flex-1 p-4 sm:p-6 lg:p-8 min-w-0 overflow-x-hidden">
 
-    <!-- MOBILE TOP ACCESS BAR -->
-    <div class="lg:hidden flex flex-row items-center justify-between bg-[#0f0f0f] border border-zinc-800 p-4 rounded-xl mb-6">
-        <span class="text-sm font-black tracking-tight">forma<span class="text-blue-500">.IT</span></span>
-        <button id="mobileMenuToggle" class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-xs font-bold uppercase text-zinc-400 tracking-wider">
-            Menu ☰
-        </button>
-    </div>
+ <!-- MOBILE TOP ACCESS BAR -->
+<div class="lg:hidden flex flex-row items-center justify-between bg-[#0f0f0f] border border-zinc-800 p-4 rounded-xl mb-6">
+
+    <span class="text-sm font-black tracking-tight">
+        forma<span class="text-blue-500">.IT</span>
+    </span>
+
+    <button
+        id="mobileMenuToggle"
+        type="button"
+        aria-controls="sidebarMenu"
+        aria-expanded="false"
+        class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg text-xs font-bold uppercase text-zinc-400 tracking-wider"
+    >
+        Menu ☰
+    </button>
+
+</div>
 
     <!-- TOP BAR PANEL HEADER -->
     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 lg:gap-6 mb-8 lg:mb-10">
@@ -2105,26 +2125,6 @@ async function submitNewLead() {
     }
 }
 
-function applyMobileLayoutSafely() {
-    // Check if the user is viewing on a phone or tablet screen width
-    if (window.innerWidth < 1024) {
-        // Target any wide card layout elements on the screen
-        const columns = document.querySelectorAll(".grid");
-        columns.forEach(grid => {
-            // Gently override columns to stack vertically without changing their inner HTML contents
-            grid.style.setProperty("grid-template-columns", "repeat(1, minmax(0, 1fr))", "important");
-            grid.style.setProperty("gap", "1rem", "important");
-        });
-
-        // Safely shrink desktop padding metrics down to phone size dimensions
-        const contentArea = document.querySelector("main");
-        if (contentArea) contentArea.style.setProperty("padding", "1rem", "important");
-    }
-}
-
-// Bind the safety layout filter directly to your browser's initialization lifecycles
-window.addEventListener("DOMContentLoaded", applyMobileLayoutSafely);
-window.addEventListener("resize", applyMobileLayoutSafely);
 // ==========================================================================
 // 🌐 DYNAMIC SOCKET.IO CLIENT INJECTOR & LIVE ADMINISTRATIVE HUB Listener
 // ==========================================================================
@@ -2599,32 +2599,36 @@ ${projectTestimonials.map(t => `
         </span>
     </div>
 
-    <div class="flex flex-col sm:flex-row gap-2">
+<div class="flex flex-col sm:flex-row gap-2">
 
-        ${t.status === "pending" ? `
-            <button
-                onclick="approveTestimonial(event, '${t._id}')"
-                class="flex-1 bg-green-600 hover:bg-green-500 text-white text-xs py-2 rounded"
-            >
-                Approve
-            </button>
-
-            <button
-                onclick="rejectTestimonial(event, '${t._id}')"
-                class="flex-1 bg-zinc-800 hover:bg-red-600 text-white text-xs py-2 rounded"
-            >
-                Reject
-            </button>
-        ` : ""}
-
+    ${t.status === "pending" ? `
         <button
-            onclick="deleteTestimonial(event, '${t._id}')"
-            class="flex-1 bg-red-950/40 border border-red-900/50 hover:bg-red-600 text-red-400 hover:text-white text-xs py-2 rounded transition"
+            type="button"
+            onclick="approveTestimonial(event, '${t._id}')"
+            class="flex-1 bg-green-600 hover:bg-green-500 text-white text-xs py-2 rounded"
         >
-            Delete Permanently
+            Approve
         </button>
 
-    </div>
+        <button
+            type="button"
+            onclick="rejectTestimonial(event, '${t._id}')"
+            class="flex-1 bg-zinc-800 hover:bg-red-600 text-white text-xs py-2 rounded"
+        >
+            Reject
+        </button>
+    ` : ""}
+
+    <!-- Always available, including before approval -->
+    <button
+        type="button"
+        onclick="deleteTestimonial(event, '${t._id}')"
+        class="flex-1 bg-red-950/40 border border-red-900/50 text-red-400 hover:bg-red-600 hover:text-white text-xs py-2 rounded transition"
+    >
+        Delete Permanently
+    </button>
+
+</div>
 
 </div>
 
@@ -3091,6 +3095,7 @@ async function loadSupportCenterPanel(e) {
         if (!res.ok) throw new Error(`Server network code state: ${res.status}`);
         const messages = await res.json();
 
+        window.supportMessagesCache = messages;
         // 📊 LIVE MATHEMATICAL COMPUTATION MATRICES (DECUPLER FROM HARDCODED TEXT)
         const unassignedBacklog = messages.filter(m => m.status === "New" || !m.status).length;
         
@@ -3148,15 +3153,22 @@ async function loadSupportCenterPanel(e) {
 
             return `
                 <div class="lead-row p-4 border-b border-zinc-900/60 hover:bg-zinc-900/10 transition-all text-xs" data-id="${msg._id || msg.id || ''}">
-                    <div class="flex items-center justify-between gap-4 w-full">
-                        <div class="truncate max-w-[150px]">
+                    <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4 w-full">
+                        <div class="w-full xl:w-auto xl:max-w-[180px] min-w-0">
                             <h5 class="text-white font-bold tracking-tight">${msg.name}</h5>
                             <p class="text-zinc-500 font-mono text-[10px] mt-0.5 truncate">${msg.email}</p>
                         </div>
-                        <div class="flex-1 text-zinc-400 font-medium px-2 truncate max-w-sm italic">${msg.message}</div>
-                        <div class="flex items-center gap-2">
+                        <div class="w-full xl:flex-1 text-zinc-400 font-medium xl:px-2 line-clamp-3 xl:truncate xl:max-w-sm italic">${msg.message}</div>
+                        <div class="flex items-center gap-2 flex-wrap w-full xl:w-auto">
                             <span class="px-2 py-0.5 text-[8px] font-black uppercase tracking-widest border rounded ${priorityBadgeStyle}">${msg.priority || 'Medium'}</span>
                             
+                            <button
+    onclick="event.stopPropagation(); openSupportTicketFullscreen('${msg._id}')"
+    class="text-[10px] bg-zinc-900 border border-zinc-800 text-zinc-300 font-bold px-3 py-1 rounded-xl hover:border-blue-500 hover:text-blue-400 transition"
+>
+    View Details
+</button>
+
                             <button onclick="event.stopPropagation(); document.getElementById('${drawerId}').classList.toggle('hidden')" class="text-[10px] bg-blue-500/10 border border-blue-500/20 text-blue-400 font-bold px-3 py-1 rounded-xl transition hover:bg-blue-500 hover:text-black">
                                 Reply
                             </button>
@@ -3187,6 +3199,286 @@ async function loadSupportCenterPanel(e) {
     }
 }
 
+function escapeSupportText(value) {
+    const element = document.createElement("div");
+    element.textContent = value || "";
+    return element.innerHTML;
+}
+
+window.openSupportTicketFullscreen = function(ticketId) {
+    const messages = window.supportMessagesCache || [];
+
+    const ticket = messages.find(message =>
+        String(message._id) === String(ticketId)
+    );
+
+    if (!ticket) {
+        alert("This support enquiry could not be found.");
+        return;
+    }
+
+    document
+        .getElementById("supportTicketFullscreenModal")
+        ?.remove();
+
+    const pastReplies = (ticket.adminReplies || [])
+        .map(reply => `
+            <div class="border border-zinc-800 bg-zinc-900/40 rounded-xl p-4">
+                <p class="text-[10px] text-blue-400 uppercase tracking-widest font-bold">
+                    ${escapeSupportText(reply.repliedBy || "Administrator")}
+                </p>
+
+                <p class="text-zinc-300 mt-2 leading-relaxed">
+                    ${escapeSupportText(reply.text)}
+                </p>
+
+                <p class="text-[10px] text-zinc-600 mt-3">
+                    ${new Date(
+                        reply.createdAt || Date.now()
+                    ).toLocaleString()}
+                </p>
+
+                ${reply.attachmentUrl ? `
+                    <a
+                        href="${reply.attachmentUrl}"
+                        target="_blank"
+                        class="inline-block text-blue-400 text-xs mt-3"
+                    >
+                        View reply attachment ↗
+                    </a>
+                ` : ""}
+            </div>
+        `)
+        .join("");
+
+    const modal = document.createElement("div");
+
+    modal.id = "supportTicketFullscreenModal";
+
+    modal.className =
+    "fixed inset-0 z-[9999] bg-black/90 backdrop-blur-xl p-0 sm:p-4 md:p-8 overflow-y-auto";
+    modal.innerHTML = `
+        <div class="w-full max-w-6xl min-h-screen sm:min-h-[90vh] mx-auto bg-zinc-950 border border-zinc-800 rounded-none sm:rounded-3xl overflow-hidden">
+
+            <div class="sticky top-0 z-10 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 p-4 sm:p-5 md:p-7 bg-zinc-950/95 backdrop-blur-xl border-b border-zinc-800">
+
+                <div>
+                    <p class="text-blue-400 text-[10px] uppercase tracking-widest font-bold">
+                        Support Enquiry Details
+                    </p>
+
+                    <h2 class="text-xl md:text-2xl font-black mt-1">
+                        ${escapeSupportText(ticket.name)}
+                    </h2>
+                </div>
+
+                <button
+                    onclick="closeSupportTicketFullscreen()"
+                    class="bg-zinc-900 border border-zinc-800 text-zinc-300 px-4 py-2 rounded-xl hover:text-white"
+                >
+                    Close ✕
+                </button>
+
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 p-5 md:p-8">
+
+                <div class="lg:col-span-2 space-y-6">
+
+                    <div class="bg-[#080808] border border-zinc-800 rounded-2xl p-5">
+                        <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-3">
+                            Client’s Enquiry
+                        </p>
+
+                        <p class="text-zinc-200 leading-relaxed whitespace-pre-wrap">
+                            ${escapeSupportText(ticket.message)}
+                        </p>
+                    </div>
+
+                    ${ticket.attachmentUrl ? `
+                        <div class="bg-[#080808] border border-zinc-800 rounded-2xl p-5">
+                            <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-3">
+                                Client Attachment
+                            </p>
+
+                            <a
+                                href="${ticket.attachmentUrl}"
+                                target="_blank"
+                                class="text-blue-400"
+                            >
+                                Open uploaded attachment ↗
+                            </a>
+                        </div>
+                    ` : ""}
+
+                    <div>
+                        <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-3">
+                            Previous Replies
+                        </p>
+
+                        <div class="space-y-3">
+                            ${pastReplies || `
+                                <p class="text-zinc-600 text-sm">
+                                    No replies have been sent yet.
+                                </p>
+                            `}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="space-y-5">
+
+                    <div class="bg-[#080808] border border-zinc-800 rounded-2xl p-5 space-y-3">
+
+                        <div>
+                            <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
+                                Email
+                            </p>
+
+                            <a
+                                href="mailto:${escapeSupportText(ticket.email)}"
+                                class="text-blue-400 text-sm break-all"
+                            >
+                                ${escapeSupportText(ticket.email)}
+                            </a>
+                        </div>
+
+                        <div>
+                            <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
+                                Status
+                            </p>
+
+                            <p class="text-zinc-300 text-sm">
+                                ${escapeSupportText(ticket.status || "New")}
+                            </p>
+                        </div>
+
+                        <div>
+                            <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
+                                Priority
+                            </p>
+
+                            <p class="text-zinc-300 text-sm">
+                                ${escapeSupportText(ticket.priority || "Medium")}
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="bg-[#080808] border border-zinc-800 rounded-2xl p-5">
+
+                        <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-3">
+                            Send Reply
+                        </p>
+
+                        <textarea
+                            id="fullscreenSupportReply"
+                            rows="7"
+                            class="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-white outline-none focus:border-blue-500 resize-none"
+                            placeholder="Write your reply..."
+                        ></textarea>
+
+                        <input
+                            type="file"
+                            id="fullscreenSupportFile"
+                            class="w-full mt-3 text-xs text-zinc-500"
+                        >
+
+                        <button
+                            id="fullscreenSupportSendButton"
+                            onclick="sendFullscreenSupportReply('${ticket._id}')"
+                            class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-black font-black py-3 rounded-xl"
+                        >
+                            Send Reply
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+    document.body.style.overflow = "hidden";
+};
+
+window.closeSupportTicketFullscreen = function() {
+    document
+        .getElementById("supportTicketFullscreenModal")
+        ?.remove();
+
+    document.body.style.overflow = "";
+};
+
+window.sendFullscreenSupportReply = async function(ticketId) {
+    const replyInput =
+        document.getElementById("fullscreenSupportReply");
+
+    const fileInput =
+        document.getElementById("fullscreenSupportFile");
+
+    const button =
+        document.getElementById("fullscreenSupportSendButton");
+
+    const replyText = replyInput?.value.trim();
+
+    if (!replyText) {
+        alert("Please write a reply first.");
+        return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("replyText", replyText);
+
+    if (fileInput?.files?.length) {
+        formData.append("file", fileInput.files[0]);
+    }
+
+    try {
+        button.disabled = true;
+        button.textContent = "Sending...";
+
+        const response = await fetch(
+            `https://formait-backend.onrender.com/api/messages/${ticketId}/reply`,
+            {
+                method: "POST",
+                headers: {
+                    "Authorization":
+                        `Bearer ${localStorage.getItem("token")}`
+                },
+                body: formData
+            }
+        );
+
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(
+                result.error ||
+                result.message ||
+                `Reply failed ${response.status}`
+            );
+        }
+
+        alert("Reply sent successfully.");
+
+        closeSupportTicketFullscreen();
+        await loadSupportCenterPanel();
+
+    } catch (error) {
+        console.error("[FULLSCREEN SUPPORT REPLY]", error);
+        alert(`Reply failed: ${error.message}`);
+
+    } finally {
+        button.disabled = false;
+        button.textContent = "Send Reply";
+    }
+};
 
 window.submitAdminMessageResponse = async function(e, ticketId) {
     if (e) e.preventDefault();
@@ -4283,6 +4575,75 @@ window.deleteTestimonial = async function(event, id) {
         button.textContent = "Delete Permanently";
     }
 };
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.getElementById("sidebarMenu");
+    const backdrop = document.getElementById("sidebarBackdrop");
+    const menuButton = document.getElementById("mobileMenuToggle");
+
+    if (!sidebar || !backdrop || !menuButton) return;
+
+    function openAdminSidebar() {
+        sidebar.classList.remove("-translate-x-full");
+        sidebar.classList.add("translate-x-0");
+
+        backdrop.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+
+        menuButton.setAttribute("aria-expanded", "true");
+    }
+
+    function closeAdminSidebar() {
+        sidebar.classList.add("-translate-x-full");
+        sidebar.classList.remove("translate-x-0");
+
+        backdrop.classList.add("hidden");
+        document.body.style.overflow = "";
+
+        menuButton.setAttribute("aria-expanded", "false");
+    }
+
+    menuButton.addEventListener("click", () => {
+        const isOpen =
+            sidebar.classList.contains("translate-x-0");
+
+        if (isOpen) {
+            closeAdminSidebar();
+        } else {
+            openAdminSidebar();
+        }
+    });
+
+    backdrop.addEventListener(
+        "click",
+        closeAdminSidebar
+    );
+
+    sidebar
+        .querySelectorAll(".tab-trigger")
+        .forEach(button => {
+            button.addEventListener("click", () => {
+                if (window.innerWidth < 1024) {
+                    closeAdminSidebar();
+                }
+            });
+        });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            closeAdminSidebar();
+        }
+    });
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth >= 1024) {
+            backdrop.classList.add("hidden");
+            document.body.style.overflow = "";
+        }
+    });
+});
 </script>
 
 <!-- ===================================================== -->
