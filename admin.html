@@ -4064,31 +4064,61 @@ function openTestimonialModal(id) {
             ${"★".repeat(testimonial.rating)}
         </div>
 
-        ${mediaHTML}
+${testimonial.media ? `
+    <div class="mb-6">
+        <p class="text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-2">
+            Client Uploaded Media
+        </p>
 
-        <div class="bg-zinc-900 rounded-xl p-5">
-            ${testimonial.testimonial}
-        </div>
+        ${renderTestimonialMedia(testimonial.media)}
 
-        <div class="flex gap-3 mt-6">
+        <a
+            href="${getMediaSrc(testimonial.media)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block text-xs text-blue-400 hover:text-blue-300 mt-2"
+        >
+            Open media in new tab ↗
+        </a>
+    </div>
+` : `
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 mb-6">
+        <p class="text-xs text-zinc-500">
+            No media was uploaded with this review.
+        </p>
+    </div>
+`}
 
-            <button
-                onclick="approveTestimonial('${testimonial._id}')"
-                class="flex-1 bg-emerald-600 rounded-xl py-3">
+<div class="bg-zinc-900 rounded-xl p-5">
+    ${testimonial.testimonial}
+</div>
 
-                Approve
+<div class="flex flex-col sm:flex-row gap-3 mt-6">
 
-            </button>
+    ${testimonial.status === "pending" ? `
+        <button
+            onclick="approveTestimonial(event, '${testimonial._id}')"
+            class="flex-1 bg-emerald-600 hover:bg-emerald-500 rounded-xl py-3"
+        >
+            Approve
+        </button>
 
-            <button
-                onclick="rejectTestimonial('${testimonial._id}')"
-                class="flex-1 bg-red-600 rounded-xl py-3">
+        <button
+            onclick="rejectTestimonial(event, '${testimonial._id}')"
+            class="flex-1 bg-zinc-800 hover:bg-red-600 rounded-xl py-3"
+        >
+            Reject
+        </button>
+    ` : ""}
 
-                Reject
+    <button
+        onclick="deleteTestimonial(event, '${testimonial._id}')"
+        class="flex-1 bg-red-950/40 border border-red-900/50 text-red-400 hover:bg-red-600 hover:text-white rounded-xl py-3"
+    >
+        Delete Permanently
+    </button>
 
-            </button>
-
-        </div>
+</div>
     `;
 
     modal.classList.remove("hidden");

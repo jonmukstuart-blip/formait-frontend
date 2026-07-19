@@ -481,11 +481,19 @@ modal.querySelector("#crmDispatchReplyBtn").onclick = async () => {
             };
         }
 
+        const controller = new AbortController();
+
+const replyTimeout = setTimeout(() => {
+    controller.abort();
+}, 30000);
+
+requestOptions.signal = controller.signal;
         const res = await fetch(
             replyEndpoint,
             requestOptions
         );
 
+        clearTimeout(replyTimeout);
         const responseData = await res.json().catch(() => ({}));
 
         if (!res.ok) {
@@ -495,6 +503,7 @@ modal.querySelector("#crmDispatchReplyBtn").onclick = async () => {
                 `Reply failed ${res.status}`
             );
         }
+
 
         pushLocalActivityLog(
             `Reply dispatched to <${lead.email}>.`
@@ -507,7 +516,13 @@ modal.querySelector("#crmDispatchReplyBtn").onclick = async () => {
     } catch (err) {
         console.error("[REPLY ERROR]", err);
 
-        alert(`Reply failed: ${err.message}`);
+        if (err.name === "AbortError") {
+    alert(
+        "The email server took too long to respond. Please check the SMTP settings."
+    );
+} else {
+    alert(`Reply failed: ${err.message}`);
+}
 
     } finally {
         replyButton.disabled = false;

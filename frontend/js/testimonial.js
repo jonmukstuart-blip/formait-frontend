@@ -1,184 +1,235 @@
 // =============================================
-// FORMA.IT CLIENT TESTIMONIAL ENGINE (WIZARD FIXED)
+// FORMA.IT CLIENT TESTIMONIAL ENGINE
 // =============================================
+
 let loader = null;
 let selectedRating = 5;
-
 let currentStep = 0;
-let steps = [];
-let progressBar = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     loader = document.getElementById("stepLoader");
 
-    const params = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectTitle =
+        decodeURIComponent(urlParams.get("project") || "this project");
 
-    const project = params.get("project") || "this project";
+    const projectInput = document.getElementById("projectTitle");
+    const projectName = document.getElementById("projectName");
 
-    const input = document.getElementById("projectTitle");
-
-    if (input) {
-        input.value = decodeURIComponent(project);
+    if (projectInput) {
+        projectInput.value = projectTitle;
     }
 
+    if (projectName) {
+        projectName.textContent = projectTitle;
+    }
 
+    // Initialise rating
     const stars = document.querySelectorAll("#ratingStars span");
+
+    function displayRating() {
+        stars.forEach(star => {
+            star.textContent =
+                Number(star.dataset.rating) <= selectedRating
+                    ? "★"
+                    : "☆";
+        });
+    }
 
     stars.forEach(star => {
         star.addEventListener("click", () => {
             selectedRating = Number(star.dataset.rating);
-
-            stars.forEach(s => {
-                s.textContent =
-                    Number(s.dataset.rating) <= selectedRating ? "★" : "☆";
-            });
+            displayRating();
         });
     });
 
+    displayRating();
+    showStep(0);
+
     const form = document.getElementById("testimonialForm");
 
-    if (form) {
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
+    if (!form) return;
 
-            try {
-               const params = new URLSearchParams(window.location.search);
+    form.addEventListener("submit", async event => {
+        event.preventDefault();
 
-const params = new URLSearchParams(window.location.search);
-const projectId = params.get("projectId");
-const projectTitle = params.get("project") || "";
+        const submitButton = form.querySelector(
+            'button[type="submit"]'
+        );
 
-if (!projectId) {
-    alert("Invalid review link: missing projectId");
-    return;
-}
+        try {
+            const projectId = urlParams.get("projectId");
 
-const formData = new FormData();
-
-formData.append("projectId", projectId);
-formData.append("projectTitle", projectTitle);
-formData.append(
-    "clientName",
-    document.getElementById("clientName").value.trim()
-);
-formData.append(
-    "company",
-    document.getElementById("company").value.trim()
-);
-formData.append(
-    "position",
-    document.getElementById("position").value.trim()
-);
-formData.append(
-    "testimonial",
-    document.getElementById("testimonial").value.trim()
-);
-formData.append("rating", String(selectedRating));
-
-const mediaInput = document.getElementById("media");
-
-if (mediaInput && mediaInput.files.length > 0) {
-    formData.append("media", mediaInput.files[0]);
-}
-
-const response = await fetch(
-    "https://formait-backend.onrender.com/api/testimonials",
-    {
-        method: "POST",
-        body: formData
-    }
-);
-
-if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-
-    throw new Error(
-        errorData.error ||
-        errorData.message ||
-        "The testimonial could not be submitted."
-    );
-}
-
-await response.json();
-
-alert(
-    "Thank you! Your testimonial was submitted and will appear after approval."
-);
-
-form.reset();
-
-setTimeout(() => {
-    window.location.href = "./portfolio.html";
-}, 800);
-
-            } catch (err) {
-                console.error(err);
-                alert(err.message);
+            if (!projectId) {
+                throw new Error(
+                    "Invalid review link: missing projectId."
+                );
             }
-        });
-    }
 
+            const clientName =
+                document.getElementById("clientName").value.trim();
+
+            const testimonial =
+                document.getElementById("testimonial").value.trim();
+
+            if (!clientName) {
+                throw new Error("Please enter your name.");
+            }
+
+            if (!testimonial) {
+                throw new Error(
+                    "Please tell us about your experience."
+                );
+            }
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = "Submitting...";
+            }
+
+            if (loader) {
+                loader.classList.remove("hidden");
+            }
+
+            const formData = new FormData();
+
+            formData.append("projectId", projectId);
+            formData.append("projectTitle", projectTitle);
+            formData.append("clientName", clientName);
+
+            formData.append(
+                "company",
+                document.getElementById("company").value.trim()
+            );
+
+            formData.append(
+                "position",
+                document.getElementById("position").value.trim()
+            );
+
+            formData.append("testimonial", testimonial);
+            formData.append("rating", String(selectedRating));
+
+            const mediaInput = document.getElementById("media");
+
+            if (
+                mediaInput &&
+                mediaInput.files &&
+                mediaInput.files.length > 0
+            ) {
+                formData.append("media", mediaInput.files[0]);
+            }
+
+            const response = await fetch(
+                "https://formait-backend.onrender.com/api/testimonials",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+            const result = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(
+                    result.error ||
+                    result.message ||
+                    `Submission failed ${response.status}`
+                );
+            }
+
+            alert(
+                "Thank you! Your review was submitted for approval."
+            );
+
+            form.reset();
+            selectedRating = 5;
+            displayRating();
+
+            window.location.href = "./portfolio.html";
+
+        } catch (error) {
+            console.error("[TESTIMONIAL ERROR]", error);
+            alert(error.message);
+
+        } finally {
+            if (loader) {
+                loader.classList.add("hidden");
+            }
+
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = "Submit Review";
+            }
+        }
+    });
 });
+
 // =============================================
 // WIZARD CONTROLS
 // =============================================
-function showStep(index) {
 
+function showStep(index) {
     const steps = document.querySelectorAll(".step");
     const progressBar = document.getElementById("progressBar");
 
-    steps.forEach((step, i) => {
+    if (!steps.length) return;
 
-        if (i === index) {
-            step.classList.add("active");
-        } else {
-            step.classList.remove("active");
-        }
-
+    steps.forEach((step, stepIndex) => {
+        step.classList.toggle("active", stepIndex === index);
     });
 
     if (progressBar) {
         const progress = ((index + 1) / steps.length) * 100;
-        progressBar.style.width = progress + "%";
+        progressBar.style.width = `${progress}%`;
     }
 }
 
 function nextStep() {
-
     const steps = document.querySelectorAll(".step");
 
-    if (currentStep < steps.length - 1) {
-
-        // show loading overlay
-        if (loader) loader.classList.remove("hidden");
-
-        setTimeout(() => {
-
-            currentStep++;
-            showStep(currentStep);
-
-            // hide loading after step switch
-            if (loader) loader.classList.add("hidden");
-
-        }, 400); // fake loading delay (Stripe-style feel)
-
+    if (!steps.length || currentStep >= steps.length - 1) {
+        return;
     }
+
+    // Validate name before leaving first step
+    if (currentStep === 0) {
+        const clientName =
+            document.getElementById("clientName")?.value.trim();
+
+        if (!clientName) {
+            alert("Please enter your name.");
+            return;
+        }
+    }
+
+    // Validate rating
+    if (currentStep === 1 && !selectedRating) {
+        alert("Please select a rating.");
+        return;
+    }
+
+    // Validate testimonial
+    if (currentStep === 2) {
+        const testimonial =
+            document.getElementById("testimonial")?.value.trim();
+
+        if (!testimonial) {
+            alert("Please tell us about your experience.");
+            return;
+        }
+    }
+
+    currentStep += 1;
+    showStep(currentStep);
 }
 
 function prevStep() {
+    if (currentStep <= 0) return;
 
-    if (currentStep > 0) {
-
-        if (loader) loader.classList.remove("hidden");
-
-        setTimeout(() => {
-
-            currentStep--;
-            showStep(currentStep);
-
-            if (loader) loader.classList.add("hidden");
-
-        }, 300);
-
-    }
+    currentStep -= 1;
+    showStep(currentStep);
 }
+
+window.nextStep = nextStep;
+window.prevStep = prevStep;
