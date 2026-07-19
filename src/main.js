@@ -45,18 +45,28 @@ if (hero) {
             const mainSpan = document.getElementById("aboutTitleMain");
             const accentSpan = document.getElementById("aboutTitleAccent");
 
-            if (mainSpan && accentSpan) {
-                const textTokensArray = titleText.split(" ");
-                if (textTokensArray.length > 1) {
-                    const lastTokenStr = textTokensArray.pop(); // Separate the final word to make it blue
-                    mainSpan.textContent = textTokensArray.join(" ") + " ";
-                    accentSpan.textContent = lastTokenStr;
-                } else {
-                    mainSpan.textContent = titleText;
-                    accentSpan.textContent = "";
-                }
-                console.log("📝 [CMS SPLITTER] Title accent parameters divided and painted onto spans.");
-            }
+           if (mainSpan && accentSpan) {
+    const accentPhrase = "software";
+    const accentStart = titleText
+        .toLowerCase()
+        .indexOf(accentPhrase);
+
+    if (accentStart !== -1) {
+        mainSpan.textContent =
+            titleText.slice(0, accentStart).trim() + " ";
+
+        accentSpan.textContent =
+            titleText.slice(accentStart).trim();
+
+    } else {
+        mainSpan.textContent = titleText;
+        accentSpan.textContent = "";
+    }
+
+    console.log(
+        "📝 [CMS SPLITTER] Software phrase retained as blue accent."
+    );
+}
 
             // 2. SLOGAN TAGLINE DESCRIPTION INJECTION
             const sloganNode = document.getElementById("aboutSlogan");
