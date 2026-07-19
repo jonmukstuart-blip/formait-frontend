@@ -44,28 +44,50 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                const params = new URLSearchParams(window.location.search);
 
-const body = {
-    projectId: params.get("projectId"),
-    projectTitle: params.get("project") || "",
-    clientName: document.getElementById("clientName").value,
-    company: document.getElementById("company").value,
-    position: document.getElementById("position").value,
-    testimonial: document.getElementById("testimonial").value,
-    rating: selectedRating,
-    status: "pending"
-};
+const params = new URLSearchParams(window.location.search);
+const projectId = params.get("projectId");
+const projectTitle = params.get("project") || "";
 
-if (!body.projectId) {
+if (!projectId) {
     alert("Invalid review link: missing projectId");
     return;
 }
-                const response = await fetch("https://formait-backend.onrender.com/api/testimonials", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(body)
-                });
+
+const formData = new FormData();
+
+formData.append("projectId", projectId);
+formData.append("projectTitle", projectTitle);
+formData.append(
+    "clientName",
+    document.getElementById("clientName").value.trim()
+);
+formData.append(
+    "company",
+    document.getElementById("company").value.trim()
+);
+formData.append(
+    "position",
+    document.getElementById("position").value.trim()
+);
+formData.append(
+    "testimonial",
+    document.getElementById("testimonial").value.trim()
+);
+formData.append("rating", String(selectedRating));
+
+const mediaInput = document.getElementById("media");
+
+if (mediaInput && mediaInput.files.length > 0) {
+    formData.append("media", mediaInput.files[0]);
+}
+
+const response = await fetch(
+    "https://formait-backend.onrender.com/api/testimonials",
+    {
+        method: "POST",
+        body: formData
+    }
+);
 
 if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));

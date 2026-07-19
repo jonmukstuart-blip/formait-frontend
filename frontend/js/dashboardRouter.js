@@ -433,57 +433,87 @@ if (!response.ok) {
 
                 // A. Handle Outbound Dynamic Message Transmission
 modal.querySelector("#crmDispatchReplyBtn").onclick = async () => {
-
     const replyInput = modal.querySelector("#crmActionReplyInput");
-
+    const replyButton = modal.querySelector("#crmDispatchReplyBtn");
     const msgVal = replyInput.value.trim();
 
-    if (!msgVal) return;
-
+    if (!msgVal) {
+        alert("Please write a reply first.");
+        return;
+    }
 
     try {
+        replyButton.disabled = true;
+        replyButton.textContent = "Sending...";
 
-const replyPayload = new FormData();
+        let replyEndpoint;
+        let requestOptions;
 
-replyPayload.append("replyText", msgVal);
+        if (isSupportMessage) {
+            const replyPayload = new FormData();
 
-const res = await fetch(
-    `${API_CONFIG.BASE_URL}/messages/${lead._id}/reply`,
-    {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${token}`
-        },
-        body: replyPayload
-    }
-);
+            replyPayload.append("replyText", msgVal);
 
+            replyEndpoint =
+                `${API_CONFIG.BASE_URL}/messages/${lead._id}/reply`;
 
-        if(!res.ok){
-            throw new Error(`Reply failed ${res.status}`);
+            requestOptions = {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                body: replyPayload
+            };
+
+        } else {
+            replyEndpoint =
+                `${API_CONFIG.BASE_URL}/leads/${lead._id}/reply`;
+
+            requestOptions = {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    replyText: msgVal
+                })
+            };
         }
 
-
-        pushLocalActivityLog(
-            `Outbound CRM reply dispatched to <${lead.email}>.`
+        const res = await fetch(
+            replyEndpoint,
+            requestOptions
         );
 
+        const responseData = await res.json().catch(() => ({}));
 
-        replyInput.value="";
+        if (!res.ok) {
+            throw new Error(
+                responseData.error ||
+                responseData.message ||
+                `Reply failed ${res.status}`
+            );
+        }
 
-        alert("Reply sent successfully");
+        pushLocalActivityLog(
+            `Reply dispatched to <${lead.email}>.`
+        );
 
+        replyInput.value = "";
 
-    } catch(err){
+        alert("Reply sent successfully.");
 
-        console.error("[REPLY ERROR]",err);
+    } catch (err) {
+        console.error("[REPLY ERROR]", err);
 
-        alert("Reply failed: "+err.message);
+        alert(`Reply failed: ${err.message}`);
 
+    } finally {
+        replyButton.disabled = false;
+        replyButton.textContent = "Reply";
     }
-
 };
-
                 // B. Handle Database Record Purging Operations
                 document.getElementById("crmExecuteDeleteBtn").onclick = async () => {
                     if (!confirm("Permanently purge this item file from Atlas servers?")) return;
