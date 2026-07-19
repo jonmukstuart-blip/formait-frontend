@@ -67,15 +67,26 @@ if (!body.projectId) {
                     body: JSON.stringify(body)
                 });
 
-if (!response.ok) throw new Error("Submission failed.");
+if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
 
-alert("Thank you! Your testimonial has been submitted.");
+    throw new Error(
+        errorData.error ||
+        errorData.message ||
+        "The testimonial could not be submitted."
+    );
+}
+
+await response.json();
+
+alert(
+    "Thank you! Your testimonial was submitted and will appear after approval."
+);
 
 form.reset();
 
-// Redirect client to portfolio after successful submission
 setTimeout(() => {
-    window.location.href = "portfolio.html";
+    window.location.href = "./portfolio.html";
 }, 800);
 
             } catch (err) {

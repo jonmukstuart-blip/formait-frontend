@@ -24,3 +24,6 @@ dist-ssr
 
 # ENV FILE (IMPORTANT)
 .env
+
+# Backend has its own separate Git repository
+backend/

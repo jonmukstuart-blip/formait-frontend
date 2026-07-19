@@ -1,5 +1,8 @@
-const API_BASE =
-  window.location.hostname === "localhost"
+const isLocalDevelopment =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+const API_BASE = isLocalDevelopment
     ? "http://localhost:5000"
     : "https://formait-backend.onrender.com";
 

@@ -25,13 +25,16 @@ window.refreshActiveTab = async function(targetTabId = document.querySelector(".
                window.DashboardCache.leads = await res.json();
                 
                 // 🎯 FIXED: Direct fallback matrix aligning with 'renderPipeline'
-                if (typeof renderPipeline === "function") {
-                    renderPipeline(window.DashboardCache.leads);
-                } else if (typeof renderLeadsPipeline === "function") {
-                    renderLeadsPipeline(DashboardCache.leads);
-                }
-                
-                if (typeof loadDashboard === "function") loadDashboard();
+               if (typeof renderPipeline === "function") {
+    renderPipeline(window.DashboardCache.leads);
+
+} else if (typeof renderLeadsPipeline === "function") {
+    renderLeadsPipeline(window.DashboardCache.leads);
+}
+
+if (typeof loadDashboardMetrics === "function") {
+    loadDashboardMetrics(window.DashboardCache.leads);
+}
             }
         }
         
@@ -389,9 +392,9 @@ if (!response.ok) {
                             <!-- Quick Action Reply Workspace -->
                             <div class="space-y-2 pt-2">
                                 <h4 class="text-xs font-black uppercase text-zinc-500 tracking-widest font-mono">Executive Response Command Deck</h4>
-                                <div class="flex gap-2">
+                                <div class="flex flex-col sm:flex-row gap-2">
                                     <input type="text" id="crmActionReplyInput" class="flex-1 bg-zinc-950 border border-zinc-900 rounded-xl px-4 py-3 text-xs outline-none text-white focus:border-blue-500 transition placeholder-zinc-700" placeholder="Type an immediate outbound message reply vector...">
-                                    <button id="crmDispatchReplyBtn" class="bg-blue-500 hover:bg-blue-600 px-4 py-3 rounded-xl text-black font-black text-xs uppercase tracking-wider transition cursor-pointer">Reply</button>
+                                    <button id="crmDispatchReplyBtn" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 px-4 py-3 rounded-xl text-black font-black text-xs uppercase tracking-wider transition cursor-pointer">Reply</button>
                                 </div>
                             </div>
                         </div>
@@ -440,16 +443,20 @@ modal.querySelector("#crmDispatchReplyBtn").onclick = async () => {
 
     try {
 
-        const res = await fetch(
-            `${API_CONFIG.BASE_URL}/messages/${lead._id}/reply`,
-            {
-                method:"POST",
-                headers,
-                body: JSON.stringify({
-                    reply: msgVal
-                })
-            }
-        );
+const replyPayload = new FormData();
+
+replyPayload.append("replyText", msgVal);
+
+const res = await fetch(
+    `${API_CONFIG.BASE_URL}/messages/${lead._id}/reply`,
+    {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+        body: replyPayload
+    }
+);
 
 
         if(!res.ok){
@@ -504,7 +511,7 @@ modal.querySelector("#crmDispatchReplyBtn").onclick = async () => {
                             const res = await fetch(`${API_CONFIG.BASE_URL}/${routePath}/${lead._id}`, {
                                 method: "PUT", 
                                 headers, 
-                                body: JSON.stringify({ status: "reviewed" })
+                                body: JSON.stringify({ status: "Resolved" })
                             });
                             if (!res.ok) throw new Error(`Mutation failed: ${res.status}`);
                             

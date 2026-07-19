@@ -7,6 +7,11 @@
 
     <!-- 🎯 1. SYNCHRONOUS FORCE-HIDE SECURITY INTERCEPTOR (KILLS FLASHES INSTANTLY) -->
     <script>
+
+        window.DashboardState = {
+    activeTab: "dashboard"
+};
+
        (function enforceSecureAuthGate() {
             const activeToken = localStorage.getItem("token");
             
@@ -16,7 +21,7 @@
                 console.warn("🚨 [AUTH GATE] Token signature absent from cache storage. Halting page rendering loops...");
                 
                 // Hide the document block immediately before any layout structures or scripts can load
-                document.documentElement.style.display = "none";
+               
                 
                 // Route the user straight to your true portal entry gate with zero visual delays
                 window.location.replace("login.html");
@@ -32,7 +37,6 @@
     
     <!-- Real-Time Socket Distribution Client Hook -->
     <script src="https://formait-backend.onrender.com/socket.io/socket.io.js"></script>
-    <script src="./frontend/main.js"></script>
 
     <script>
 window.renderLeadsPipeline = function(leads){
@@ -461,7 +465,6 @@ MAIN
 
 <script src="./js/api.js"></script>
 <script src="./frontend/js/dashboardRouter.js"></script>
-<script src="./frontend/main.js"></script>
 
 <script>
 
@@ -1478,9 +1481,6 @@ if (targetKey === "security center") {
     loadSecurityOperationsPanel();
 }
 
-if (targetKey === "portfolio") {
-    loadPortfolioManagementPanel();
-}
 if (targetKey === "seo center") {
     loadSeoManagementPanel();
 }
@@ -2199,9 +2199,11 @@ lastRefresh = Date.now();
             if (DashboardState.activeTab === "services" || pulse.action === "DATABASE_SERVICES_SYNC") {
                 if (typeof loadServicesManagementPanel === "function") loadServicesManagementPanel();
             }
-            if (DashboardState.activeTab === "portfolio" || pulse.action === "DATABASE_PORTFOLIO_SYNC") {
-                if (typeof loadPortfolioManagementPanel === "function") loadPortfolioManagementPanel();
-            }
+ if (pulse.action === "DATABASE_PORTFOLIO_SYNC") {
+    console.log(
+        "🟢 Portfolio database sync received. UI preserved."
+    );
+}
             if (DashboardState.activeTab === "blog" || pulse.action === "DATABASE_BLOG_SYNC") {
                 if (typeof loadBlogEditorialPanel === "function") loadBlogEditorialPanel();
             }
@@ -2223,11 +2225,24 @@ if (DashboardState.activeTab === "leads") {
     if (typeof loadLeads === "function") loadLeads();
 }
 
-            if (DashboardState.activeTab === "support center" || pulse.action === "DATABASE_MESSAGES_SYNC" || pulse.tab === "support center" || pulse.tab === "messages") {
-                if (typeof loadSupportCenterPanel === "function") {
-                    await loadSupportCenterPanel(); // Safe call achieved within async boundaries
-                }
-            }
+if (
+    DashboardState.activeTab === "support center" &&
+    pulse.action === "DATABASE_MESSAGES_SYNC"
+) {
+    const activeInput = document.activeElement;
+
+    const userIsTyping =
+        activeInput &&
+        activeInput.id &&
+        activeInput.id.startsWith("replyText-");
+
+    if (
+        !userIsTyping &&
+        typeof loadSupportCenterPanel === "function"
+    ) {
+        await loadSupportCenterPanel();
+    }
+}
             if (DashboardState.activeTab === "integrations" || pulse.action === "DATABASE_INTEGRATIONS_SYNC") {
                 if (typeof loadIntegrationsManagementPanel === "function") loadIntegrationsManagementPanel();
             }
@@ -2297,13 +2312,6 @@ if (DashboardState.activeTab === "leads") {
      🚀 BULLETPROOF ENTERPRISE REAL-TIME INITIALIZATION ENGINE
      ========================================================================== -->
 <script>
-    // Unified Access Control Matrix Gate
-    let enterpriseToken = localStorage.getItem("token");
-    if (!enterpriseToken) {
-        enterpriseToken = "sandbox-dev-token-99999";
-        localStorage.setItem("token", enterpriseToken);
-        console.log("[AUTH] Development token initialized.");
-    }
 
     // Safely bootstrap existing global page layout engine routines on DOM load
     window.addEventListener("DOMContentLoaded", () => {
@@ -2653,6 +2661,7 @@ async function createNewPortfolioItem(e) {
             submitBtn.disabled = true;
         }
 
+        console.log("PORTFOLIO TOKEN:", bearerToken);
         const res = await fetch("https://formait-backend.onrender.com/api/admin/portfolio", {
             method: "POST",
             headers: { "Authorization": `Bearer ${bearerToken}` }, // Multipart handles its own boundary array properties
