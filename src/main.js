@@ -632,22 +632,6 @@ document.querySelectorAll(".dashboard-glow").forEach(el => {
 // 🚀 FIXED: Wrapped in an auth gate to eliminate the 401 Unauthorized crash on public pages
 const publicFetchToken = localStorage.getItem("token");
 
-if (publicFetchToken) {
-  fetch(`${API_BASE}/api/leads`, {
-    headers: {
-      "Authorization": `Bearer ${publicFetchToken}`
-    }
-  })
-    .then(res => res.json())
-    .then(leads => {
-      if (typeof renderPipeline === "function") {
-        renderPipeline(leads);
-      }
-    })
-    .catch(err => console.log("CRM load error:", err));
-} else {
-  console.log("[AUTH MATRIX] Token absent. Public guest instance running cleanly.");
-}
 
 // Global high-performance background pointer track
 document.addEventListener("mousemove", (e) => {

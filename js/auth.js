@@ -2,7 +2,11 @@
 // FORMA.IT CLIENT AUTH SYSTEM
 // =====================================
 
-const CLIENT_API = `${API_BASE}/api/client`;
+const AUTH_API_BASE =
+    window.API_BASE ||
+    "https://formait-backend.onrender.com";
+
+const AUTH_API = `${AUTH_API_BASE}/api/auth`;
 
 document.addEventListener("DOMContentLoaded", () => {
 
