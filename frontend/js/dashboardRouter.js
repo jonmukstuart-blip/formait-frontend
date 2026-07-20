@@ -159,8 +159,12 @@ window.renderLeadsPipeline = function(leads) {
                         <span class="text-xs font-mono text-zinc-400 tracking-tight pr-2">
                             ${lead.source || lead.valueMapping || "Website Contact Form"}
                         </span>
-                        <button class="delete-lead-btn p-1.5 text-zinc-600 hover:text-red-400 rounded-lg hover:bg-red-500/10 transition duration-200 cursor-pointer" 
-                                data-id="${targetId}" title="Purge Lead Document" onclick="event.stopPropagation();">
+                       <button
+    type="button"
+    class="delete-lead-btn p-1.5 text-zinc-600 hover:text-red-400 rounded-lg hover:bg-red-500/10 transition duration-200 cursor-pointer"
+    data-id="${targetId}"
+    title="Delete Lead"
+>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                             </svg>
@@ -386,66 +390,11 @@ if (leadsTable && !leadsTable.dataset.boundClick) {
 
     leadsTable.addEventListener("click", async (e) => {
 
-        const deleteButton = e.target.closest(".delete-lead-btn");
-
-if (deleteButton) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const leadId = deleteButton.dataset.id;
-
-    if (!leadId) {
-        alert("Lead ID is missing.");
-        return;
-    }
-
-    if (!confirm("Permanently delete this lead?")) {
-        return;
-    }
-
-    deleteButton.disabled = true;
-
-    try {
-        const response = await fetch(
-            `${API_CONFIG.BASE_URL}/leads/${leadId}`,
-            {
-                method: "DELETE",
-                headers
-            }
-        );
-
-        const data = await response.json().catch(() => ({}));
-
-        if (!response.ok) {
-            throw new Error(
-                data.error ||
-                data.message ||
-                `Delete failed ${response.status}`
-            );
-        }
-
-        window.DashboardCache.leads =
-            window.DashboardCache.leads.filter(
-                lead => String(lead._id) !== String(leadId)
-            );
-
-        renderLeadsPipeline(window.DashboardCache.leads);
-        loadDashboardMetrics(window.DashboardCache.leads);
-
-        alert("Lead deleted successfully.");
-
-    } catch (error) {
-        console.error("[DELETE LEAD ERROR]", error);
-        alert(`Delete failed: ${error.message}`);
-        deleteButton.disabled = false;
-    }
-
-    return;
-}
-            if (
-                e.target.classList.contains("status-mutator") || 
-                e.target.closest("textarea") ||
-                e.target.closest("input") ||
+           if (
+    e.target.closest(".delete-lead-btn") ||
+    e.target.classList.contains("status-mutator") ||
+    e.target.closest("textarea") ||
+    e.target.closest("input") ||
                 // Allow row tracking even if clicking near close/reply buttons inside expanded drawers
                 (e.target.closest("button") && !e.target.closest(".lead-row")) 
             ) {
@@ -760,12 +709,6 @@ requestOptions.signal = controller.signal;
             }
         });
     }
-   leadsTable.addEventListener("change", async (e) => {
-    // existing status code
-});
-
-}); // close DOMContentLoaded here
-
 
         // ==========================================================================
         // 🔄 STATUS MUTATOR DROPDOWN HANDLER (WITH INTERACTIVE RESTORATION)
@@ -796,6 +739,8 @@ requestOptions.signal = controller.signal;
                 }
             }
         });
+     
+}); // close DOMContentLoaded here
 
         
 window.loadDashboardMetrics = async function(leadsArray) {
@@ -846,10 +791,28 @@ window.loadDashboardMetrics = async function(leadsArray) {
     };
 
     // Safely update DOM content if elements exist in active layout
-    if (nodes.visitors) nodes.visitors.textContent = (totalLeadsCount * 4 || "248").toLocaleString();
-    if (nodes.leads) nodes.leads.textContent = totalLeadsCount;
-    if (nodes.emails) nodes.emails.textContent = totalEmailsCount;
-    if (nodes.tickets) nodes.tickets.textContent = totalTicketsCount;
-    if (nodes.revenue) nodes.revenue.textContent = `$${calculatedRevenue.toLocaleString()}`;
-    if (nodes.conversion) nodes.conversion.textContent = `${conversionPct}%`;
+   if (nodes.visitors) {
+    nodes.visitors.textContent =
+        (totalLeadsCount * 4).toLocaleString();
+}
+   if (nodes.leads) {
+    nodes.leads.textContent = totalLeadsCount;
+}
+
+if (nodes.emails) {
+    nodes.emails.textContent = totalEmailsCount;
+}
+
+if (nodes.tickets) {
+    nodes.tickets.textContent = totalTicketsCount;
+}
+
+if (nodes.revenue) {
+    nodes.revenue.textContent =
+        `$${calculatedRevenue.toLocaleString()}`;
+}
+
+if (nodes.conversion) {
+    nodes.conversion.textContent = `${conversionPct}%`;
+}
 };
