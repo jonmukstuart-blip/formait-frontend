@@ -279,6 +279,104 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     window.pushLocalActivityLog = pushLocalActivityLog; // Expose globally for separate runtime scripts
+   
+   // ==========================================================
+// DELETE LEAD BUTTON
+// ==========================================================
+if (leadsTable && !leadsTable.dataset.deleteBound) {
+    leadsTable.dataset.deleteBound = "true";
+
+    leadsTable.addEventListener("click", async event => {
+        const deleteButton =
+            event.target.closest(".delete-lead-btn");
+
+        if (!deleteButton) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const leadId = deleteButton.dataset.id;
+
+        if (!leadId) {
+            alert("Unable to delete: lead ID is missing.");
+            return;
+        }
+
+        const confirmed = confirm(
+            "Permanently delete this lead?"
+        );
+
+        if (!confirmed) return;
+
+        const originalContent = deleteButton.innerHTML;
+
+        try {
+            deleteButton.disabled = true;
+            deleteButton.innerHTML = `
+                <span class="text-[10px]">...</span>
+            `;
+
+            const response = await fetch(
+                `${API_CONFIG.BASE_URL}/leads/${leadId}`,
+                {
+                    method: "DELETE",
+                    headers
+                }
+            );
+
+            const data = await response.json().catch(() => ({}));
+
+            if (response.status === 401) {
+                throw new Error(
+                    "Your admin session has expired. Sign in again."
+                );
+            }
+
+            if (!response.ok) {
+                throw new Error(
+                    data.error ||
+                    data.message ||
+                    `Delete failed ${response.status}`
+                );
+            }
+
+            window.DashboardCache.leads =
+                window.DashboardCache.leads.filter(
+                    lead => String(lead._id) !== String(leadId)
+                );
+
+            window.renderLeadsPipeline(
+                window.DashboardCache.leads
+            );
+
+            if (
+                typeof window.loadDashboardMetrics ===
+                "function"
+            ) {
+                window.loadDashboardMetrics(
+                    window.DashboardCache.leads
+                );
+            }
+
+            if (
+                typeof window.pushLocalActivityLog ===
+                "function"
+            ) {
+                window.pushLocalActivityLog(
+                    `Lead ${leadId} deleted successfully.`
+                );
+            }
+
+        } catch (error) {
+            console.error("[DELETE LEAD ERROR]", error);
+
+            alert(`Delete failed: ${error.message}`);
+
+            deleteButton.disabled = false;
+            deleteButton.innerHTML = originalContent;
+        }
+    });
+}
     // ==========================================================================
     // 🚀 UNIVERSAL PIPELINE ROUTING ENGINE (UNFOLDS LEADS & SUPPORT MESSAGES)
     // ==========================================================================
