@@ -438,75 +438,14 @@
 
         </div>
 
-        <div class="grid lg:grid-cols-3 gap-8">
-
-            <!-- CARD -->
-
-            <div class="reveal border border-zinc-900 p-8 card-hover">
-
-                <div class="mono text-blue-500 mb-6">
-                    CASE 01
-                </div>
-
-                <h3 class="text-2xl font-bold mb-4">
-                    Lumen Banking
-                </h3>
-
-                <p class="text-zinc-400 leading-relaxed">
-                    Reimagined digital onboarding experiences with
-                    streamlined KYC validation and modular account creation.
-                </p>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="reveal border border-zinc-900 p-8 card-hover">
-
-                <div class="mono text-blue-500 mb-6">
-                    CASE 02
-                </div>
-
-                <h3 class="text-2xl font-bold mb-4">
-                    Atlas Logistics
-                </h3>
-
-                <p class="text-zinc-400 leading-relaxed">
-                    Built a unified operations suite connecting routing,
-                    dispatching, fleet visibility, and reporting.
-                </p>
-
-            </div>
-
-            <!-- CARD -->
-
-            <div class="reveal border border-zinc-900 p-8 card-hover">
-
-                <div class="mono text-blue-500 mb-6">
-                    CASE 03
-                </div>
-
-                <h3 class="text-2xl font-bold mb-4">
-                    Verdé Health
-                </h3>
-
-                <p class="text-zinc-400 leading-relaxed">
-                    Delivered a patient-first scheduling ecosystem with
-                    secure records, reminders, and self-service workflows.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="mt-16">
-            <a href="portfolio.html"
-                class="inline-flex items-center gap-3 text-blue-500 font-semibold hover:translate-x-2 transition">
-                Explore Full Portfolio →
-            </a>
-        </div>
-
+<div
+    id="featuredPortfolioGrid"
+    class="grid lg:grid-cols-3 gap-8"
+>
+    <div class="border border-zinc-900 p-8 animate-pulse">
+        <p class="text-zinc-500 text-sm">Loading featured work...</p>
     </div>
+</div>
 
 </section>
 
@@ -1627,6 +1566,132 @@ triggerNode.addEventListener("click", (e) => {
         });
     }
 })();
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", loadFeaturedPortfolio);
+
+async function loadFeaturedPortfolio() {
+    const grid = document.getElementById("featuredPortfolioGrid");
+
+    if (!grid) return;
+
+    const apiBase =
+        window.API_BASE ||
+        "https://formait-backend.onrender.com";
+
+    try {
+        const response = await fetch(
+            `${apiBase}/api/testimonials/approved`
+        );
+
+        const testimonials = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                testimonials.error ||
+                `Portfolio request failed ${response.status}`
+            );
+        }
+
+        /*
+         * Keep one approved testimonial per project and
+         * display only the first three projects.
+         */
+        const uniqueProjects = [];
+        const projectIds = new Set();
+
+        testimonials.forEach(testimonial => {
+            const project = testimonial.projectId;
+
+            if (!project || !project._id) return;
+
+            const projectId = String(project._id);
+
+            if (projectIds.has(projectId)) return;
+
+            projectIds.add(projectId);
+
+            uniqueProjects.push({
+                project,
+                testimonial
+            });
+        });
+
+        const featuredItems = uniqueProjects.slice(0, 3);
+
+        if (featuredItems.length === 0) {
+            grid.innerHTML = `
+                <div class="lg:col-span-3 border border-zinc-900 p-8">
+                    <p class="text-zinc-500">
+                        Featured projects will appear here soon.
+                    </p>
+                </div>
+            `;
+
+            return;
+        }
+
+        grid.innerHTML = featuredItems.map(
+            ({ project, testimonial }, index) => {
+                const caseNumber = String(index + 1).padStart(2, "0");
+
+                const title = escapeFeaturedText(
+                    project.title || testimonial.projectTitle || "FORMA.IT Project"
+                );
+
+                const description = escapeFeaturedText(
+                    testimonial.testimonial ||
+                    "A successful digital product delivered in partnership with our client."
+                );
+
+                return `
+                    <article class="reveal border border-zinc-900 p-8 card-hover">
+                        <div class="mono text-blue-500 mb-6">
+                            CASE ${caseNumber}
+                        </div>
+
+                        <h3 class="text-2xl font-bold mb-4">
+                            ${title}
+                        </h3>
+
+                        <p class="text-zinc-400 leading-relaxed">
+                            ${description}
+                        </p>
+                    </article>
+                `;
+            }
+        ).join("");
+
+        /*
+         * If your reveal animation requires its class to be
+         * manually activated, reveal the newly created cards.
+         */
+        grid.querySelectorAll(".reveal").forEach(card => {
+            card.classList.add("visible");
+        });
+
+    } catch (error) {
+        console.error("[FEATURED PORTFOLIO ERROR]", error);
+
+        grid.innerHTML = `
+            <div class="lg:col-span-3 border border-red-900/40 p-8">
+                <p class="text-zinc-500">
+                    Featured projects are temporarily unavailable.
+                </p>
+            </div>
+        `;
+    }
+}
+
+function escapeFeaturedText(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 </script>
 
 <script src="./js/auth.js"></script>

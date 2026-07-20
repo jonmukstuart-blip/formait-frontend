@@ -126,10 +126,30 @@ window.renderLeadsPipeline = function(leads) {
                     <!-- FIXED: Re-injecting the interactive dropdown component block with event isolation -->
                     <select class="status-mutator bg-zinc-950 border border-zinc-800 hover:border-zinc-700 text-zinc-300 rounded-lg px-2.5 py-1 text-xs font-mono tracking-wide focus:border-blue-500 focus:outline-none cursor-default transition uppercase" 
                             data-id="${targetId}" onclick="event.stopPropagation();">
-                        <option value="New" ${lead.status === 'New' || lead.status === 'NEW' || !lead.status || lead.status === 'Logged' ? 'selected' : ''}>🆕 New</option>
-                        <option value="Contacted" ${lead.status === 'Contacted' ? 'selected' : ''}>📞 Contacted</option>
-                        <option value="Qualified" ${lead.status === 'Qualified' ? 'selected' : ''}>🔥 Qualified</option>
-                        <option value="Won" ${lead.status === 'Won' ? 'selected' : ''}>🏆 Won</option>
+                       <option value="new"
+    ${!lead.status || ["new", "logged"].includes(lead.status.toLowerCase()) ? "selected" : ""}>
+    🆕 New
+</option>
+
+<option value="contacted"
+    ${lead.status?.toLowerCase() === "contacted" ? "selected" : ""}>
+    📞 Contacted
+</option>
+
+<option value="qualified"
+    ${lead.status?.toLowerCase() === "qualified" ? "selected" : ""}>
+    🔥 Qualified
+</option>
+
+<option value="won"
+    ${lead.status?.toLowerCase() === "won" ? "selected" : ""}>
+    🏆 Won
+</option>
+
+<option value="lost"
+    ${lead.status?.toLowerCase() === "lost" ? "selected" : ""}>
+    ❌ Lost
+</option>
                     </select>
                 </td>
 
@@ -222,6 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("token");
     const headers = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
 
+    window.refreshActiveTab("dashboard");
     const leadsTable = document.getElementById("leadsTableBody") || document.getElementById("leadsTable");
     const activityFeed = document.getElementById("activityFeed");
 
@@ -266,9 +287,65 @@ if (leadsTable && !leadsTable.dataset.boundClick) {
     leadsTable.dataset.boundClick = "true";
 
     leadsTable.addEventListener("click", async (e) => {
+
+        const deleteButton = e.target.closest(".delete-lead-btn");
+
+if (deleteButton) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const leadId = deleteButton.dataset.id;
+
+    if (!leadId) {
+        alert("Lead ID is missing.");
+        return;
+    }
+
+    if (!confirm("Permanently delete this lead?")) {
+        return;
+    }
+
+    deleteButton.disabled = true;
+
+    try {
+        const response = await fetch(
+            `${API_CONFIG.BASE_URL}/leads/${leadId}`,
+            {
+                method: "DELETE",
+                headers
+            }
+        );
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(
+                data.error ||
+                data.message ||
+                `Delete failed ${response.status}`
+            );
+        }
+
+        window.DashboardCache.leads =
+            window.DashboardCache.leads.filter(
+                lead => String(lead._id) !== String(leadId)
+            );
+
+        renderLeadsPipeline(window.DashboardCache.leads);
+        loadDashboardMetrics(window.DashboardCache.leads);
+
+        alert("Lead deleted successfully.");
+
+    } catch (error) {
+        console.error("[DELETE LEAD ERROR]", error);
+        alert(`Delete failed: ${error.message}`);
+        deleteButton.disabled = false;
+    }
+
+    return;
+}
             if (
                 e.target.classList.contains("status-mutator") || 
-                e.target.closest(".delete-lead-btn") ||
                 e.target.closest("textarea") ||
                 e.target.closest("input") ||
                 // Allow row tracking even if clicking near close/reply buttons inside expanded drawers
@@ -556,7 +633,9 @@ requestOptions.signal = controller.signal;
                             const res = await fetch(`${API_CONFIG.BASE_URL}/${routePath}/${lead._id}`, {
                                 method: "PUT", 
                                 headers, 
-                                body: JSON.stringify({ status: "Resolved" })
+                                body: JSON.stringify({
+    status: isSupportMessage ? "Resolved" : "contacted"
+})
                             });
                             if (!res.ok) throw new Error(`Mutation failed: ${res.status}`);
                             
@@ -583,7 +662,11 @@ requestOptions.signal = controller.signal;
             }
         });
     }
-    });
+   leadsTable.addEventListener("change", async (e) => {
+    // existing status code
+});
+
+}); // close DOMContentLoaded here
 
 
         // ==========================================================================

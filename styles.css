@@ -2580,6 +2580,22 @@ body {
     }
 }
 
+.whatsapp-float {
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+}
+
+.whatsapp-float.whatsapp-dragging {
+    animation: none !important;
+    transition: none !important;
+    cursor: grabbing;
+}
+
+.whatsapp-float.whatsapp-dragging .whatsapp-tooltip {
+    display: none !important;
+}
 /* Keep About title accent permanently blue */
 #aboutTitleAccent {
     display: inline;
