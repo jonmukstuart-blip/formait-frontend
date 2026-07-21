@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     loader = document.getElementById("stepLoader");
 
     const urlParams = new URLSearchParams(window.location.search);
-    const projectTitle =
-        decodeURIComponent(urlParams.get("project") || "this project");
+   const projectTitle =
+    urlParams.get("project") || "this project";
 
     const projectInput = document.getElementById("projectTitle");
     const projectName = document.getElementById("projectName");
@@ -120,18 +120,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 formData.append("media", mediaInput.files[0]);
             }
 
-            const response = await fetch(
-                "https://formait-backend.onrender.com/api/testimonials",
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
-
-            const result = await response.json().catch(() => ({}));
+const response = await fetch(
+    "https://formait-backend.onrender.com/api/testimonials",
+    {
+        method: "POST",
+        body: formData
+    }
+);
 
 const responseData =
     await response.json().catch(() => ({}));
+
+console.log(
+    "[TESTIMONIAL SERVER RESPONSE]",
+    response.status,
+    responseData
+);
 
 if (!response.ok) {
     throw new Error(
