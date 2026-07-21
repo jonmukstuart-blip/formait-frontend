@@ -130,13 +130,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const result = await response.json().catch(() => ({}));
 
-            if (!response.ok) {
-                throw new Error(
-                    result.error ||
-                    result.message ||
-                    `Submission failed ${response.status}`
-                );
-            }
+const responseData =
+    await response.json().catch(() => ({}));
+
+if (!response.ok) {
+    throw new Error(
+        responseData.error ||
+        responseData.message ||
+        `Submission failed ${response.status}`
+    );
+}
 
             alert(
                 "Thank you! Your review was submitted for approval."
