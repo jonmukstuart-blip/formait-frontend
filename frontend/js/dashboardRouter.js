@@ -9,6 +9,20 @@ window.DashboardCache = window.DashboardCache || {
     media: []
 };
 
+function handleExpiredSession(response) {
+    if (response.status !== 401) {
+        return false;
+    }
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("authToken");
+
+    alert("Your admin session has expired. Please sign in again.");
+
+    window.location.replace("login.html");
+
+    return true;
+}
 /**
  * Main Reactive Entry Point
  * Pulls down clean arrays from port 5000 and redraws active elements.
@@ -17,10 +31,31 @@ window.refreshActiveTab = async function(targetTabId = document.querySelector(".
     const token = localStorage.getItem("token");
     const headers = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
 
+    if (!token) {
+    window.location.replace("login.html");
+    return;
+}
+
+function handleExpiredSession(response) {
+    if (response.status !== 401) {
+        return false;
+    }
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("authToken");
+
+    alert("Your admin session has expired. Please sign in again.");
+
+    window.location.replace("login.html");
+
+    return true;
+}
     try {
         // A. REFRESH DASHBOARD & LEADS
         if (targetTabId === "dashboard" || targetTabId === "leads") {
             const res = await fetch(`${API_CONFIG.BASE_URL}/leads`, { headers });
+            
+            if (handleExpiredSession(res)) return;
             if (res.ok) {
                window.DashboardCache.leads = await res.json();
                 
@@ -40,8 +75,20 @@ if (typeof loadDashboardMetrics === "function") {
         
         // B. REFRESH MESSAGES (SUPPORT CENTER / EMAIL)
         if (targetTabId === "messages" || targetTabId === "support" || targetTabId === "email") {
-            const res = await fetch(`${API_CONFIG.BASE_URL}/messages`, { headers });
-            if (res.ok) {
+const res = await fetch(
+    `${API_CONFIG.BASE_URL}/messages`,
+    { headers }
+);
+
+if (handleExpiredSession(res)) return;
+
+if (!res.ok) {
+    throw new Error(
+        `Messages request failed ${res.status}`
+    );
+}
+
+if (res.ok) {
                 window.DashboardCache.messages = await res.json();
                 
                 // 🎯 FIXED: Aligns perfectly with your live Support Center calculator
@@ -56,6 +103,7 @@ if (typeof loadDashboardMetrics === "function") {
         // C. REFRESH MEDIA VAULT LAYOUT
         if (targetTabId === "media") {
             const res = await fetch(`${API_CONFIG.BASE_URL}/media`, { headers });
+            if (handleExpiredSession(res)) return;
             if (res.ok) {
                 const mediaData = await res.json();
                 DashboardCache.media = mediaData.data || [];
@@ -66,6 +114,7 @@ if (typeof loadDashboardMetrics === "function") {
         // D. REFRESH ACTIVITY AUDIT LOGS
         if (targetTabId === "logs") {
             const res = await fetch(`${API_CONFIG.BASE_URL}/crm/activity`, { headers });
+            if (handleExpiredSession(res)) return;
             if (res.ok) {
                 const logsData = await res.json();
                 if (typeof renderActivityLogs === "function") renderActivityLogs(logsData);
@@ -660,6 +709,7 @@ requestOptions.signal = controller.signal;
                     
                     try {
                         const res = await fetch(`${API_CONFIG.BASE_URL}/${routePath}/${lead._id}`, { method: "DELETE", headers });
+                       if (handleExpiredSession(res)) return;
                         if (!res.ok) throw new Error(`Server returned error: ${res.status}`);
                         
                         targetRow.remove();
@@ -731,6 +781,7 @@ requestOptions.signal = controller.signal;
                         headers,
                         body: JSON.stringify({ status: nextStatus })
                     });
+                   if (handleExpiredSession(res)) return;
                     if (!res.ok) throw new Error(`HTTP Matrix error code: ${res.status}`);
                     
                     pushLocalActivityLog(`Lead row pipeline position updated to status state: [${nextStatus.toUpperCase()}].`);
