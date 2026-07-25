@@ -1,19 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>forma.IT GROUP | Premium Digital Solutions</title>
 
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <!-- PRIMARY SEO -->
+    <title>Software Development &amp; Automation Company in Uganda | FORMA.IT</title>
+
+    <meta
+        name="description"
+        content="FORMA.IT is a software development and automation company in Kampala, Uganda, building modern websites, business systems, digital products and intelligent workflows."
+    >
+
+    <meta name="robots" content="index, follow">
+
+    <link
+        rel="canonical"
+        href="https://formaitgroup.com/"
+    >
+
+    <!-- OPEN GRAPH: FACEBOOK, WHATSAPP AND LINKEDIN -->
+    <meta property="og:type" content="website">
+
+    <meta
+        property="og:title"
+        content="FORMA.IT | Modern Software and Automation"
+    >
+
+    <meta
+        property="og:description"
+        content="We design and build reliable software, websites, business systems and intelligent automation."
+    >
+
+    <meta
+        property="og:url"
+        content="https://formaitgroup.com/"
+    >
+
+    <meta
+        property="og:image"
+        content="https://formaitgroup.com/frontend/assets/image/logo.png"
+    >
+
+    <meta property="og:site_name" content="FORMA.IT Group">
+
+    <!-- X / TWITTER -->
+    <meta
+        name="twitter:card"
+        content="summary_large_image"
+    >
+
+    <meta
+        name="twitter:title"
+        content="FORMA.IT | Modern Software and Automation"
+    >
+
+    <meta
+        name="twitter:description"
+        content="Modern software, digital experiences and intelligent automation from Kampala, Uganda."
+    >
+
+    <meta
+        name="twitter:image"
+        content="https://formaitgroup.com/frontend/assets/image/logo.png"
+    >
+
+    <!-- TAILWIND -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-     <link rel="stylesheet" href="styles.css">
-<button onclick="logout()" class="text-sm text-red-400">
-  Logout
-</button>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- WEBSITE STYLES -->
+    <link rel="stylesheet" href="styles.css">
 
     <style>
         * {
@@ -21,17 +96,17 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: #0A0A0A;
-            color: #FFFFFF;
+            font-family: "Inter", sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
         }
 
         .mono {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: "JetBrains Mono", monospace;
         }
 
         .glass {
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(20px);
         }
 
@@ -42,15 +117,15 @@
         }
 
         .fade-delay-1 {
-            animation-delay: .2s;
+            animation-delay: 0.2s;
         }
 
         .fade-delay-2 {
-            animation-delay: .4s;
+            animation-delay: 0.4s;
         }
 
         .fade-delay-3 {
-            animation-delay: .6s;
+            animation-delay: 0.6s;
         }
 
         @keyframes fadeUp {
@@ -61,37 +136,35 @@
         }
 
         .card-hover {
-            transition: all .4s ease;
+            transition: all 0.4s ease;
         }
 
         .card-hover:hover {
             transform: translateY(-8px);
-            border-color: rgba(59,130,246,.6);
+            border-color: rgba(59, 130, 246, 0.6);
         }
 
         .glow {
             background:
-            radial-gradient(circle at top left,
-            rgba(59,130,246,.15),
-            transparent 40%);
+                radial-gradient(
+                    circle at top left,
+                    rgba(59, 130, 246, 0.15),
+                    transparent 40%
+                );
         }
 
         .reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 1s ease;
-}
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease;
+        }
 
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
-
-
 
 <body class="bg-[#0A0A0A] text-white overflow-x-hidden">
 
