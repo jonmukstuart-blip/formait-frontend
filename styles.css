@@ -2602,3 +2602,30 @@ body {
     color: #3b82f6 !important;
     -webkit-text-fill-color: #3b82f6 !important;
 }
+
+/* ========================================================
+   FIXED HEADER CONTENT OFFSET
+   Keeps page headings below the 80px fixed navigation
+   ======================================================== */
+
+html {
+    scroll-padding-top: 96px;
+}
+
+body {
+    padding-top: 80px;
+}
+
+/* Fixed elements must not inherit the page offset */
+header,
+#mobileDrawer,
+#customerCareDrawer,
+#helpCenterModal,
+#page-loader,
+.page-loader {
+    margin-top: 0;
+}
+
+body.homepage {
+    padding-top: 0;
+}
