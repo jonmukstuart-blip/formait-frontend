@@ -152,6 +152,25 @@ SIDEBAR PART 2: ADVANCED MANAGEMENT (Tabs 10 - 18)
     <span>Support Center</span>
 </button>
 
+<button
+    data-tab="whatsapp"
+    class="tab-trigger w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition"
+>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm3.75 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm3.75 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM21 12c0 4.142-4.03 7.5-9 7.5a10.2 10.2 0 01-4.39-.976L3 19.5l1.31-3.49A6.82 6.82 0 013 12c0-4.142 4.03-7.5 9-7.5s9 3.358 9 7.5z"/>
+    </svg>
+
+    <span>WhatsApp Inbox</span>
+
+    <span
+        id="whatsappWaitingBadge"
+        class="ml-auto hidden min-w-5 h-5 px-1 items-center justify-center rounded-full bg-red-500 text-white text-[9px] font-black"
+    >
+        0
+    </span>
+</button>
+
 <!-- 12. Media Library Storage Vault -->
 <button data-tab="media" class="tab-trigger w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-900 text-xs font-semibold uppercase tracking-wider transition">
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
@@ -433,53 +452,6 @@ MAIN
     </div>
 </div>
 
-
-       <!-- ======================
-    AI UTILITY ASSISTANT PANEL
-    ======================= -->
-    <div class="mt-8 glow-card bg-[#0f0f0f]/30 border border-zinc-900 rounded-3xl p-6 sm:p-8">
-        
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-            
-            <div class="flex items-center gap-3">
-                <span class="flex items-center justify-center w-8 h-8 rounded-xl bg-blue-500 text-black text-sm font-bold shadow-md">
-                    AI
-                </span>
-                <div>
-                    <h2 class="text-2xl font-bold tracking-tight">Forma.IT Cognitive Engine</h2>
-                    <p class="text-zinc-500 text-xs mt-0.5">Automated blog content drafting, SEO generation, summaries, and email template updates</p>
-                </div>
-            </div>
-
-            <!-- Blueprint Feature Mode Badges -->
-            <div class="flex flex-wrap gap-2">
-                <span class="text-[10px] uppercase font-bold tracking-wider bg-zinc-900 text-zinc-400 px-2.5 py-1.5 rounded-lg border border-zinc-800">SEO Optimizer</span>
-                <span class="text-[10px] uppercase font-bold tracking-wider bg-zinc-900 text-zinc-400 px-2.5 py-1.5 rounded-lg border border-zinc-800">Blog Drafter</span>
-                <span class="text-[10px] uppercase font-bold tracking-wider bg-zinc-900 text-zinc-400 px-2.5 py-1.5 rounded-lg border border-zinc-800">Email Engine</span>
-            </div>
-
-        </div>
-
-        <!-- Chat Stream Window View -->
-        <div class="bg-[#080808]/80 border border-zinc-900/60 rounded-2xl p-5 h-64 overflow-y-auto mb-5 ai-chat-scroller space-y-4">
-            <div class="flex items-start gap-3 max-w-[85%]">
-                <div class="w-6 h-6 rounded-full bg-blue-500 text-black text-[10px] font-black flex items-center justify-center flex-shrink-0">AI</div>
-                <div class="bg-zinc-900/80 border border-zinc-800/40 rounded-2xl rounded-tl-none px-4 py-3 text-sm text-zinc-300 leading-relaxed">
-                    Welcome to the Forma.IT Group Master Workspace. Prompt me here to draft blog articles, generate meta tags, summarize tickets, or write client email replies.
-                </div>
-            </div>
-        </div>
-
-        <!-- Input deck wrapper -->
-        <div class="chat-input-wrapper flex flex-col sm:flex-row gap-3">
-            <input type="text" class="flex-1 bg-[#080808] border border-zinc-800/80 rounded-xl px-5 py-3.5 outline-none text-white focus:border-blue-500 transition placeholder-zinc-600 text-sm" placeholder="Ask AI to write a blog post, build meta tags, or draft template replies...">
-            <button class="chat-send-btn bg-blue-500 hover:bg-blue-600 px-6 py-3.5 rounded-xl text-black font-black text-xs uppercase tracking-wider transition shadow-lg shadow-blue-500/10">
-                Execute
-            </button>
-        </div>
-
-    </div>
-
 </main>
 
 <!-- GSAP -->
@@ -573,6 +545,10 @@ const blueprintRoutes = {
     "security center": { title: "Security Operations & Logs", desc: "System activity logs tracking, 2FA validation configurations, secure database backups, and network IP boundary lockdowns." },
     "company settings": { title: "Company Profile Configurations", desc: "Primary brand variables editing portal adjusting active logos, core SMTP routing pipelines, target domains, and legal compliance pages." },
     "ai assistant": { title: "Forma.IT Artificial Intelligence Desk", desc: "Automated content generation tools writing drafts, distilling data insights, and optimizing copy metrics." },
+    "whatsapp inbox": {
+    title: "WhatsApp Customer Inbox",
+    desc: "Manage chatbot conversations, human handovers and customer replies."
+},
     "activity logs": { title: "Global Audit Tracking Stream", desc: "Immutable structural log recording timeline tracks tracking every operational step made across dashboard channels." }
 };
 
@@ -781,6 +757,38 @@ const moduleFormSchemas = {
                 </button>
             </div>
         </div>
+    </div>
+`,
+
+"whatsapp inbox": `
+    <div class="whatsapp-admin-inbox">
+
+        <aside
+            id="whatsappConversationList"
+            class="whatsapp-conversation-list"
+        >
+            <div class="p-5 text-center text-xs text-zinc-600">
+                Loading WhatsApp conversations...
+            </div>
+        </aside>
+
+        <section
+            id="whatsappChatPanel"
+            class="whatsapp-chat-panel"
+        >
+            <div class="whatsapp-empty-chat">
+                <span class="text-4xl">💬</span>
+
+                <h3 class="text-sm font-bold text-white mt-4">
+                    Select a conversation
+                </h3>
+
+                <p class="text-xs text-zinc-500 mt-2">
+                    Customer messages will appear here.
+                </p>
+            </div>
+        </section>
+
     </div>
 `,
 
@@ -1528,6 +1536,9 @@ if (targetKey === "integrations") {
             if (targetKey === "support") {
                 targetKey = "support center";
             }
+            if (targetKey === "whatsapp") {
+    targetKey = "whatsapp inbox";
+}
             if (targetKey === "media") {
                 targetKey = "media library";
             }
@@ -1612,7 +1623,11 @@ if (
                                if (formContainer) {
                     if (typeof moduleFormSchemas !== "undefined" && moduleFormSchemas[targetKey]) {
                         formContainer.innerHTML = moduleFormSchemas[targetKey];
-                        
+                        if (targetKey === "whatsapp inbox") {
+    setTimeout(() => {
+        window.loadWhatsAppInbox?.();
+    }, 50);
+}
                         // ==========================================================================
                         // 🔌 ASYNC SINGLE PAGE APP PANEL WORKSPACE ROUTER ROUTE INDEX
                         // ==========================================================================

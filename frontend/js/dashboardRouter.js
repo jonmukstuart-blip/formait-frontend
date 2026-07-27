@@ -793,7 +793,431 @@ requestOptions.signal = controller.signal;
      
 }); // close DOMContentLoaded here
 
-        
+ window.WhatsAppInboxState = {
+    conversations: [],
+    activeConversationId: null
+};
+
+function whatsappAuthHeaders(includeJson = false) {
+    const headers = {
+        Authorization:
+            `Bearer ${localStorage.getItem("token")}`
+    };
+
+    if (includeJson) {
+        headers["Content-Type"] = "application/json";
+    }
+
+    return headers;
+}
+
+function escapeWhatsAppText(value = "") {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+window.loadWhatsAppInbox = async function () {
+    const container =
+        document.getElementById("whatsappConversationList");
+
+    if (!container) return;
+
+    try {
+        const response = await fetch(
+            `${API_CONFIG.BASE_URL}/admin/whatsapp/conversations`,
+            {
+                headers: whatsappAuthHeaders()
+            }
+        );
+
+        if (handleExpiredSession(response)) return;
+
+        const data = await response.json().catch(() => []);
+
+        if (!response.ok) {
+            throw new Error(
+                data.error ||
+                `Inbox failed ${response.status}`
+            );
+        }
+
+        window.WhatsAppInboxState.conversations = data;
+
+        const waitingCount = data.filter(
+            conversation =>
+                conversation.status === "waiting_for_human"
+        ).length;
+
+        const badge =
+            document.getElementById("whatsappWaitingBadge");
+
+        if (badge) {
+            badge.textContent = waitingCount;
+            badge.classList.toggle("hidden", waitingCount === 0);
+            badge.classList.toggle("flex", waitingCount > 0);
+        }
+
+        if (!data.length) {
+            container.innerHTML = `
+                <div class="p-8 text-center">
+                    <p class="text-sm text-zinc-400">
+                        No WhatsApp conversations yet.
+                    </p>
+
+                    <p class="text-xs text-zinc-600 mt-2">
+                        New customer chats will appear here.
+                    </p>
+                </div>
+            `;
+
+            return;
+        }
+
+        container.innerHTML = data.map(conversation => `
+            <button
+                type="button"
+                onclick="openWhatsAppConversation('${conversation._id}')"
+                class="whatsapp-conversation-row ${
+                    window.WhatsAppInboxState.activeConversationId ===
+                    conversation._id
+                        ? "active"
+                        : ""
+                }"
+            >
+                <div class="whatsapp-avatar">
+                    ${escapeWhatsAppText(
+                        conversation.customerName
+                            ?.charAt(0)
+                            ?.toUpperCase() || "C"
+                    )}
+                </div>
+
+                <div class="min-w-0 flex-1 text-left">
+                    <div class="flex items-center gap-2">
+                        <p class="text-xs font-bold text-white truncate">
+                            ${escapeWhatsAppText(
+                                conversation.customerName
+                            )}
+                        </p>
+
+                        ${
+                            conversation.isPinned
+                                ? `<span title="Pinned">📌</span>`
+                                : ""
+                        }
+                    </div>
+
+                    <p class="text-[10px] text-zinc-500 truncate mt-1">
+                        +${escapeWhatsAppText(
+                            conversation.whatsappUserId
+                        )}
+                    </p>
+                </div>
+
+                ${
+                    conversation.status === "waiting_for_human"
+                        ? `
+                            <span class="whatsapp-handover-badge">
+                                Human
+                            </span>
+                        `
+                        : `
+                            <span class="whatsapp-bot-badge">
+                                Bot
+                            </span>
+                        `
+                }
+            </button>
+        `).join("");
+
+    } catch (error) {
+        console.error("[WHATSAPP INBOX ERROR]", error);
+
+        container.innerHTML = `
+            <div class="p-6 text-xs text-red-400">
+                ${escapeWhatsAppText(error.message)}
+            </div>
+        `;
+    }
+};
+
+window.openWhatsAppConversation = async function (
+    conversationId
+) {
+    const panel =
+        document.getElementById("whatsappChatPanel");
+
+    if (!panel) return;
+
+    window.WhatsAppInboxState.activeConversationId =
+        conversationId;
+
+    panel.innerHTML = `
+        <div class="whatsapp-empty-chat">
+            <div class="w-8 h-8 border-2 border-zinc-800 border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+    `;
+
+    try {
+        const response = await fetch(
+            `${API_CONFIG.BASE_URL}/admin/whatsapp/conversations/${conversationId}/messages`,
+            {
+                headers: whatsappAuthHeaders()
+            }
+        );
+
+        if (handleExpiredSession(response)) return;
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(
+                data.error ||
+                `Conversation failed ${response.status}`
+            );
+        }
+
+        const conversation = data.conversation;
+        const messages = data.messages || [];
+
+        panel.innerHTML = `
+            <header class="whatsapp-chat-header">
+                <button
+                    type="button"
+                    onclick="closeWhatsAppMobileChat()"
+                    class="whatsapp-mobile-back"
+                >
+                    ←
+                </button>
+
+                <div class="min-w-0 flex-1">
+                    <h3 class="text-sm font-bold text-white truncate">
+                        ${escapeWhatsAppText(
+                            conversation.customerName
+                        )}
+                    </h3>
+
+                    <p class="text-[10px] text-zinc-500">
+                        +${escapeWhatsAppText(
+                            conversation.whatsappUserId
+                        )}
+                    </p>
+                </div>
+
+                <button
+                    onclick="toggleWhatsAppPin(
+                        '${conversation._id}',
+                        ${!conversation.isPinned}
+                    )"
+                    class="whatsapp-header-action"
+                >
+                    ${conversation.isPinned ? "Unpin" : "📌 Pin"}
+                </button>
+
+                ${
+                    conversation.humanHandover
+                        ? `
+                            <button
+                                onclick="returnWhatsAppToBot('${conversation._id}')"
+                                class="whatsapp-return-bot"
+                            >
+                                Return to bot
+                            </button>
+                        `
+                        : ""
+                }
+            </header>
+
+            <div
+                id="whatsappMessagesViewport"
+                class="whatsapp-messages"
+            >
+                ${messages.map(message => `
+                    <article
+                        class="whatsapp-message ${
+                            message.direction === "incoming"
+                                ? "incoming"
+                                : "outgoing"
+                        }"
+                    >
+                        <p>
+                            ${escapeWhatsAppText(message.text)}
+                        </p>
+
+                        <span>
+                            ${
+                                message.senderType === "human"
+                                    ? "Team"
+                                    : message.senderType === "assistant"
+                                    ? "Assistant"
+                                    : "Customer"
+                            }
+                        </span>
+                    </article>
+                `).join("")}
+            </div>
+
+            <form
+                onsubmit="sendWhatsAppHumanReply(event, '${conversation._id}')"
+                class="whatsapp-reply-form"
+            >
+                <textarea
+                    id="whatsappReplyInput"
+                    rows="1"
+                    required
+                    placeholder="Write a WhatsApp reply..."
+                ></textarea>
+
+                <button type="submit">
+                    Send
+                </button>
+            </form>
+        `;
+
+        panel.classList.add("mobile-open");
+
+        const viewport =
+            document.getElementById(
+                "whatsappMessagesViewport"
+            );
+
+        if (viewport) {
+            viewport.scrollTop = viewport.scrollHeight;
+        }
+
+        await window.loadWhatsAppInbox();
+
+    } catch (error) {
+        panel.innerHTML = `
+            <div class="whatsapp-empty-chat text-red-400">
+                ${escapeWhatsAppText(error.message)}
+            </div>
+        `;
+    }
+};
+
+window.sendWhatsAppHumanReply = async function (
+    event,
+    conversationId
+) {
+    event.preventDefault();
+
+    const input =
+        document.getElementById("whatsappReplyInput");
+
+    const button =
+        event.currentTarget.querySelector(
+            'button[type="submit"]'
+        );
+
+    const replyText = input?.value.trim();
+
+    if (!replyText) return;
+
+    try {
+        button.disabled = true;
+        button.textContent = "Sending...";
+
+        const response = await fetch(
+            `${API_CONFIG.BASE_URL}/admin/whatsapp/conversations/${conversationId}/reply`,
+            {
+                method: "POST",
+                headers: whatsappAuthHeaders(true),
+                body: JSON.stringify({ replyText })
+            }
+        );
+
+        const result =
+            await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(
+                result.error ||
+                `Reply failed ${response.status}`
+            );
+        }
+
+        input.value = "";
+
+        await openWhatsAppConversation(conversationId);
+
+    } catch (error) {
+        console.error("[WHATSAPP REPLY ERROR]", error);
+        alert(`WhatsApp reply failed: ${error.message}`);
+
+    } finally {
+        button.disabled = false;
+        button.textContent = "Send";
+    }
+};
+
+window.toggleWhatsAppPin = async function (
+    conversationId,
+    isPinned
+) {
+    const response = await fetch(
+        `${API_CONFIG.BASE_URL}/admin/whatsapp/conversations/${conversationId}/pin`,
+        {
+            method: "PATCH",
+            headers: whatsappAuthHeaders(true),
+            body: JSON.stringify({ isPinned })
+        }
+    );
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        return alert(
+            result.error || "Could not update pin"
+        );
+    }
+
+    await window.loadWhatsAppInbox();
+    await window.openWhatsAppConversation(conversationId);
+};
+
+window.returnWhatsAppToBot = async function (
+    conversationId
+) {
+    if (
+        !confirm(
+            "Return this conversation to the chatbot?"
+        )
+    ) {
+        return;
+    }
+
+    const response = await fetch(
+        `${API_CONFIG.BASE_URL}/admin/whatsapp/conversations/${conversationId}/return-to-bot`,
+        {
+            method: "PATCH",
+            headers: whatsappAuthHeaders(true)
+        }
+    );
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        return alert(
+            result.error ||
+            "Could not return conversation to bot"
+        );
+    }
+
+    await window.loadWhatsAppInbox();
+    await window.openWhatsAppConversation(conversationId);
+};
+
+window.closeWhatsAppMobileChat = function () {
+    document
+        .getElementById("whatsappChatPanel")
+        ?.classList.remove("mobile-open");
+};
+       
 window.loadDashboardMetrics = async function(leadsArray) {
 
     let leads = leadsArray;
