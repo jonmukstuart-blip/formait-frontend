@@ -1,96 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/css" href="https://www.xml-sitemaps.com/css/sitemap.css"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <url>
-       <loc>https://formaitgroup.com/</loc>
-       <lastmod>2026-07-21T21:54:51+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>1.0000</priority>
-  </url>
-  <url>
-       <loc>https://formaitgroup.com/index.html</loc>
-       <lastmod>2026-07-21T21:54:51+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://formaitgroup.com/about.html</loc>
-       <lastmod>2026-07-21T21:54:51+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://formaitgroup.com/services.html</loc>
-       <lastmod>2026-07-21T21:54:51+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://formaitgroup.com/portfolio.html</loc>
-       <lastmod>2026-07-21T21:54:51+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://formaitgroup.com/contact.html</loc>
-       <lastmod>2026-07-21T21:54:51+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
-  <url>
-       <loc>https://formaitgroup.com/frontend/documents/FORMA-IT-Pricing-Guide.pdf</loc>
-       <lastmod>2026-07-21T21:54:51+00:00</lastmod>
-       <changefreq>daily</changefreq>
-       <priority>0.8000</priority>
-  </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <url>
-    <loc>https://formaitgroup.com/website-development-uganda.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-</url>
+    <url>
+        <loc>https://formaitgroup.com/</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
 
-<url>
-    <loc>https://formaitgroup.com/custom-software-development-uganda.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-</url>
+    <url>
+        <loc>https://formaitgroup.com/about.html</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
 
-<url>
-    <loc>https://formaitgroup.com/business-automation-uganda.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-</url>
+    <url>
+        <loc>https://formaitgroup.com/services.html</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
 
-<url>
-    <loc>https://formaitgroup.com/ai-integration-consulting-uganda.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-</url>
+    <url>
+        <loc>https://formaitgroup.com/portfolio.html</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
 
-<url>
-    <loc>https://formaitgroup.com/ui-ux-design-uganda.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-</url>
+    <url>
+        <loc>https://formaitgroup.com/contact.html</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
 
-<url>
-    <loc>https://formaitgroup.com/branding-motion-design-uganda.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-</url>
+    <url>
+        <loc>https://formaitgroup.com/website-development-uganda.html</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
 
-<url>
-    <loc>https://formaitgroup.com/whatsapp-chatbot-development-uganda.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-</url>
+    <url>
+        <loc>https://formaitgroup.com/custom-software-development-uganda.html</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
 
-<url>
-    <loc>https://formaitgroup.com/mobile-app-development-uganda.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-</url>
+    <url>
+        <loc>https://formaitgroup.com/business-automation-uganda.html</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
+
+    <url>
+        <loc>https://formaitgroup.com/ai-integration-consulting-uganda.html</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
+
+    <url>
+        <loc>https://formaitgroup.com/whatsapp-chatbot-development-uganda.html</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
+
+    <url>
+        <loc>https://formaitgroup.com/mobile-app-development-uganda.html</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
+
+    <url>
+        <loc>https://formaitgroup.com/ui-ux-design-uganda.html</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
+
+    <url>
+        <loc>https://formaitgroup.com/branding-motion-design-uganda.html</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
+
+    <url>
+        <loc>https://formaitgroup.com/frontend/documents/FORMA-IT-Pricing-Guide.pdf</loc>
+        <lastmod>2026-07-27</lastmod>
+    </url>
 
 </urlset>
