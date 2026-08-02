@@ -34,6 +34,8 @@
 
     <!-- Core Style Engines CDN Hook -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./frontend/css/whatsapp-admin.css">
     
     <!-- Real-Time Socket Distribution Client Hook -->
     <script src="https://formait-backend.onrender.com/socket.io/socket.io.js"></script>
@@ -2305,6 +2307,31 @@ if (
                 sessionStorage.clear();
                 window.location.href = "login.html";
             }
+
+            if (
+    pulse.action === "DATABASE_WHATSAPP_SYNC" &&
+    DashboardState.activeTab === "whatsapp inbox"
+) {
+    const replyInput =
+        document.getElementById("whatsappReplyInput");
+
+    const userIsTyping =
+        replyInput &&
+        document.activeElement === replyInput;
+
+    if (!userIsTyping) {
+        await window.loadWhatsAppInbox?.();
+
+        const activeConversationId =
+            window.WhatsAppInboxState?.activeConversationId;
+
+        if (activeConversationId) {
+            await window.openWhatsAppConversation?.(
+                activeConversationId
+            );
+        }
+    }
+}
 
             // 🎯 FIXED MEDIA MATRIX: Refreshes raw capacity data values smoothly without re-binding input tags
             if (DashboardState.activeTab === "media library" || pulse.tab === "media library" || pulse.tab === "media") {
