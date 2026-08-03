@@ -2173,13 +2173,13 @@ document.addEventListener("DOMContentLoaded", () => {
     transports: ["websocket", "polling"]
 });
 
-   socket.on("connect", () => {
+socket.on("connect", () => {
     console.log("🟢 SOCKET CONNECTED:", socket.id);
 
-    const token = localStorage.getItem("token");
+    const adminToken = localStorage.getItem("token");
 
-    if (token) {
-        socket.emit("joinTenantRoom", token);
+    if (adminToken) {
+        socket.emit("joinTenantRoom", adminToken);
     }
 });
 
@@ -2187,6 +2187,17 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("🔴 SOCKET ERROR:", err.message);
     });
 
+    socket.on("whatsappHumanRequested", request => {
+    console.log("[HUMAN REQUEST]", request);
+
+    if (typeof loadWhatsAppConversations === "function") {
+        loadWhatsAppConversations();
+    }
+
+    alert(
+        `${request.customerName || "A customer"} has requested a human WhatsApp agent.\nPhone: +${request.phone}`
+    );
+});
     const toast = document.getElementById("liveAdminNotificationToast");
     const toastBody = document.getElementById("toastBodyText");
     const toastName = document.getElementById("toastNameField");
