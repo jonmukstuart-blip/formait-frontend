@@ -520,7 +520,7 @@ if (!response.ok) {
                 // 6. Create Fullscreen Overlay Canvas
                 const modal = document.createElement("div");
                 modal.id = "adminFullscreenInspectionOverlay";
-                modal.className = "fixed inset-0 bg-black/80 backdrop-blur-xl z-50 flex items-center justify-center p-4 sm:p-6 opacity-0 transition-opacity duration-300 antialiased";
+                modal.className = "fixed inset-0 bg-black/80 backdrop-blur-xl z-[9999] flex items-center justify-center p-4 sm:p-6 opacity-0 transition-opacity duration-300 antialiased";
                 
                 const timestampFormatted = new Date(lead.createdAt).toLocaleString();
                 const isProcessed = lead.status === "reviewed" || lead.status === "PROCESSED" || lead.status === "Completed" || lead.isMarkedGreen;
@@ -585,6 +585,7 @@ if (!response.ok) {
                     </div>`;
 
                 document.body.appendChild(modal);
+                document.body.style.overflow = "hidden";
                 // Run entry transition frames smoothly
                 setTimeout(() => {
                     modal.classList.remove("opacity-0");
@@ -597,7 +598,10 @@ if (!response.ok) {
                     modal.classList.add("opacity-0");
                     const card = modal.querySelector(".transform");
                     if (card) card.classList.add("scale-95");
-                    setTimeout(() => modal.remove(), 300);
+                    setTimeout(() => {
+    modal.remove();
+    document.body.style.overflow = "";
+}, 300);
                 };
 
                 // Bind close layout controls immediately
@@ -916,6 +920,16 @@ window.loadWhatsAppInbox = async function () {
                             conversation.whatsappUserId
                         )}
                     </p>
+
+                    ${
+    conversation.isPinned && conversation.pinnedSummary
+        ? `
+            <p class="whatsapp-summary-preview">
+                ${escapeWhatsAppText(conversation.pinnedSummary)}
+            </p>
+        `
+        : ""
+}
                 </div>
 
                 ${
@@ -1018,8 +1032,20 @@ window.openWhatsAppConversation = async function (
                     ${conversation.isPinned ? "Unpin" : "📌 Pin"}
                 </button>
 
+                <button
+    type="button"
+    onclick="toggleWhatsAppConversationStatus(
+        '${conversation._id}',
+        '${conversation.status === "closed" ? "reopen" : "close"}'
+    )"
+    class="whatsapp-header-action"
+>
+    ${conversation.status === "closed" ? "Reopen" : "Close"}
+</button>
+
                 ${
-                    conversation.humanHandover
+                    conversation.humanHandover &&
+conversation.status !== "closed"
                         ? `
                             <button
                                 onclick="returnWhatsAppToBot('${conversation._id}')"
@@ -1031,6 +1057,22 @@ window.openWhatsAppConversation = async function (
                         : ""
                 }
             </header>
+
+            ${
+    conversation.isPinned && conversation.pinnedSummary
+        ? `
+            <section class="whatsapp-order-summary">
+                <strong>📌 CLIENT REQUEST</strong>
+
+                <p>
+                    ${escapeWhatsAppText(
+                        conversation.pinnedSummary
+                    )}
+                </p>
+            </section>
+        `
+        : ""
+}
 
             <div
                 id="whatsappMessagesViewport"
@@ -1061,6 +1103,9 @@ window.openWhatsAppConversation = async function (
                 `).join("")}
             </div>
 
+           ${
+    conversation.status !== "closed"
+        ? `
             <form
                 onsubmit="sendWhatsAppHumanReply(event, '${conversation._id}')"
                 class="whatsapp-reply-form"
@@ -1076,6 +1121,13 @@ window.openWhatsAppConversation = async function (
                     Send
                 </button>
             </form>
+        `
+        : `
+            <div class="p-4 border-t border-zinc-800 text-center text-xs text-zinc-500">
+                This conversation is closed. Reopen it to reply.
+            </div>
+        `
+}
         `;
 
         panel.classList.add("mobile-open");
@@ -1180,6 +1232,30 @@ window.toggleWhatsAppPin = async function (
     await window.openWhatsAppConversation(conversationId);
 };
 
+window.toggleWhatsAppConversationStatus = async function (
+    conversationId,
+    action
+) {
+    const response = await fetch(
+        `${API_CONFIG.BASE_URL}/admin/whatsapp/conversations/${conversationId}/${action}`,
+        {
+            method: "PATCH",
+            headers: whatsappAuthHeaders(true)
+        }
+    );
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        return alert(
+            result.error || `Could not ${action} conversation`
+        );
+    }
+
+    await window.loadWhatsAppInbox();
+    await window.openWhatsAppConversation(conversationId);
+};
+
 window.returnWhatsAppToBot = async function (
     conversationId
 ) {
@@ -1217,7 +1293,7 @@ window.closeWhatsAppMobileChat = function () {
         .getElementById("whatsappChatPanel")
         ?.classList.remove("mobile-open");
 };
-       
+
 window.loadDashboardMetrics = async function(leadsArray) {
 
     let leads = leadsArray;
