@@ -2173,9 +2173,15 @@ document.addEventListener("DOMContentLoaded", () => {
     transports: ["websocket", "polling"]
 });
 
-    socket.on("connect", () => {
-        console.log("🟢 SOCKET CONNECTED:", socket.id);
-    });
+   socket.on("connect", () => {
+    console.log("🟢 SOCKET CONNECTED:", socket.id);
+
+    const token = localStorage.getItem("token");
+
+    if (token) {
+        socket.emit("joinTenantRoom", token);
+    }
+});
 
     socket.on("connect_error", (err) => {
         console.log("🔴 SOCKET ERROR:", err.message);
@@ -2189,12 +2195,63 @@ document.addEventListener("DOMContentLoaded", () => {
        
         let lastRefresh = 0;
         socket.on("globalWorkspaceSyncRequest", async (pulse) => {
-            if (Date.now() - lastRefresh < 2000) return;
-lastRefresh = Date.now();
+const isWhatsAppPulse = [
+    "DATABASE_WHATSAPP_SYNC",
+    "WHATSAPP_HUMAN_REQUEST"
+].includes(pulse.action);
+
+if (
+    !isWhatsAppPulse &&
+    Date.now() - lastRefresh < 2000
+) {
+    return;
+}
+
+if (!isWhatsAppPulse) {
+    lastRefresh = Date.now();
+}
             console.log("[SOCKET HUB] Live submission cluster change event intercepted:", pulse);
 
             if (!toast || !toastBody) return;
+if (isWhatsAppPulse) {
+    const activeConversationId =
+        window.WhatsAppInboxState?.activeConversationId;
 
+    const userIsTyping =
+        document.activeElement?.id ===
+        "whatsappReplyInput";
+
+    if (
+        DashboardState.activeTab === "whatsapp inbox"
+    ) {
+        if (activeConversationId && !userIsTyping) {
+            await window.openWhatsAppConversation?.(
+                activeConversationId
+            );
+        } else {
+            await window.loadWhatsAppInbox?.();
+        }
+    }
+
+    if (
+        pulse.action === "WHATSAPP_HUMAN_REQUEST"
+    ) {
+        const badge =
+            document.getElementById(
+                "whatsappWaitingBadge"
+            );
+
+        if (badge) {
+            badge.classList.remove("hidden");
+            badge.classList.add("flex");
+
+            const currentCount =
+                Number(badge.textContent) || 0;
+
+            badge.textContent = currentCount + 1;
+        }
+    }
+}
             // 1. 🚀 DYNAMIC TOAST DISPATCH matrix: Only render the visual speech bubble if a payload exists
             if (pulse.payload) {
                 const data = pulse.payload;
