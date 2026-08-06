@@ -797,9 +797,15 @@ requestOptions.signal = controller.signal;
      
 }); // close DOMContentLoaded here
 
- window.WhatsAppInboxState = {
+window.WhatsAppInboxState = {
     conversations: [],
-    activeConversationId: null
+    activeConversationId: null,
+    filter: "all"
+};
+
+window.setWhatsAppInboxFilter = function (filter) {
+    window.WhatsAppInboxState.filter = filter;
+    window.loadWhatsAppInbox();
 };
 
 function whatsappAuthHeaders(includeJson = false) {
@@ -824,6 +830,53 @@ function escapeWhatsAppText(value = "") {
         .replace(/'/g, "&#039;");
 }
 
+function formatWhatsAppTime(value) {
+    if (!value) return "";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return "";
+    }
+
+    const today = new Date();
+
+    if (
+        date.toDateString() ===
+        today.toDateString()
+    ) {
+        return date.toLocaleTimeString(
+            [],
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+    }
+
+    const yesterday =
+        new Date();
+
+    yesterday.setDate(
+        yesterday.getDate() - 1
+    );
+
+    if (
+        date.toDateString() ===
+        yesterday.toDateString()
+    ) {
+        return "Yesterday";
+    }
+
+    return date.toLocaleDateString(
+        [],
+        {
+            day: "2-digit",
+            month: "2-digit"
+        }
+    );
+}
+
 window.loadWhatsAppInbox = async function () {
     const container =
         document.getElementById("whatsappConversationList");
@@ -840,7 +893,8 @@ window.loadWhatsAppInbox = async function () {
 
         if (handleExpiredSession(response)) return;
 
-        const data = await response.json().catch(() => []);
+        const data =
+            await response.json().catch(() => []);
 
         if (!response.ok) {
             throw new Error(
@@ -849,111 +903,275 @@ window.loadWhatsAppInbox = async function () {
             );
         }
 
-        window.WhatsAppInboxState.conversations = data;
+        window.WhatsAppInboxState.conversations =
+            data;
 
-        const waitingCount = data.filter(
-            conversation =>
-                conversation.status === "waiting_for_human"
-        ).length;
+        const currentFilter =
+            window.WhatsAppInboxState.filter ||
+            "all";
+
+        const counts = {
+            all: data.length,
+
+            active: data.filter(
+                item => item.status === "active"
+            ).length,
+
+            follow_up: data.filter(
+                item => item.status === "follow_up"
+            ).length,
+
+            human: data.filter(
+                item =>
+                    item.status ===
+                    "waiting_for_human"
+            ).length,
+
+            closed: data.filter(
+                item => item.status === "closed"
+            ).length
+        };
+
+       const filters = [
+    ["all", "All"],
+    ["active", "Active"],
+    ["follow_up", "Follow up"],
+    ["human", "Human"],
+    ["closed", "Closed"]
+];
+
+const filterBarHTML = `
+    <div class="whatsapp-list-controls">
+
+        <div class="whatsapp-list-heading">
+            <strong>Chats</strong>
+
+            <span>
+                ${data.length}
+            </span>
+        </div>
+
+        <div class="whatsapp-filter-bar">
+
+            ${filters.map(([value, label]) => `
+                <button
+                    type="button"
+                    onclick="setWhatsAppInboxFilter('${value}')"
+                    class="whatsapp-filter-chip ${
+                        currentFilter === value
+                            ? "active"
+                            : ""
+                    }"
+                >
+                    ${label}
+
+                    ${
+                        counts[value] > 0
+                            ? `
+                                <span class="whatsapp-filter-count">
+                                    ${counts[value]}
+                                </span>
+                            `
+                            : ""
+                    }
+                </button>
+            `).join("")}
+
+        </div>
+
+    </div>
+`;
+
+        const filteredData =
+            data.filter(conversation => {
+
+                if (currentFilter === "all") {
+                    return true;
+                }
+
+                if (currentFilter === "human") {
+                    return (
+                        conversation.status ===
+                        "waiting_for_human"
+                    );
+                }
+
+                return (
+                    conversation.status ===
+                    currentFilter
+                );
+            });
+
+        const waitingCount = counts.human;
 
         const badge =
-            document.getElementById("whatsappWaitingBadge");
+            document.getElementById(
+                "whatsappWaitingBadge"
+            );
 
         if (badge) {
-            badge.textContent = waitingCount;
-            badge.classList.toggle("hidden", waitingCount === 0);
-            badge.classList.toggle("flex", waitingCount > 0);
+            badge.textContent =
+                waitingCount;
+
+            badge.classList.toggle(
+                "hidden",
+                waitingCount === 0
+            );
+
+            badge.classList.toggle(
+                "flex",
+                waitingCount > 0
+            );
         }
 
-        if (!data.length) {
-            container.innerHTML = `
+        if (!filteredData.length) {
+            container.innerHTML = filterBarHTML + `
                 <div class="p-8 text-center">
+
                     <p class="text-sm text-zinc-400">
-                        No WhatsApp conversations yet.
+                        No ${escapeWhatsAppText(
+                            currentFilter === "all"
+                                ? ""
+                                : currentFilter
+                                    .replace("_", " ")
+                        )} WhatsApp conversations.
                     </p>
 
-                    <p class="text-xs text-zinc-600 mt-2">
-                        New customer chats will appear here.
-                    </p>
                 </div>
             `;
 
             return;
         }
 
-        container.innerHTML = data.map(conversation => `
-            <button
-                type="button"
-                onclick="openWhatsAppConversation('${conversation._id}')"
-                class="whatsapp-conversation-row ${
-                    window.WhatsAppInboxState.activeConversationId ===
-                    conversation._id
-                        ? "active"
-                        : ""
-                }"
-            >
-                <div class="whatsapp-avatar">
-                    ${escapeWhatsAppText(
-                        conversation.customerName
-                            ?.charAt(0)
-                            ?.toUpperCase() || "C"
-                    )}
-                </div>
+            container.innerHTML =
+                filterBarHTML +
+                filteredData.map(conversation => {
 
-                <div class="min-w-0 flex-1 text-left">
-                    <div class="flex items-center gap-2">
-                        <p class="text-xs font-bold text-white truncate">
+                let badgeHTML = `
+                    <span class="whatsapp-bot-badge">
+                        Bot
+                    </span>
+                `;
+
+                if (
+                    conversation.status ===
+                    "waiting_for_human"
+                ) {
+                    badgeHTML = `
+                        <span class="whatsapp-handover-badge">
+                            Human
+                        </span>
+                    `;
+                }
+
+                if (
+                    conversation.status ===
+                    "follow_up"
+                ) {
+                    badgeHTML = `
+                        <span class="whatsapp-handover-badge">
+                            Follow Up
+                        </span>
+                    `;
+                }
+
+                if (
+                    conversation.status ===
+                    "closed"
+                ) {
+                    badgeHTML = `
+                        <span class="whatsapp-bot-badge">
+                            Closed
+                        </span>
+                    `;
+                }
+
+                return `
+                    <button
+                        type="button"
+                        onclick="openWhatsAppConversation('${conversation._id}')"
+
+                        class="whatsapp-conversation-row ${
+                            window.WhatsAppInboxState
+                                .activeConversationId ===
+                            conversation._id
+                                ? "active"
+                                : ""
+                        }"
+                    >
+
+                        <div class="whatsapp-avatar">
                             ${escapeWhatsAppText(
                                 conversation.customerName
+                                    ?.charAt(0)
+                                    ?.toUpperCase() ||
+                                "C"
                             )}
-                        </p>
+                        </div>
 
-                        ${
-                            conversation.isPinned
-                                ? `<span title="Pinned">📌</span>`
-                                : ""
-                        }
-                    </div>
+                       <div class="whatsapp-row-content">
 
-                    <p class="text-[10px] text-zinc-500 truncate mt-1">
-                        +${escapeWhatsAppText(
-                            conversation.whatsappUserId
-                        )}
-                    </p>
+                                <div class="whatsapp-row-top">
 
-                    ${
-    conversation.isPinned && conversation.pinnedSummary
-        ? `
-            <p class="whatsapp-summary-preview">
-                ${escapeWhatsAppText(conversation.pinnedSummary)}
-            </p>
-        `
-        : ""
-}
-                </div>
+                                    <p class="whatsapp-row-name">
+                                        ${escapeWhatsAppText(
+                                            conversation.customerName ||
+                                            "Customer"
+                                        )}
+                                    </p>
 
-                ${
-                    conversation.status === "waiting_for_human"
-                        ? `
-                            <span class="whatsapp-handover-badge">
-                                Human
-                            </span>
-                        `
-                        : `
-                            <span class="whatsapp-bot-badge">
-                                Bot
-                            </span>
-                        `
-                }
-            </button>
-        `).join("");
+                                    <span class="whatsapp-row-time">
+                                        ${formatWhatsAppTime(
+                                            conversation.lastMessage?.createdAt ||
+                                            conversation.lastMessageAt
+                                        )}
+                                    </span>
+
+                                </div>
+
+                                <div class="whatsapp-row-bottom">
+
+                                    <p class="whatsapp-row-preview">
+
+                                        ${
+                                            conversation.lastMessage?.direction === "outgoing"
+                                                ? `<span class="whatsapp-check">✓</span>`
+                                                : ""
+                                        }
+
+                                        ${escapeWhatsAppText(
+                                            conversation.lastMessage?.text ||
+                                            "No messages yet"
+                                        )}
+
+                                    </p>
+
+                                    ${
+                                        conversation.isPinned
+                                            ? `<span class="whatsapp-pin">📌</span>`
+                                            : ""
+                                    }
+
+                                </div>
+
+                            </div>
+                        ${badgeHTML}
+
+                    </button>
+                `;
+            }).join("");
 
     } catch (error) {
-        console.error("[WHATSAPP INBOX ERROR]", error);
+        console.error(
+            "[WHATSAPP INBOX ERROR]",
+            error
+        );
 
         container.innerHTML = `
             <div class="p-6 text-xs text-red-400">
-                ${escapeWhatsAppText(error.message)}
+                ${escapeWhatsAppText(
+                    error.message
+                )}
             </div>
         `;
     }
@@ -1090,15 +1308,41 @@ conversation.status !== "closed"
                             ${escapeWhatsAppText(message.text)}
                         </p>
 
-                        <span>
-                            ${
-                                message.senderType === "human"
-                                    ? "Team"
-                                    : message.senderType === "assistant"
-                                    ? "Assistant"
-                                    : "Customer"
-                            }
-                        </span>
+                       <div class="whatsapp-message-meta">
+
+    <span class="whatsapp-message-time">
+        ${formatWhatsAppTime(
+            message.createdAt
+        )}
+    </span>
+
+    ${
+        message.direction === "outgoing"
+            ? `
+                <span
+                    class="whatsapp-message-ticks ${
+                        message.status === "read"
+                            ? "read"
+                            : message.status === "failed"
+                            ? "failed"
+                            : ""
+                    }"
+                >
+                    ${
+                        message.status === "read"
+                            ? "✓✓"
+                            : message.status === "delivered"
+                            ? "✓✓"
+                            : message.status === "failed"
+                            ? "!"
+                            : "✓"
+                    }
+                </span>
+            `
+            : ""
+    }
+
+</div>
                     </article>
                 `).join("")}
             </div>
