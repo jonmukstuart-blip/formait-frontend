@@ -2246,7 +2246,8 @@ if (
 
         if (activeConversationId) {
             await window.openWhatsAppConversation?.(
-                activeConversationId
+                activeConversationId,
+                { silent: true }
             );
         } else {
             await window.loadWhatsAppInbox?.();

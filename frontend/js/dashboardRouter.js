@@ -1178,8 +1178,10 @@ const filterBarHTML = `
 };
 
 window.openWhatsAppConversation = async function (
-    conversationId
+    conversationId,
+    options = {}
 ) {
+    const silent = options.silent === true;
     const panel =
         document.getElementById("whatsappChatPanel");
 
@@ -1187,12 +1189,6 @@ window.openWhatsAppConversation = async function (
 
     window.WhatsAppInboxState.activeConversationId =
         conversationId;
-
-    panel.innerHTML = `
-        <div class="whatsapp-empty-chat">
-            <div class="w-8 h-8 border-2 border-zinc-800 border-t-blue-500 rounded-full animate-spin"></div>
-        </div>
-    `;
 
     try {
         const response = await fetch(
@@ -1385,7 +1381,9 @@ conversation.status !== "closed"
             viewport.scrollTop = viewport.scrollHeight;
         }
 
-        await window.loadWhatsAppInbox();
+        if (!silent) {
+    await window.loadWhatsAppInbox();
+}
 
     } catch (error) {
         panel.innerHTML = `
