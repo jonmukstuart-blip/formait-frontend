@@ -2174,6 +2174,264 @@ async function submitNewLead() {
 // ==========================================================================
 // 🌐 DYNAMIC SOCKET.IO CLIENT INJECTOR & LIVE ADMINISTRATIVE HUB Listener
 // ==========================================================================
+// =====================================
+// ADMIN WHATSAPP NOTIFICATION ENGINE
+// =====================================
+
+let adminAlertTimer = null;
+let adminToastDismissTimer = null;
+let adminAudioContext = null;
+
+function unlockAdminNotificationAudio() {
+    try {
+        if (!adminAudioContext) {
+            adminAudioContext =
+                new (
+                    window.AudioContext ||
+                    window.webkitAudioContext
+                )();
+        }
+
+        if (adminAudioContext.state === "suspended") {
+            adminAudioContext.resume();
+        }
+    } catch (error) {
+        console.log(
+            "[ADMIN AUDIO]",
+            error.message
+        );
+    }
+}
+
+document.addEventListener(
+    "pointerdown",
+    unlockAdminNotificationAudio,
+    { once: true }
+);
+
+function playAdminNotificationChime() {
+    unlockAdminNotificationAudio();
+
+    if (
+        !adminAudioContext ||
+        adminAudioContext.state !== "running"
+    ) {
+        return;
+    }
+
+    const now =
+        adminAudioContext.currentTime;
+
+    const gain =
+        adminAudioContext.createGain();
+
+    gain.connect(
+        adminAudioContext.destination
+    );
+
+    gain.gain.setValueAtTime(
+        0.0001,
+        now
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.12,
+        now + 0.02
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + 0.55
+    );
+
+    const first =
+        adminAudioContext.createOscillator();
+
+    first.type = "sine";
+    first.frequency.value = 740;
+    first.connect(gain);
+    first.start(now);
+    first.stop(now + 0.25);
+
+    const second =
+        adminAudioContext.createOscillator();
+
+    second.type = "sine";
+    second.frequency.value = 988;
+    second.connect(gain);
+    second.start(now + 0.18);
+    second.stop(now + 0.55);
+}
+
+window.startAdminAlertSound = function () {
+    if (adminAlertTimer) return;
+
+    playAdminNotificationChime();
+
+    adminAlertTimer =
+        setInterval(
+            playAdminNotificationChime,
+            2500
+        );
+};
+
+window.stopAdminAlertSound = function () {
+    if (!adminAlertTimer) return;
+
+    clearInterval(adminAlertTimer);
+    adminAlertTimer = null;
+};
+
+window.hideWhatsAppAdminToast = function () {
+    const toast =
+        document.getElementById(
+            "liveAdminNotificationToast"
+        );
+
+    window.stopAdminAlertSound();
+
+    if (adminToastDismissTimer) {
+        clearTimeout(adminToastDismissTimer);
+        adminToastDismissTimer = null;
+    }
+
+    if (!toast) return;
+
+    toast.dataset.urgent = "false";
+
+    toast.classList.remove(
+        "translate-y-0",
+        "opacity-100",
+        "pointer-events-auto",
+        "admin-toast-urgent"
+    );
+
+    toast.classList.add(
+        "translate-y-32",
+        "opacity-0",
+        "pointer-events-none"
+    );
+};
+
+window.showWhatsAppAdminToast = function ({
+    title = "New WhatsApp Message",
+    customerName = "Customer",
+    phone = "",
+    message = "",
+    conversationId = null,
+    urgent = false
+}) {
+    const toast =
+        document.getElementById(
+            "liveAdminNotificationToast"
+        );
+
+    if (!toast) return;
+
+    // Never allow an ordinary message to replace
+    // an urgent alert waiting for acknowledgement.
+    if (
+        toast.dataset.urgent === "true" &&
+        !urgent
+    ) {
+        return;
+    }
+
+    if (adminToastDismissTimer) {
+        clearTimeout(adminToastDismissTimer);
+        adminToastDismissTimer = null;
+    }
+
+    const titleField =
+        document.getElementById(
+            "toastTitleField"
+        );
+
+    const body =
+        document.getElementById(
+            "toastBodyText"
+        );
+
+    const name =
+        document.getElementById(
+            "toastNameField"
+        );
+
+    const phoneField =
+        document.getElementById(
+            "toastEmailField"
+        );
+
+    if (titleField) {
+        titleField.textContent = title;
+    }
+
+    if (body) {
+        body.textContent =
+            message ||
+            "New WhatsApp activity.";
+    }
+
+    if (name) {
+        name.textContent = customerName;
+    }
+
+    if (phoneField) {
+        phoneField.textContent =
+            phone ? `+${phone}` : "";
+    }
+
+    toast.dataset.urgent =
+        urgent ? "true" : "false";
+
+    toast.classList.remove(
+        "translate-y-32",
+        "opacity-0",
+        "pointer-events-none"
+    );
+
+    toast.classList.add(
+        "translate-y-0",
+        "opacity-100",
+        "pointer-events-auto"
+    );
+
+    if (urgent) {
+        toast.classList.add(
+            "admin-toast-urgent"
+        );
+
+        // Repeat until tapped.
+        window.startAdminAlertSound();
+
+    } else {
+        toast.classList.remove(
+            "admin-toast-urgent"
+        );
+
+        // Ordinary text: one chime.
+        playAdminNotificationChime();
+
+        // Ordinary toast disappears normally.
+        adminToastDismissTimer =
+            setTimeout(
+                window.hideWhatsAppAdminToast,
+                5000
+            );
+    }
+
+    toast.onclick = async () => {
+        window.hideWhatsAppAdminToast();
+
+        if (
+            conversationId &&
+            window.WhatsAppInboxState
+        ) {
+            await window.loadWhatsAppInbox?.();
+        }
+    };
+};
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const socket = io("https://formait-backend.onrender.com", {
@@ -2194,13 +2452,81 @@ socket.on("connect", () => {
         console.log("🔴 SOCKET ERROR:", err.message);
     });
 
-socket.on("whatsappHumanRequested", request => {
-    console.log("[HUMAN REQUEST]", request);
+socket.on(
+    "whatsappHumanRequested",
+    request => {
 
-    alert(
-        `${request.customerName || "A customer"} has requested a human WhatsApp agent.\nPhone: +${request.phone}`
-    );
-});
+        window.showWhatsAppAdminToast({
+            title: "👤 Human Agent Requested",
+
+            customerName:
+                request.customerName ||
+                "Customer",
+
+            phone:
+                request.phone,
+
+            message:
+                request.message ||
+                "Customer requested a human team member.",
+
+            conversationId:
+                request.conversationId,
+                urgent: true
+                
+        });
+    }
+);
+
+socket.on(
+    "whatsappFollowUpDue",
+    reminder => {
+
+        window.showWhatsAppAdminToast({
+            title: "⏰ Follow Up Due",
+
+            customerName:
+                reminder.customerName,
+
+            phone:
+                reminder.phone,
+
+            message:
+                reminder.reason ||
+                "This customer is due for follow-up.",
+
+            conversationId:
+                reminder.conversationId,
+
+            urgent: true
+        });
+    }
+);
+
+socket.on(
+    "whatsappNewMessage",
+    notification => {
+
+        window.showWhatsAppAdminToast({
+            title: "💬 New WhatsApp Message",
+
+            customerName:
+                notification.customerName ||
+                "Customer",
+
+            phone:
+                notification.phone,
+
+            message:
+                notification.message,
+
+            conversationId:
+                notification.conversationId,
+                urgent: false
+        });
+    }
+);
+
     const toast = document.getElementById("liveAdminNotificationToast");
     const toastBody = document.getElementById("toastBodyText");
     const toastName = document.getElementById("toastNameField");
@@ -2212,7 +2538,9 @@ let whatsappRefreshTimer = null;
         socket.on("globalWorkspaceSyncRequest", async (pulse) => {
 const isWhatsAppPulse = [
     "DATABASE_WHATSAPP_SYNC",
-    "WHATSAPP_HUMAN_REQUEST"
+    "WHATSAPP_HUMAN_REQUEST",
+    "WHATSAPP_BOOKING_CREATED",
+    "WHATSAPP_APPOINTMENT_SCHEDULED"
 ].includes(pulse.action);
 
 if (
@@ -2226,6 +2554,47 @@ if (!isWhatsAppPulse) {
     lastRefresh = Date.now();
 }
             console.log("[SOCKET HUB] Live submission cluster change event intercepted:", pulse);
+
+            const urgentBookingActions = [
+    "WHATSAPP_BOOKING_CREATED",
+    "WHATSAPP_APPOINTMENT_SCHEDULED"
+];
+
+if (
+    pulse.payload &&
+    urgentBookingActions.includes(
+        pulse.action
+    )
+) {
+    window.showWhatsAppAdminToast({
+        title:
+            pulse.action ===
+            "WHATSAPP_APPOINTMENT_SCHEDULED"
+                ? "📅 Appointment Scheduled"
+                : "📅 New Booking Received",
+
+        customerName:
+            pulse.payload.name ||
+            "Customer",
+
+        phone:
+            String(
+                pulse.payload.phone ||
+                pulse.payload.email ||
+                ""
+            ).replace("+", ""),
+
+        message:
+            pulse.payload.message ||
+            "A customer has made a booking.",
+
+        conversationId:
+            pulse.payload.conversationId ||
+            null,
+
+        urgent: true
+    });
+}
 
             if (!toast || !toastBody) return;
 if (
@@ -2273,46 +2642,9 @@ if (
             badge.textContent = currentCount + 1;
         }
 }
-            // 1. 🚀 DYNAMIC TOAST DISPATCH matrix: Only render the visual speech bubble if a payload exists
-            if (pulse.payload) {
-                const data = pulse.payload;
-                toastBody.innerHTML = `"${data.message || data.text || 'New database transaction.'}"`;
-                if (toastName) toastName.innerText = `User: ${data.name || 'Anonymous'}`;
-                if (toastEmail) toastEmail.innerText = data.email || 'visitor@formait.com';
-
-                // Play a modern high-priority dashboard audio notification sound wave ring
-                try {
-                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    const oscillator = audioCtx.createOscillator();
-                    const gainNode = audioCtx.createGain();
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioCtx.destination);
-                    oscillator.type = "sine";
-                    oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5 high-pitch chime note
-                    gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                    oscillator.start();
-                    oscillator.stop(audioCtx.currentTime + 0.15);
-                } catch (e) {
-                    console.log("[AUDIO] Context activation deferred until client physical interaction.");
-                }
-
-                // Animate the notification toast card sliding upwards cleanly into view
-                toast.classList.remove("translate-y-32", "opacity-0", "pointer-events-none");
-                toast.classList.add("translate-y-0", "opacity-100");
-
-                // Auto-dismiss toast and slide it away after 6 seconds
-                const existingTimeout = toast.getAttribute("data-timeout-id");
-                if (existingTimeout) clearTimeout(parseInt(existingTimeout));
-                
-                const timeoutId = setTimeout(() => {
-                    toast.classList.remove("translate-y-0", "opacity-100");
-                    toast.classList.add("translate-y-32", "opacity-0", "pointer-events-none");
-                }, 6000);
-                toast.setAttribute("data-timeout-id", timeoutId);
-            }
-            // ==========================================================================
-            // 🔄 REAL-TIME DYNAMIC SUBMODULE DATA STREAM RELOAD REFRESHERS
-            // ==========================================================================
+// ==========================================================================
+// 🔄 REAL-TIME DYNAMIC SUBMODULE DATA STREAM RELOAD REFRESHERS
+// ==========================================================================
             if (DashboardState.activeTab === "services" || pulse.action === "DATABASE_SERVICES_SYNC") {
                 if (typeof loadServicesManagementPanel === "function") loadServicesManagementPanel();
             }
@@ -2412,7 +2744,12 @@ if (
     </div>
     <div class="space-y-1 flex-1">
         <div class="flex justify-between items-center">
-            <h5 class="text-xs font-black uppercase text-blue-400 tracking-wider">Inquiry Received</h5>
+          <h5
+    id="toastTitleField"
+    class="text-xs font-black uppercase text-blue-400 tracking-wider"
+>
+    New Notification
+</h5>
             <span class="text-[9px] text-zinc-600 font-mono">Real-Time Sync</span>
         </div>
         <p id="toastBodyText" class="text-xs text-zinc-300 leading-relaxed font-medium">

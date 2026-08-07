@@ -287,6 +287,7 @@ window.renderMessagesFeed = function(messages) {
     `).join("");
 }
 
+
 /// ==========================================================================
 // 🔗 SYSTEM MONITOR CORE CONFIGURATION & LOG INFRASTRUCTURE
 // ==========================================================================
@@ -830,6 +831,71 @@ function escapeWhatsAppText(value = "") {
         .replace(/'/g, "&#039;");
 }
 
+function formatWhatsAppFollowUp(followUpAt) {
+    if (!followUpAt) return "";
+
+    const followUpDate =
+        new Date(followUpAt);
+
+    if (
+        Number.isNaN(
+            followUpDate.getTime()
+        )
+    ) {
+        return "";
+    }
+
+    const now = new Date();
+
+    const isOverdue =
+        followUpDate <= now;
+
+    const today =
+        followUpDate.toDateString() ===
+        now.toDateString();
+
+    const tomorrowDate = new Date(now);
+
+    tomorrowDate.setDate(
+        tomorrowDate.getDate() + 1
+    );
+
+    const tomorrow =
+        followUpDate.toDateString() ===
+        tomorrowDate.toDateString();
+
+    const time =
+        followUpDate.toLocaleTimeString(
+            [],
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    if (isOverdue) {
+        return `Overdue · ${followUpDate.toLocaleString()}`;
+    }
+
+    if (today) {
+        return `Today · ${time}`;
+    }
+
+    if (tomorrow) {
+        return `Tomorrow · ${time}`;
+    }
+
+    return followUpDate.toLocaleString(
+        [],
+        {
+            day: "2-digit",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+}
+
 function formatWhatsAppTime(value) {
     if (!value) return "";
 
@@ -1152,7 +1218,29 @@ const filterBarHTML = `
                                             : ""
                                     }
 
-                                </div>
+                                 </div>
+                                            ${
+                                        conversation.followUpStatus === "pending" &&
+                                        conversation.followUpAt
+                                            ? `
+                                                <div class="whatsapp-follow-up-preview ${
+                                                    new Date(conversation.followUpAt) <= new Date()
+                                                        ? "overdue"
+                                                        : ""
+                                                }">
+                                                    <span>⏰</span>
+
+                                                    <span>
+                                                        ${escapeWhatsAppText(
+                                                            formatWhatsAppFollowUp(
+                                                                conversation.followUpAt
+                                                            )
+                                                        )}
+                                                    </span>
+                                                </div>
+                                            `
+                                            : ""
+                                    }
 
                             </div>
                         ${badgeHTML}
@@ -1245,6 +1333,32 @@ window.openWhatsAppConversation = async function (
                 >
                     ${conversation.isPinned ? "Unpin" : "📌 Pin"}
                 </button>
+
+                <button
+    type="button"
+    onclick="openWhatsAppFollowUpScheduler(
+        '${conversation._id}'
+    )"
+    class="whatsapp-header-action"
+>
+    ⏰ Follow Up
+</button>
+
+${
+    conversation.followUpStatus === "pending"
+        ? `
+            <button
+                type="button"
+                onclick="completeWhatsAppFollowUp(
+                    '${conversation._id}'
+                )"
+                class="whatsapp-return-bot"
+            >
+                ✓ Done
+            </button>
+        `
+        : ""
+}
 
                 <button
     type="button"
@@ -1528,6 +1642,207 @@ window.returnWhatsAppToBot = async function (
 
     await window.loadWhatsAppInbox();
     await window.openWhatsAppConversation(conversationId);
+};
+
+window.openWhatsAppFollowUpScheduler =
+function (conversationId) {
+
+    document
+        .getElementById("whatsappFollowUpModal")
+        ?.remove();
+
+    const now = new Date();
+
+    now.setMinutes(
+        now.getMinutes() -
+        now.getTimezoneOffset()
+    );
+
+    const minimumDate =
+        now.toISOString().slice(0, 16);
+
+    document.body.insertAdjacentHTML(
+        "beforeend",
+        `
+        <div
+            id="whatsappFollowUpModal"
+            class="fixed inset-0 z-[9999] bg-black/70 flex items-center justify-center p-4"
+        >
+            <div
+                class="w-full max-w-md bg-[#111b21] border border-[#2a3942] rounded-2xl p-6 shadow-2xl"
+            >
+                <h3 class="text-white text-lg font-bold">
+                    Schedule follow-up
+                </h3>
+
+                <p class="text-[#8696a0] text-xs mt-1 mb-5">
+                    Choose when your team should follow up with this customer.
+                </p>
+
+                <label
+                    class="block text-xs text-[#aebac1] mb-2"
+                >
+                    Date and time
+                </label>
+
+                <input
+                    id="whatsappFollowUpAt"
+                    type="datetime-local"
+                    min="${minimumDate}"
+                    class="w-full bg-[#202c33] border border-[#2a3942] text-white rounded-xl px-4 py-3 outline-none"
+                >
+
+                <label
+                    class="block text-xs text-[#aebac1] mt-4 mb-2"
+                >
+                    Reason
+                </label>
+
+                <textarea
+                    id="whatsappFollowUpReason"
+                    rows="3"
+                    placeholder="e.g. Follow up about website quotation"
+                    class="w-full bg-[#202c33] border border-[#2a3942] text-white rounded-xl px-4 py-3 outline-none resize-none"
+                ></textarea>
+
+                <div class="flex justify-end gap-3 mt-5">
+
+                    <button
+                        type="button"
+                        onclick="document.getElementById('whatsappFollowUpModal')?.remove()"
+                        class="px-4 py-2 text-sm text-[#aebac1]"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        onclick="saveWhatsAppFollowUp('${conversationId}')"
+                        class="px-5 py-2 bg-[#00a884] text-white rounded-xl text-sm font-bold"
+                    >
+                        Schedule
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        `
+    );
+};
+
+window.saveWhatsAppFollowUp =
+async function (conversationId) {
+
+    const followUpAt =
+        document
+            .getElementById("whatsappFollowUpAt")
+            ?.value;
+
+    const reason =
+        document
+            .getElementById("whatsappFollowUpReason")
+            ?.value
+            ?.trim();
+
+    if (!followUpAt) {
+        return alert(
+            "Please select a follow-up date and time."
+        );
+    }
+
+    try {
+        const response = await fetch(
+            `${API_CONFIG.BASE_URL}/admin/whatsapp/conversations/${conversationId}/schedule-follow-up`,
+            {
+                method: "PATCH",
+
+                headers:
+                    whatsappAuthHeaders(true),
+
+                body: JSON.stringify({
+                    followUpAt,
+                    reason
+                })
+            }
+        );
+
+        if (handleExpiredSession(response)) {
+            return;
+        }
+
+        const result =
+            await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            return alert(
+                result.error ||
+                "Could not schedule follow-up"
+            );
+        }
+
+        document
+            .getElementById(
+                "whatsappFollowUpModal"
+            )
+            ?.remove();
+
+        await window.loadWhatsAppInbox();
+
+        await window.openWhatsAppConversation(
+            conversationId,
+            { silent: true }
+        );
+
+    } catch (error) {
+        console.error(
+            "[FOLLOW UP SAVE ERROR]",
+            error
+        );
+
+        alert("Could not schedule follow-up.");
+    }
+};
+
+window.completeWhatsAppFollowUp =
+async function (conversationId) {
+
+    try {
+        const response = await fetch(
+            `${API_CONFIG.BASE_URL}/admin/whatsapp/conversations/${conversationId}/complete-follow-up`,
+            {
+                method: "PATCH",
+                headers:
+                    whatsappAuthHeaders(true)
+            }
+        );
+
+        if (handleExpiredSession(response)) {
+            return;
+        }
+
+        const result =
+            await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            return alert(
+                result.error ||
+                "Could not complete follow-up"
+            );
+        }
+
+        await window.loadWhatsAppInbox();
+
+        await window.openWhatsAppConversation(
+            conversationId,
+            { silent: true }
+        );
+
+    } catch (error) {
+        console.error(
+            "[FOLLOW UP COMPLETE ERROR]",
+            error
+        );
+    }
 };
 
 window.closeWhatsAppMobileChat = function () {
